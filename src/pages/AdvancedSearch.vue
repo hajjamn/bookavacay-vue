@@ -1,7 +1,6 @@
 <script>
-import axios from 'axios'
-import { calculateDistance } from '../functions.js'
-
+import axios from "axios";
+import { calculateDistance } from "../functions.js";
 
 export default {
   data() {
@@ -12,161 +11,177 @@ export default {
       secondLat: 44.2838767133773,
       secondLon: 11.326890902470534,
       distance: 0,
-    }
+    };
   },
   methods: {
     fetchApartments(perPage) {
-      axios.get('http://127.0.0.1:8000/api/apartments', {
-        params: {
-          perPage
-        }
-      })
-        .then(res => {
-          console.log(res.data.apartments.data)
-          this.apartments = res.data.apartments.data
-          console.log(this.apartments)
+      axios
+        .get("http://127.0.0.1:8000/api/apartments", {
+          params: {
+            perPage,
+          },
         })
+        .then((res) => {
+          console.log(res.data.apartments.data);
+          this.apartments = res.data.apartments.data;
+          console.log(this.apartments);
+        });
     },
     /*     testDistance() {
           console.log(`https://api.tomtom.com/routing/1/calculateRoute/${this.latitude},${this.longitude}:${this.secondLat},${this.secondLon}/json?key=VtdGJcQDaomboK5S3kbxFvhtbupZjoK0`)
         } */
     testDistance() {
-      console.log('Latitude:', this.latitude);
-      console.log('Longitude:', this.longitude);
-      console.log('Second Latitude:', this.secondLat);
-      console.log('Second Longitude:', this.secondLon);
+      console.log("Latitude:", this.latitude);
+      console.log("Longitude:", this.longitude);
+      console.log("Second Latitude:", this.secondLat);
+      console.log("Second Longitude:", this.secondLon);
 
-      console.log(`https://api.tomtom.com/routing/1/calculateRoute/${this.latitude},${this.longitude}:${this.secondLat},${this.secondLon}/json?key=VtdGJcQDaomboK5S3kbxFvhtbupZjoK0`);
-    }
-
-  }
-}
-
+      console.log(
+        `https://api.tomtom.com/routing/1/calculateRoute/${this.latitude},${this.longitude}:${this.secondLat},${this.secondLon}/json?key=VtdGJcQDaomboK5S3kbxFvhtbupZjoK0`
+      );
+    },
+  },
+};
 
 // Function to initialize the map and search functionality
 function initializeMap() {
   // Check if TomTom SDK scripts are loaded
-  if (typeof tt !== 'undefined' && typeof tt.map !== 'undefined' && typeof tt.services !== 'undefined') {
+  if (
+    typeof tt !== "undefined" &&
+    typeof tt.map !== "undefined" &&
+    typeof tt.services !== "undefined"
+  ) {
     // Initialize the map
     var map = tt.map({
-      key: 'VtdGJcQDaomboK5S3kbxFvhtbupZjoK0',
-      container: 'map',
+      key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+      container: "map",
       center: [0, 0],
-      zoom: 15
+      zoom: 15,
     });
 
     // Add marker
     var marker = new tt.Marker({
-      draggable: true
+      draggable: true,
     })
       .setLngLat([0, 0])
       .addTo(map);
 
     // Add event listener for marker drag end
-    marker.on('dragend', function () {
+    marker.on("dragend", function () {
       var lngLat = marker.getLngLat();
-      document.getElementById('latitude').value = lngLat.lat;
-      document.getElementById('longitude').value = lngLat.lng;
+      document.getElementById("latitude").value = lngLat.lat;
+      document.getElementById("longitude").value = lngLat.lng;
 
       // Reverse geocode to get address
-      tt.services.reverseGeocode({
-        key: 'VtdGJcQDaomboK5S3kbxFvhtbupZjoK0',
-        position: lngLat
-      }).then(function (response) {
-        var address = response.addresses[0].address.freeformAddress;
-        document.getElementById('address').value = address;
-      }).catch(function (error) {
-        /* console.error('Reverse geocode error:', error); */
-      });
+      tt.services
+        .reverseGeocode({
+          key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+          position: lngLat,
+        })
+        .then(function (response) {
+          var address = response.addresses[0].address.freeformAddress;
+          document.getElementById("address").value = address;
+        })
+        .catch(function (error) {
+          /* console.error('Reverse geocode error:', error); */
+        });
     });
 
     // Center the map and marker based on user's location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function (position) {
-        var userLocation = [position.coords.longitude, position.coords.latitude];
+        var userLocation = [
+          position.coords.longitude,
+          position.coords.latitude,
+        ];
         map.setCenter(userLocation);
         marker.setLngLat(userLocation);
-        document.getElementById('latitude').value = userLocation[1];
+        document.getElementById("latitude").value = userLocation[1];
         latitude = userLocation[1];
-        document.getElementById('longitude').value = userLocation[0];
+        document.getElementById("longitude").value = userLocation[0];
         longitude = userLocation[0];
 
         // Reverse geocode to get address
-        tt.services.reverseGeocode({
-          key: 'VtdGJcQDaomboK5S3kbxFvhtbupZjoK0',
-          position: userLocation
-        }).then(function (response) {
-          var address = response.addresses[0].address.freeformAddress;
-          document.getElementById('address').value = address;
-        }).catch(function (error) {
-          /* console.error('Reverse geocode error:', error); */
-        });
+        tt.services
+          .reverseGeocode({
+            key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+            position: userLocation,
+          })
+          .then(function (response) {
+            var address = response.addresses[0].address.freeformAddress;
+            document.getElementById("address").value = address;
+          })
+          .catch(function (error) {
+            /* console.error('Reverse geocode error:', error); */
+          });
       });
     }
 
     // Search box functionality
     var searchBoxOptions = {
       searchOptions: {
-        key: 'VtdGJcQDaomboK5S3kbxFvhtbupZjoK0',
-        language: 'en-GB',
-        limit: 5
+        key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+        language: "en-GB",
+        limit: 5,
       },
       autocompleteOptions: {
-        key: 'VtdGJcQDaomboK5S3kbxFvhtbupZjoK0',
-        language: 'en-GB'
+        key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+        language: "en-GB",
       },
-      noResultsMessage: 'No results found.',
+      noResultsMessage: "No results found.",
     };
 
     var ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
     var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
-    document.getElementById('searchbar').appendChild(searchBoxHTML);
+    document.getElementById("searchbar").appendChild(searchBoxHTML);
 
-    ttSearchBox.on('tomtom.searchbox.resultselected', function (data) {
+    ttSearchBox.on("tomtom.searchbox.resultselected", function (data) {
       var result = data.data.result;
       var lngLat = result.position;
       map.setCenter(lngLat);
       marker.setLngLat(lngLat);
-      document.getElementById('latitude').value = lngLat.lat;
-      document.getElementById('longitude').value = lngLat.lng;
-      document.getElementById('address').value = result.address.freeformAddress;
+      document.getElementById("latitude").value = lngLat.lat;
+      document.getElementById("longitude").value = lngLat.lng;
+      document.getElementById("address").value = result.address.freeformAddress;
     });
 
     // Add the search box input handler
-    document.getElementById('search-input').addEventListener('input', function (event) {
-      var query = event.target.value;
-      tt.services.fuzzySearch({
-        key: 'VtdGJcQDaomboK5S3kbxFvhtbupZjoK0',
-        query: query,
-        language: 'en-GB'
-      }).then(function (response) {
-        if (response.results && response.results.length > 0) {
-          var result = response.results[0];
-          var lngLat = result.position;
-          map.setCenter(lngLat);
-          marker.setLngLat(lngLat);
-          document.getElementById('latitude').value = lngLat.lat;
-          document.getElementById('longitude').value = lngLat.lng;
-          document.getElementById('address').value = result.address.freeformAddress;
-        }
+    document
+      .getElementById("search-input")
+      .addEventListener("input", function (event) {
+        var query = event.target.value;
+        tt.services
+          .fuzzySearch({
+            key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+            query: query,
+            language: "en-GB",
+          })
+          .then(function (response) {
+            if (response.results && response.results.length > 0) {
+              var result = response.results[0];
+              var lngLat = result.position;
+              map.setCenter(lngLat);
+              marker.setLngLat(lngLat);
+              document.getElementById("latitude").value = lngLat.lat;
+              document.getElementById("longitude").value = lngLat.lng;
+              document.getElementById("address").value =
+                result.address.freeformAddress;
+            }
+          });
       });
-    });
-
   } else {
-    console.error('TomTom SDK not loaded properly.');
+    console.error("TomTom SDK not loaded properly.");
   }
 }
 
 // Load the map after the page is fully loaded
-document.addEventListener('DOMContentLoaded', initializeMap);
+document.addEventListener("DOMContentLoaded", initializeMap);
 
 function test() {
-  console.log('tt:', tt);
-  console.log('tt.services:', tt.services);
-  console.log('tt.plugins:', tt.plugins);
+  console.log("tt:", tt);
+  console.log("tt.services:", tt.services);
+  console.log("tt.plugins:", tt.plugins);
 }
-
-
 </script>
 
 <template>
@@ -182,59 +197,61 @@ function test() {
 
     <section>
       <div id="search-map">
-        <div id="searchbar">
-        </div>
+        <div id="searchbar"></div>
         <div id="map"></div>
       </div>
     </section>
-
 
     <div class="container py-5">
       <div class="card">
         <div class="row justify-content-center">
           <div class="col-6 p-3">
-            <input id="latitude" type="number" v-model="latitude" name="latitude" @input="testDistance()">
+            <input
+              id="latitude"
+              type="number"
+              v-model="latitude"
+              name="latitude"
+              @input="testDistance()"
+            />
             <label for="latitude">First Lat</label>
           </div>
           <div class="col-6 p-3">
-            <input id="longitude" type="number" v-model="longitude" name="longitude">
+            <input
+              id="longitude"
+              type="number"
+              v-model="longitude"
+              name="longitude"
+            />
             <label for="longitude">First Lon</label>
           </div>
           <div class="col-6 p-3">
-            <input type="number" v-model="secondLat" name="secondLat">
+            <input type="number" v-model="secondLat" name="secondLat" />
             <label for="secondLat">Second Lat</label>
           </div>
           <div class="col-6 p-3 mb-3">
-            <input type="number" v-model="secondLon" name="secondLon">
+            <input type="number" v-model="secondLon" name="secondLon" />
             <label for="secondLon">Second Lon</label>
           </div>
           <div class="col-3">
-            <button id="submit-btn" class="btn btn-primary" @click="testDistance()">Test</button>
+            <button
+              id="submit-btn"
+              class="btn btn-primary"
+              @click="testDistance()"
+            >
+              Test
+            </button>
           </div>
         </div>
       </div>
     </div>
-
-
-
-
-
   </main>
   <!-- <img class="svg-wave" src="/public/img/wave.svg" alt=""> -->
-  <section class="svg-wave">
-
-  </section>
-
-
-
+  <section class="svg-wave"></section>
 </template>
-
-
-
 
 <style scoped>
 .svg-wave {
-  background-image: url('/public/img/wave.svg');
+  background-image: url("/public/img/wave.svg");
   background-size: contain;
   background-repeat: repeat-x;
   background-position: bottom center;
@@ -246,7 +263,6 @@ function test() {
 @media (max-width: 768px) {
   .svg-wave {
     height: 150px;
-
   }
 }
 
