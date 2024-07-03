@@ -1,8 +1,25 @@
 <script>
+import { useRoute } from 'vue-router';
 import { RouterLink } from 'vue-router';
+import { computed } from 'vue';
 
 
 export default {
+  setup() {
+    const route = useRoute();
+
+    const headerClass = computed(() => {
+      switch (route.path) {
+        case '/':
+          return 'home-header';
+        case '/research':
+          return 'research-header';
+      }
+    });
+
+    return { headerClass };
+  },
+
   components: {
   },
   data() {
@@ -15,7 +32,7 @@ export default {
 
 <template>
 
-  <header>
+  <header :class="headerClass">
     <div class="header-container">
       <div class="header-row">
         <img class="logo" src="/public/img/BookaVacay_01.png">
@@ -32,4 +49,5 @@ export default {
 
 </template>
 
-<style></style>
+<style>
+</style>
