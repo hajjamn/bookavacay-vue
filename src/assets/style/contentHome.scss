@@ -39,7 +39,7 @@ main {
 
 .container-article {
     width: 865px;
-    height: 430px;
+    height: 440px;
     background-color: white;
     margin: 0 auto;
     margin-top: 15px;
@@ -52,6 +52,7 @@ main {
     color: #2889B6;
     font-weight: 700;
     letter-spacing: 2px;
+    padding: 10px;
 }
 
 .row-article {
@@ -59,6 +60,7 @@ main {
     grid-template-columns: repeat(3, 1fr);
     gap: 9px 23px;
     padding: 0px 35px;
+    margin-top: -5px;
 }
 
 .col-article {
@@ -127,4 +129,10 @@ main {
 
 .terzo{
     border-right: 1px solid #95CFE9;
+}
+
+
+/* --------------------------WaVE------------------------------------- */
+
+.svg-wave {
 }

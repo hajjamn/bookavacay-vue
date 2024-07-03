@@ -172,7 +172,10 @@
             </div>
         </section>
     </main>
+    <!-- <img class="svg-wave" src="/public/img/wave.svg" alt=""> -->
+
 </template>
+
 
 <script>
 
