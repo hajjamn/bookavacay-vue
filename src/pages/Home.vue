@@ -91,9 +91,23 @@ export default {
 .svg-wave {
     background-image: url('/public/img/wave.svg');
     background-size: contain;
-    background-repeat: repeat;
-    background-position: bottom left;
-    width: 100%;
+    background-repeat: repeat-x;
+    background-position: bottom center;
+    min-width: 100%;
     height: 200px;
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    .svg-wave {
+        height: 150px;
+
+    }
+}
+
+@media (max-width: 480px) {
+    .svg-wave {
+        height: 100px;
+    }
 }
 </style>
