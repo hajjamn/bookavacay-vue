@@ -1,0 +1,130 @@
+/* --------------------------MAIN------------------------------------- */
+
+main {
+    background-color:#95CFE9 ;
+    padding-top: 25px;
+    max-width: 100%;
+}
+
+
+.container-title {
+    width: 680px;
+    height: 160px;
+    margin: 0 auto;
+    text-align: left;
+    line-height: 42px;
+    background-image: url('https://picsum.photos/700/200/?blur');
+    background-size: cover;
+    border-radius: 15px;
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.container-title div {
+    padding: 15px;
+}
+
+.container-title div:first-child {
+    color: #F7851D;
+}
+
+.to-book{
+    color: white;
+}
+
+
+/* |||||||||||||||||||||||||MAIN ARTICLE||||||||||||||||||||||||||||| */
+
+
+.container-article {
+    width: 865px;
+    height: 430px;
+    background-color: white;
+    margin: 0 auto;
+    margin-top: 15px;
+    border-radius: 15px;
+}
+
+.container-article h1 {
+    font-size: 30px;
+    text-align: center;
+    color: #2889B6;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.row-article {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 9px 23px;
+    padding: 0px 35px;
+}
+
+.col-article {
+    text-align: center;
+}
+
+.col-article img {
+    height: 100px;
+    width: 100%;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+}
+
+.col-article p {
+    text-align: center;
+    background-color: #2889B6;
+    color: white;
+    margin-top: -4px;
+    font-size: 14px;
+    font-weight: 500;
+    height: 26px;
+    padding-top: 4px;
+}
+
+.container-article-info {
+    display: flex;
+    justify-content: space-around;
+    padding-top: 5px;
+    background-color: #FAFAFA;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+    height: 57px;
+    line-height: 14px;
+}
+
+.container-article-info:nth-child(1) {
+    border-right: 1px solid #95CFE9;
+
+
+}
+
+.article-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 11px;
+    color: #2889B6;
+    text-align: center;
+    padding: 3px 15px;
+    width: 60px;
+
+}
+
+.article-info img {
+    width: 17px;
+    height: 17px;
+}
+
+.primo{
+    border-right: 1px solid #95CFE9;
+}
+
+.secondo{
+    border-right: 1px solid #95CFE9;
+}
+
+.terzo{
+    border-right: 1px solid #95CFE9;
+}
