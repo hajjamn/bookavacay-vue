@@ -18,15 +18,20 @@ export default {
     }
   },
   methods: {
-    fetchApartments() {
-      axios.get('http://127.0.0.1:8000/api/apartments').then(res => {
-        this.apartments = res.data
-        console.log(this.apartments)
+    fetchApartments(perPage) {
+      axios.get('http://127.0.0.1:8000/api/apartments', {
+        params: {
+          perPage
+        }
       })
+        .then(res => {
+          this.apartments = res.data
+          console.log(this.apartments)
+        })
     }
   },
   created() {
-    this.fetchApartments()
+    /* this.fetchApartments(6) */
   }
 }
 
