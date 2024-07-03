@@ -1,4 +1,6 @@
 <script>
+import { RouterLink } from 'vue-router';
+
 
 export default {
   components: {
@@ -14,12 +16,19 @@ export default {
 <template>
 
   <header>
-    <section class="bg-dark">
-      <div class="container py-5 text-center text-white">
-        <h1>HEADER</h1>
+    <div class="header-container">
+      <div class="header-row">
+        <img class="logo" src="/public/img/BookaVacay_01.png">
+        <form action="">
+          <input type="text">
+          <button><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+        </form>
+        <a>Register <br><span class="underline">or log in</span></a>
       </div>
-    </section>
+    </div>
+    <!-- <RouterLink class="link-home" to="home">Home</RouterLink> -->
   </header>
+
 
 </template>
 

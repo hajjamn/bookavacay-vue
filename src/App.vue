@@ -21,16 +21,16 @@ export default {
 
 <template>
 
-  <div id="app">
-    <AppHeader></AppHeader>
-    <AppContent></AppContent>
-    <AppFooter></AppFooter>
 
-  </div>
+  <AppHeader></AppHeader>
+  <!-- <AppContent></AppContent> -->
+  <RouterView />
+  <!-- <AppFooter></AppFooter> -->
+
 
 </template>
 
 <style lang="scss">
 @use './assets/style/general.scss';
-@use 'bootstrap'
+@use 'bootstrap';
 </style>
