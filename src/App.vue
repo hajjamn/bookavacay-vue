@@ -1,5 +1,6 @@
 <script>
 import { store } from './store.js'
+import axios from 'axios'
 import AppHeader from './components/AppHeader.vue'
 import AppContent from './components/AppContent.vue'
 import AppFooter from './components/AppFooter.vue'
@@ -13,7 +14,19 @@ export default {
   data() {
     return {
       store,
+      apartments: [],
     }
+  },
+  methods: {
+    fetchApartments() {
+      axios.get('http://127.0.0.1:8000/api/apartments').then(res => {
+        this.apartments = res.data
+        console.log(this.apartments)
+      })
+    }
+  },
+  created() {
+    this.fetchApartments()
   }
 }
 

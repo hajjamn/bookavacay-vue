@@ -14,7 +14,7 @@
                 <div class="row-article">
                     <article class="col-article">
                         <img src="https://picsum.photos/seed/picsum/300/200" alt="">
-                        <p>House for the perfect group vacation</p>
+                        <p>Casa mia</p>
                         <div class="container-article-info">
                             <div class="article-info primo">
                                 <img src="/public/img/icon_room_01.png" alt="">
@@ -178,14 +178,25 @@
 
 
 <script>
+import axios from 'axios'
 
 
 export default {
     data() {
         return {
-
-
+            apartments: []
         }
+    },
+    methods: {
+        fetchApartments() {
+            axios.get('http://127.0.0.1:8000/api/apartments').then(res => {
+                this.apartments = res.data
+                console.log(this.apartments)
+            })
+        }
+    },
+    created() {
+        this.fetchApartments()
     }
 }
 
