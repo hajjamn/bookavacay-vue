@@ -1,12 +1,14 @@
 <template>
+
+    <!-- Search bar principale -->
     <section>
-        <div class="page-research-input">
-            <form class="flex-form" action="">
-                <div>
+        <div class="address-research">
+            <form action="" class="flex">
+                <div class="address-research-input">
                     <label for="input">Address:</label>
-                    <input type="text" id="input">
+                    <input type="text" id="input" placeholder="Via Vittoria 1, Roma, 00140">
                 </div>
-                <button><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+                <button class="address-research-btn"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
             </form>
         </div>
     </section>

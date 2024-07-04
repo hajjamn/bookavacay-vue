@@ -1,0 +1,44 @@
+// RESEARCH BAR ADDRESS
+
+.address-research {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.address-research-input {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+.address-research-input label,input {
+    padding: 10px 15px;
+}
+
+.address-research-input label {
+    background-color: #F7851D;
+    color: white;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    font-size: 20px;
+}
+
+.address-research-input input {
+    border: solid, 1px, #F7851D;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.address-research-btn {
+    width: 55px;
+    height: 55px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: none;
+    background-color: #F7851D;
+    color: white;
+    margin-left: 15px;
+    font-size: 25px;
+    align-self: center;
+}

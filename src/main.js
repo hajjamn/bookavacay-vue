@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 
 import App from './App.vue'
 import Home from './pages/Home.vue'
+import Research from './pages/Research.vue'
 import AdvancedSearch from './pages/AdvancedSearch.vue'
 
 /* import the fontawesome core */
@@ -14,6 +15,7 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     { path: '/', component: Home, name: 'home' },
+    { path: '/research', component: Research, name: 'research' },
     { path: '/search', component: AdvancedSearch, name: 'search' },
 
 ]

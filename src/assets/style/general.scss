@@ -1,6 +1,7 @@
 /* @use './partials/exmaple.scss'; */
 @use './headerHome.scss';
 @use './contentHome.scss';
+@use './research.scss';
 
 
 // #app {
@@ -49,4 +50,8 @@ body {
 
 p {
   margin-bottom: 0 !important;
+}
+
+.flex {
+  display: flex;
 }
