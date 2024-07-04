@@ -30,14 +30,7 @@ export default {
         });
     },
     testDistance() {
-      console.log("Latitude:", this.latitude);
-      console.log("Longitude:", this.longitude);
-      console.log("Second Latitude:", this.secondLat);
-      console.log("Second Longitude:", this.secondLon);
-
-      console.log(
-        `https://api.tomtom.com/routing/1/calculateRoute/${this.latitude},${this.longitude}:${this.secondLat},${this.secondLon}/json?key=VtdGJcQDaomboK5S3kbxFvhtbupZjoK0`
-      );
+      calculateDistance(this.latitude, this.longitude, this.secondLat, this.secondLon)
     },
     initializeMap() {
       // Check if TomTom SDK scripts are loaded
@@ -183,16 +176,11 @@ export default {
     });
   }
 };
-
-
-// Load the map after the page is fully loaded
-/* document.addEventListener("DOMContentLoaded", initializeMap);
- */
 </script>
 
 <template>
   <main>
-    <section class="section-title">
+    <section class="section-title mb-5">
       <div class="container-title">
         <div>
           <p>The best way</p>
@@ -202,20 +190,25 @@ export default {
     </section>
 
     <section>
-      <div id="search-map">
-        <div id="searchbar"></div>
-        <div id="map"></div>
+      <div class="container">
+        <div id="search-map">
+          <div id="searchbar"></div>
+          <div id="map"></div>
+        </div>
       </div>
     </section>
 
     <div class="container py-5">
       <div class="card">
         <div class="row justify-content-center">
-          <div class="col-6 p-3">
+          <div class="col-4 p-3">
             <p>User latitude: {{ latitude }}</p>
           </div>
-          <div class="col-6 p-3">
+          <div class="col-4 p-3">
             <p>User longitude: {{ longitude }}</p>
+          </div>
+          <div class="col-4 p-3">
+            <p>User address: {{ address }}</p>
           </div>
           <div class="col-6 p-3">
             <input type="number" v-model="secondLat" name="secondLat" />
