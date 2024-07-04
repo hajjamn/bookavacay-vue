@@ -40,21 +40,21 @@ export default {
         typeof tt.map !== "undefined" &&
         typeof tt.services !== "undefined"
       ) {
-        var map = tt.map({
+        let map = tt.map({
           key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
           container: "map",
           center: [0, 0],
           zoom: 15,
         });
 
-        var marker = new tt.Marker({
+        let marker = new tt.Marker({
           draggable: true,
         })
           .setLngLat([0, 0])
           .addTo(map);
 
         marker.on("dragend", () => {
-          var lngLat = marker.getLngLat();
+          let lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
           this.longitude = lngLat.lng;
           console.log('Marker dragged.')
@@ -67,7 +67,7 @@ export default {
               position: lngLat,
             })
             .then((response) => {
-              var userAddress = response.addresses[0].address.freeformAddress;
+              let userAddress = response.addresses[0].address.freeformAddress;
               this.address = userAddress;
             })
             .catch((error) => {
@@ -77,7 +77,7 @@ export default {
 
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition((position) => {
-            var userLocation = [
+            let userLocation = [
               position.coords.longitude,
               position.coords.latitude,
             ];
@@ -95,7 +95,7 @@ export default {
                 position: userLocation,
               })
               .then((response) => {
-                var address = response.addresses[0].address.freeformAddress;
+                let address = response.addresses[0].address.freeformAddress;
                 this.address = address;
                 console.log('Address:' + this.address)
               })
@@ -105,7 +105,7 @@ export default {
           });
         }
 
-        var searchBoxOptions = {
+        let searchBoxOptions = {
           searchOptions: {
             key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
             language: "en-GB",
@@ -119,14 +119,14 @@ export default {
         };
 
         if (!document.getElementById("search-input")) {
-          var ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
-          var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+          let ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
+          let searchBoxHTML = ttSearchBox.getSearchBoxHTML();
           document.getElementById("searchbar").appendChild(searchBoxHTML);
           searchBoxHTML.id = "search-input";
 
           ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
-            var result = data.data.result;
-            var lngLat = result.position;
+            let result = data.data.result;
+            let lngLat = result.position;
             map.setCenter(lngLat);
             marker.setLngLat(lngLat);
             this.latitude = lngLat.lat;
@@ -135,7 +135,7 @@ export default {
           });
 
           searchBoxHTML.addEventListener("input", (event) => {
-            var query = event.target.value;
+            let query = event.target.value;
             tt.services
               .fuzzySearch({
                 key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
@@ -144,8 +144,8 @@ export default {
               })
               .then((response) => {
                 if (response.results && response.results.length > 0) {
-                  var result = response.results[0];
-                  var lngLat = result.position;
+                  let result = response.results[0];
+                  let lngLat = result.position;
                   map.setCenter(lngLat);
                   marker.setLngLat(lngLat);
                   this.latitude = lngLat.lat;
