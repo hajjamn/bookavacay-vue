@@ -36,13 +36,17 @@ export default {
     <div class="header-container">
       <div class="header-row">
         <img class="logo-home" src="/public/img/BookaVacay_01.png">
-        <img class="logo" src="/public/img/BookaVacay_02.png">
+        <RouterLink to="/" class="back-home">
+          <img class="logo" src="/public/img/BookaVacay_02.png">          
+        </RouterLink>
         <form action="" class="search-home">
           <input type="text">
-          <button><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+          <RouterLink to="/search">
+            <button><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+          </RouterLink>
         </form>
         <h1 class="search-title">Apartments advanced research</h1>
-        <a>Register <br><span class="underline">or log in</span></a>
+        <a class="register-btn">Register <br><span class="underline">or log in</span></a>
       </div>
     </div>
     <!-- <RouterLink class="link-home" to="home">Home</RouterLink> -->
