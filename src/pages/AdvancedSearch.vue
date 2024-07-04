@@ -8,8 +8,10 @@ export default {
       apartments: [],
       latitude: 0,
       longitude: 0,
+      address: '',
       secondLat: 44.2838767133773,
       secondLon: 11.326890902470534,
+      secondAddress: '',
       distance: 0,
     };
   },
@@ -27,9 +29,6 @@ export default {
           console.log(this.apartments);
         });
     },
-    /*     testDistance() {
-          console.log(`https://api.tomtom.com/routing/1/calculateRoute/${this.latitude},${this.longitude}:${this.secondLat},${this.secondLon}/json?key=VtdGJcQDaomboK5S3kbxFvhtbupZjoK0`)
-        } */
     testDistance() {
       console.log("Latitude:", this.latitude);
       console.log("Longitude:", this.longitude);
@@ -40,148 +39,155 @@ export default {
         `https://api.tomtom.com/routing/1/calculateRoute/${this.latitude},${this.longitude}:${this.secondLat},${this.secondLon}/json?key=VtdGJcQDaomboK5S3kbxFvhtbupZjoK0`
       );
     },
+    initializeMap() {
+      // Check if TomTom SDK scripts are loaded
+      if (
+        typeof tt !== "undefined" &&
+        typeof tt.map !== "undefined" &&
+        typeof tt.services !== "undefined"
+      ) {
+        // Initialize the map
+        console.log('Line 50 is being run')
+        var map = tt.map({
+          key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+          container: "map",
+          center: [0, 0],
+          zoom: 15,
+        });
+
+        // Add marker
+        console.log('Line 59 is being run')
+        var marker = new tt.Marker({
+          draggable: true,
+        })
+          .setLngLat([0, 0])
+          .addTo(map);
+
+        // Add event listener for marker drag end
+        console.log('Line 67 is being run')
+        marker.on("dragend", () => {
+          console.log('Line 69 is being run, nice')
+          var lngLat = marker.getLngLat();
+          this.latitude = lngLat.lat;
+          this.longitude = lngLat.lng;
+          console.log('latitude:' + this.latitude);
+          console.log('longitude:' + this.longitude);
+
+          // Reverse geocode to get address
+          tt.services
+            .reverseGeocode({
+              key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+              position: lngLat,
+            })
+            .then((response) => {
+              var userAddress = response.addresses[0].address.freeformAddress;
+              this.address = userAddress;
+            })
+            .catch((error) => {
+              console.error('Reverse geocode error:', error);
+            });
+        });
+
+        // Center the map and marker based on user's location
+        if (navigator.geolocation) {
+          console.log('Line 91 is being run')
+          navigator.geolocation.getCurrentPosition((position) => {
+            var userLocation = [
+              position.coords.longitude,
+              position.coords.latitude,
+            ];
+            map.setCenter(userLocation);
+            marker.setLngLat(userLocation);
+            this.latitude = userLocation[1];
+            this.longitude = userLocation[0];
+            console.log('latitude:' + this.latitude);
+            console.log('longitude:' + this.longitude);
+            // Reverse geocode to get address
+            tt.services
+              .reverseGeocode({
+                key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+                position: userLocation,
+              })
+              .then((response) => {
+                var address = response.addresses[0].address.freeformAddress;
+                this.address = address;
+              })
+              .catch((error) => {
+                console.error('Reverse geocode error:', error);
+              });
+          });
+        }
+
+        // Search box functionality
+        var searchBoxOptions = {
+          searchOptions: {
+            key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+            language: "en-GB",
+            limit: 5,
+          },
+          autocompleteOptions: {
+            key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+            language: "en-GB",
+          },
+          noResultsMessage: "No results found.",
+        };
+
+        var ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
+        var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+        document.getElementById("searchbar").appendChild(searchBoxHTML);
+
+        ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
+          var result = data.data.result;
+          var lngLat = result.position;
+          map.setCenter(lngLat);
+          marker.setLngLat(lngLat);
+          this.latitude = lngLat.lat;
+          this.longitude = lngLat.lng;
+          this.address = result.address.freeformAddress;
+        });
+
+        // Add the search box input handler if the element exists
+        var searchInput = document.getElementById("search-input");
+        if (searchInput) {
+          searchInput.addEventListener("input", (event) => {
+            var query = event.target.value;
+            tt.services
+              .fuzzySearch({
+                key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+                query: query,
+                language: "en-GB",
+              })
+              .then((response) => {
+                if (response.results && response.results.length > 0) {
+                  var result = response.results[0];
+                  var lngLat = result.position;
+                  map.setCenter(lngLat);
+                  marker.setLngLat(lngLat);
+                  this.latitude = lngLat.lat;
+                  this.longitude = lngLat.lng;
+                  this.address = result.address.freeformAddress;
+                }
+              });
+          });
+        } else {
+          console.error("Element with id 'search-input' not found.");
+        }
+      } else {
+        console.error("TomTom SDK not loaded properly.");
+      }
+    }
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.initializeMap();
+    });
+  }
 };
 
-// Function to initialize the map and search functionality
-function initializeMap() {
-  // Check if TomTom SDK scripts are loaded
-  if (
-    typeof tt !== "undefined" &&
-    typeof tt.map !== "undefined" &&
-    typeof tt.services !== "undefined"
-  ) {
-    // Initialize the map
-    var map = tt.map({
-      key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-      container: "map",
-      center: [0, 0],
-      zoom: 15,
-    });
-
-    // Add marker
-    var marker = new tt.Marker({
-      draggable: true,
-    })
-      .setLngLat([0, 0])
-      .addTo(map);
-
-    // Add event listener for marker drag end
-    marker.on("dragend", function () {
-      var lngLat = marker.getLngLat();
-      document.getElementById("latitude").value = lngLat.lat;
-      document.getElementById("longitude").value = lngLat.lng;
-
-      // Reverse geocode to get address
-      tt.services
-        .reverseGeocode({
-          key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-          position: lngLat,
-        })
-        .then(function (response) {
-          var address = response.addresses[0].address.freeformAddress;
-          document.getElementById("address").value = address;
-        })
-        .catch(function (error) {
-          /* console.error('Reverse geocode error:', error); */
-        });
-    });
-
-    // Center the map and marker based on user's location
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        var userLocation = [
-          position.coords.longitude,
-          position.coords.latitude,
-        ];
-        map.setCenter(userLocation);
-        marker.setLngLat(userLocation);
-        document.getElementById("latitude").value = userLocation[1];
-        latitude = userLocation[1];
-        document.getElementById("longitude").value = userLocation[0];
-        longitude = userLocation[0];
-
-        // Reverse geocode to get address
-        tt.services
-          .reverseGeocode({
-            key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-            position: userLocation,
-          })
-          .then(function (response) {
-            var address = response.addresses[0].address.freeformAddress;
-            document.getElementById("address").value = address;
-          })
-          .catch(function (error) {
-            /* console.error('Reverse geocode error:', error); */
-          });
-      });
-    }
-
-    // Search box functionality
-    var searchBoxOptions = {
-      searchOptions: {
-        key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-        language: "en-GB",
-        limit: 5,
-      },
-      autocompleteOptions: {
-        key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-        language: "en-GB",
-      },
-      noResultsMessage: "No results found.",
-    };
-
-    var ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
-    var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
-    document.getElementById("searchbar").appendChild(searchBoxHTML);
-
-    ttSearchBox.on("tomtom.searchbox.resultselected", function (data) {
-      var result = data.data.result;
-      var lngLat = result.position;
-      map.setCenter(lngLat);
-      marker.setLngLat(lngLat);
-      document.getElementById("latitude").value = lngLat.lat;
-      document.getElementById("longitude").value = lngLat.lng;
-      document.getElementById("address").value = result.address.freeformAddress;
-    });
-
-    // Add the search box input handler
-    document
-      .getElementById("search-input")
-      .addEventListener("input", function (event) {
-        var query = event.target.value;
-        tt.services
-          .fuzzySearch({
-            key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-            query: query,
-            language: "en-GB",
-          })
-          .then(function (response) {
-            if (response.results && response.results.length > 0) {
-              var result = response.results[0];
-              var lngLat = result.position;
-              map.setCenter(lngLat);
-              marker.setLngLat(lngLat);
-              document.getElementById("latitude").value = lngLat.lat;
-              document.getElementById("longitude").value = lngLat.lng;
-              document.getElementById("address").value =
-                result.address.freeformAddress;
-            }
-          });
-      });
-  } else {
-    console.error("TomTom SDK not loaded properly.");
-  }
-}
 
 // Load the map after the page is fully loaded
-document.addEventListener("DOMContentLoaded", initializeMap);
-
-function test() {
-  console.log("tt:", tt);
-  console.log("tt.services:", tt.services);
-  console.log("tt.plugins:", tt.plugins);
-}
+/* document.addEventListener("DOMContentLoaded", initializeMap);
+ */
 </script>
 
 <template>
@@ -206,23 +212,10 @@ function test() {
       <div class="card">
         <div class="row justify-content-center">
           <div class="col-6 p-3">
-            <input
-              id="latitude"
-              type="number"
-              v-model="latitude"
-              name="latitude"
-              @input="testDistance()"
-            />
-            <label for="latitude">First Lat</label>
+            <p>User latitude: {{ latitude }}</p>
           </div>
           <div class="col-6 p-3">
-            <input
-              id="longitude"
-              type="number"
-              v-model="longitude"
-              name="longitude"
-            />
-            <label for="longitude">First Lon</label>
+            <p>User longitude: {{ longitude }}</p>
           </div>
           <div class="col-6 p-3">
             <input type="number" v-model="secondLat" name="secondLat" />
@@ -233,11 +226,7 @@ function test() {
             <label for="secondLon">Second Lon</label>
           </div>
           <div class="col-3">
-            <button
-              id="submit-btn"
-              class="btn btn-primary"
-              @click="testDistance()"
-            >
+            <button id="submit-btn" class="btn btn-primary" @click="testDistance()">
               Test
             </button>
           </div>
