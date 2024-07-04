@@ -14,6 +14,9 @@ export default {
         }
     },
     methods: {
+        getImageUrl(image) {
+      return `http://localhost:8000/storage/images/${image}`;
+    },
         fetchApartments(perPage) {
             axios.get('http://127.0.0.1:8000/api/apartments', {
                 params: {
@@ -68,7 +71,7 @@ export default {
                 <h1>Our top choices:</h1>
                 <div class="row-article">
                     <article v-for="apartment in apartments" class="col-article">
-                        <img src="https://picsum.photos/seed/picsum/300/200" alt="">
+                        <img :src="getImageUrl(apartment.image)" alt="">
                         <p>{{ apartment.title }}</p>
                         <div class="container-article-info">
                             <div class="article-info primo">
