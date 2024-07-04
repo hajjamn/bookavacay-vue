@@ -14,9 +14,6 @@ export default {
         }
     },
     methods: {
-        getImageUrl(image) {
-      return `http://localhost:8000/storage/images/${image}`;
-    },
         fetchApartments(perPage) {
             axios.get('http://127.0.0.1:8000/api/apartments', {
                 params: {
@@ -47,6 +44,7 @@ export default {
 </script>
 
 <template>
+    <RouterLink to="research">Research</RouterLink>
     <main>
         <section class="section-title">
             <div class="container-title">
@@ -57,7 +55,7 @@ export default {
             </div>
         </section>
 
-        <!-- <button @click="calculateDistance(firstLat, firstLon, secondLat, secondLon)">Test</button>
+        <button @click="calculateDistance(firstLat, firstLon, secondLat, secondLon)">Test</button>
         <input type="text" v-model="firstLat" name="firstLat" value="44.270661682974485">
         <label for="firstLat">First Lat</label>
         <input type="text" v-model="firstLon" name="firstLon" value="11.291301837729694">
@@ -65,13 +63,13 @@ export default {
         <input type="text" v-model="secondLat" name="secondLat" value="44.2838767133773">
         <label for="secondLat">Second Lat</label>
         <input type="text" v-model="secondLon" name="secondLon" value="11.326890902470534">
-        <label for="secondLon">Second Lon</label> -->
+        <label for="secondLon">Second Lon</label>
         <section id="articles">
             <div class="container-article">
                 <h1>Our top choices:</h1>
                 <div class="row-article">
                     <article v-for="apartment in apartments" class="col-article">
-                        <img :src="getImageUrl(apartment.image)" alt="">
+                        <img src="https://picsum.photos/seed/picsum/300/200" alt="">
                         <p>{{ apartment.title }}</p>
                         <div class="container-article-info">
                             <div class="article-info primo">
