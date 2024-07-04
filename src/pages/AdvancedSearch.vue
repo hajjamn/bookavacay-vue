@@ -19,8 +19,8 @@ export default {
   },
   methods: {
     async fetchResults() {
-      try {                    //inserire api
-        const response = await fetch(`http://127.0.0.1:8000/api/apartments/search?q=${this.searchQuery}`);
+      try {                    //inserire api http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268
+        const response = await fetch(`http://127.0.0.1:8000/api/apartments/search?latitude=${this.latitude}&longitude=${this.longitude}`);
         const data = await response.json();
         // Process and display the data
         console.log(data);
@@ -271,7 +271,7 @@ export default {
             <input type="hidden" v-model="this.latitude" name="latitude">
             <input type="hidden" v-model="this.longitude" name="longitude">
             <input type="hidden" v-model="this.address" name="address">
-            <button id="form-submit" type="submit" class="btn btn-warning">
+            <button @click="fetchResults" id="form-submit" type="submit" class="btn btn-warning">
               Search
             </button>
           </form>
