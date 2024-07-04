@@ -6,6 +6,7 @@ export default {
   data() {
     return {
       apartments: [],
+      searchbarAppended: false,
       latitude: 0,
       longitude: 0,
       address: '',
@@ -29,6 +30,18 @@ export default {
           console.log(this.apartments);
         });
     },
+    submitForm() {
+      axios.post("http://127.0.0.1:8000/api/apartments/search", {
+        latitude: this.latitude,
+        longitude: this.longitude,
+        address: this.address,
+      }).then(response => {
+        this.apartments = response.data.apartments;
+        console.log("Form submitted successfully:", response.data);
+      }).catch(error => {
+        console.error("Error submitting form:", error);
+      });
+    },
     testDistance() {
       calculateDistance(this.latitude, this.longitude, this.secondLat, this.secondLon)
     },
@@ -40,7 +53,6 @@ export default {
         typeof tt.services !== "undefined"
       ) {
         // Initialize the map
-        console.log('Line 50 is being run')
         var map = tt.map({
           key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
           container: "map",
@@ -49,7 +61,6 @@ export default {
         });
 
         // Add marker
-        console.log('Line 59 is being run')
         var marker = new tt.Marker({
           draggable: true,
         })
@@ -57,12 +68,11 @@ export default {
           .addTo(map);
 
         // Add event listener for marker drag end
-        console.log('Line 67 is being run')
         marker.on("dragend", () => {
-          console.log('Line 69 is being run, nice')
           var lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
           this.longitude = lngLat.lng;
+          console.log('Marker dragged.')
           console.log('latitude:' + this.latitude);
           console.log('longitude:' + this.longitude);
 
@@ -83,7 +93,6 @@ export default {
 
         // Center the map and marker based on user's location
         if (navigator.geolocation) {
-          console.log('Line 91 is being run')
           navigator.geolocation.getCurrentPosition((position) => {
             var userLocation = [
               position.coords.longitude,
@@ -93,6 +102,7 @@ export default {
             marker.setLngLat(userLocation);
             this.latitude = userLocation[1];
             this.longitude = userLocation[0];
+            console.log('Initial user location loaded.')
             console.log('latitude:' + this.latitude);
             console.log('longitude:' + this.longitude);
             // Reverse geocode to get address
@@ -104,6 +114,7 @@ export default {
               .then((response) => {
                 var address = response.addresses[0].address.freeformAddress;
                 this.address = address;
+                console.log('Address:' + this.address)
               })
               .catch((error) => {
                 console.error('Reverse geocode error:', error);
@@ -125,9 +136,14 @@ export default {
           noResultsMessage: "No results found.",
         };
 
-        var ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
-        var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
-        document.getElementById("searchbar").appendChild(searchBoxHTML);
+        if (!document.getElementById("searchbox")) {
+          var ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
+          var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+          document.getElementById("searchbar").appendChild(searchBoxHTML);
+          searchBoxHTML.id = "searchbox";
+          this.searchbarAppended = true
+          console.log('searchbox appended to searchbar')
+        }
 
         ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
           var result = data.data.result;
@@ -159,6 +175,9 @@ export default {
                   this.latitude = lngLat.lat;
                   this.longitude = lngLat.lng;
                   this.address = result.address.freeformAddress;
+                  console.log('Searchbox used.');
+                  console.log('latitude:' + this.latitude);
+                  console.log('longitude:' + this.longitude);
                 }
               });
           });
@@ -200,35 +219,54 @@ export default {
 
     <div class="container py-5">
       <div class="card">
-        <div class="row justify-content-center">
-          <div class="col-4 p-3">
+        <div class="row justify-content-evenly text-center">
+          <div class="col-auto p-3">
             <p>User latitude: {{ latitude }}</p>
           </div>
-          <div class="col-4 p-3">
+          <div class="col-auto p-3">
             <p>User longitude: {{ longitude }}</p>
           </div>
-          <div class="col-4 p-3">
+          <div class="col-auto p-3">
             <p>User address: {{ address }}</p>
           </div>
-          <div class="col-6 p-3">
-            <input type="number" v-model="secondLat" name="secondLat" />
-            <label for="secondLat">Second Lat</label>
-          </div>
-          <div class="col-6 p-3 mb-3">
-            <input type="number" v-model="secondLon" name="secondLon" />
-            <label for="secondLon">Second Lon</label>
-          </div>
-          <div class="col-3">
-            <button id="submit-btn" class="btn btn-primary" @click="testDistance()">
-              Test
-            </button>
+
+          <div class="d-none" id="distance-test">
+            <div class="col-6 p-3">
+              <input type="number" v-model="secondLat" name="secondLat" />
+              <label for="secondLat">Second Lat</label>
+            </div>
+            <div class="col-6 p-3 mb-3">
+              <input type="number" v-model="secondLon" name="secondLon" />
+              <label for="secondLon">Second Lon</label>
+            </div>
+            <div class="col-3">
+              <button id="submit-btn" class="btn btn-primary" @click="testDistance()">
+                Test Distance
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <form @submit.prevent="submitForm">
+            <input type="hidden" v-model="this.latitude" name="latitude">
+            <input type="hidden" v-model="this.longitude" name="longitude">
+            <input type="hidden" v-model="this.address" name="address">
+            <button id="form-submit" type="submit" class="btn btn-warning">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
   </main>
 
-  <button class="btn btn-primary" @click="console.log(this.apartments)">Test</button>
+  <button class="btn btn-primary d-none" @click="console.log(this.apartments)">Test Apartments</button>
 
   <div v-for="apartment in apartments">
     <div v-if="calculateDistance(apartment.latitude, apartment.longitude, this.latitude, this.longitude) < 20">
