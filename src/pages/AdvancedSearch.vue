@@ -9,7 +9,11 @@ export default {
       latitude: 0,
       longitude: 0,
       address: "",
-      searchQuery: ""
+      searchQuery: "",
+      beds: null,
+      rooms: null,
+      distance: null,
+      services: null,
     };
   },
   methods: {
@@ -27,6 +31,10 @@ export default {
         latitude: this.latitude,
         longitude: this.longitude,
         address: this.address,
+        beds: this.beds,
+        rooms: this.rooms,
+        services: this.services,
+        distance: this.distance
       }).then(response => {
         this.apartments = response.data.apartments;
         console.log("Form submitted successfully:", response.data);
@@ -213,12 +221,30 @@ export default {
       <div class="row justify-content-center">
         <div class="col-3">
           <form @submit.prevent="submitForm">
+            <div>
+              <label for="rooms">Rooms</label>
+              <input type="number" v-model="this.rooms" name="rooms">
+            </div>
+            <div>
+              <label for="beds">Beds</label>
+              <input type="number" v-model="this.beds" name="beds">
+            </div>
+            <div>
+              <label for="distance">Distance</label>
+              <input type="number" v-model="this.distance" name="distance">
+            </div>
+            <div>
+              <label for="services">Services</label>
+              <input type="number" v-model="this.services" name="services">
+            </div>
             <input type="hidden" v-model="this.latitude" name="latitude">
             <input type="hidden" v-model="this.longitude" name="longitude">
             <input type="hidden" v-model="this.address" name="address">
-            <button @click="submitForm" id="form-submit" type="submit" class="btn btn-warning">
-              Search
-            </button>
+            <div>
+              <button @click="submitForm" id="form-submit" type="submit" class="btn btn-warning">
+                Search
+              </button>
+            </div>
           </form>
         </div>
       </div>
