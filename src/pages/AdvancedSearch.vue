@@ -19,11 +19,11 @@ export default {
   },
   methods: {
     async fetchResults() {
-      try {                    //inserire api
-        const response = await fetch(`http://127.0.0.1:8000/api/apartments/search?q=${this.searchQuery}`);
-        const data = await response.json();
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/apartments/search?q=${this.searchQuery}`);
         // Process and display the data
-        console.log(data);
+        this.apartments = response.data.filtered_apartments;
+        console.log("Fetch results successful:", response.data);
       } catch (error) {
         console.error('Error fetching search results:', error);
       }
@@ -47,7 +47,7 @@ export default {
         longitude: this.longitude,
         address: this.address,
       }).then(response => {
-        this.apartments = response.data.apartments;
+        this.apartments = response.data.filtered_apartments;
         console.log("Form submitted successfully:", response.data);
       }).catch(error => {
         console.error("Error submitting form:", error);
@@ -204,8 +204,6 @@ export default {
     this.$nextTick(() => {
       this.initializeMap();
     });
-  },
-  created() {
     this.searchQuery = this.$route.query.q;
     this.fetchResults();
   },
