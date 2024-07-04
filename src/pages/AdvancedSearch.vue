@@ -228,7 +228,7 @@ export default {
     </div>
   </main>
 
-  <button @click="console.log(this.apartments)">Test</button>
+  <button class="btn btn-primary" @click="console.log(this.apartments)">Test</button>
 
   <div v-for="apartment in apartments">
     <div v-if="calculateDistance(apartment.latitude, apartment.longitude, this.latitude, this.longitude) < 20">
