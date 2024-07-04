@@ -227,7 +227,15 @@ export default {
       </div>
     </div>
   </main>
-  <!-- <img class="svg-wave" src="/public/img/wave.svg" alt=""> -->
+
+  <button @click="console.log(this.apartments)">Test</button>
+
+  <div v-for="apartment in apartments">
+    <div v-if="calculateDistance(apartment.latitude, apartment.longitude, this.latitude, this.longitude) < 20">
+      Appartamento
+    </div>
+  </div>
+
   <section class="svg-wave"></section>
 </template>
 
