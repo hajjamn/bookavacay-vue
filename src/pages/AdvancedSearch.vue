@@ -6,6 +6,7 @@ export default {
   data() {
     return {
       apartments: [],
+      searchbarAppended: false,
       latitude: 0,
       longitude: 0,
       address: '',
@@ -40,7 +41,6 @@ export default {
         typeof tt.services !== "undefined"
       ) {
         // Initialize the map
-        console.log('Line 50 is being run')
         var map = tt.map({
           key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
           container: "map",
@@ -49,7 +49,6 @@ export default {
         });
 
         // Add marker
-        console.log('Line 59 is being run')
         var marker = new tt.Marker({
           draggable: true,
         })
@@ -57,12 +56,11 @@ export default {
           .addTo(map);
 
         // Add event listener for marker drag end
-        console.log('Line 67 is being run')
         marker.on("dragend", () => {
-          console.log('Line 69 is being run, nice')
           var lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
           this.longitude = lngLat.lng;
+          console.log('Marker dragged.')
           console.log('latitude:' + this.latitude);
           console.log('longitude:' + this.longitude);
 
@@ -83,7 +81,6 @@ export default {
 
         // Center the map and marker based on user's location
         if (navigator.geolocation) {
-          console.log('Line 91 is being run')
           navigator.geolocation.getCurrentPosition((position) => {
             var userLocation = [
               position.coords.longitude,
@@ -93,6 +90,7 @@ export default {
             marker.setLngLat(userLocation);
             this.latitude = userLocation[1];
             this.longitude = userLocation[0];
+            console.log('Initial user location loaded.')
             console.log('latitude:' + this.latitude);
             console.log('longitude:' + this.longitude);
             // Reverse geocode to get address
@@ -104,6 +102,7 @@ export default {
               .then((response) => {
                 var address = response.addresses[0].address.freeformAddress;
                 this.address = address;
+                console.log('Address:' + this.address)
               })
               .catch((error) => {
                 console.error('Reverse geocode error:', error);
@@ -125,9 +124,14 @@ export default {
           noResultsMessage: "No results found.",
         };
 
-        var ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
-        var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
-        document.getElementById("searchbar").appendChild(searchBoxHTML);
+        if (!document.getElementById("searchbox")) {
+          var ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
+          var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+          document.getElementById("searchbar").appendChild(searchBoxHTML);
+          searchBoxHTML.id = "searchbox";
+          this.searchbarAppended = true
+          console.log('searchbox appended to searchbar')
+        }
 
         ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
           var result = data.data.result;
@@ -159,6 +163,9 @@ export default {
                   this.latitude = lngLat.lat;
                   this.longitude = lngLat.lng;
                   this.address = result.address.freeformAddress;
+                  console.log('Searchbox used.');
+                  console.log('latitude:' + this.latitude);
+                  console.log('longitude:' + this.longitude);
                 }
               });
           });
