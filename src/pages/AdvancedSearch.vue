@@ -9,9 +9,6 @@ export default {
       latitude: 0,
       longitude: 0,
       address: "",
-      secondLat: 44.2838767133773,
-      secondLon: 11.326890902470534,
-      distance: 0,
       searchQuery: ""
     };
   },
@@ -25,19 +22,6 @@ export default {
         console.error('Error fetching search results:', error);
       }
     },
-    fetchApartments(perPage) {
-      axios
-        .get("http://127.0.0.1:8000/api/apartments", {
-          params: {
-            perPage,
-          },
-        })
-        .then((res) => {
-          console.log(res.data.apartments.data);
-          this.apartments = res.data.apartments.data;
-          console.log(this.apartments);
-        });
-    },
     submitForm() {
       axios.post("http://127.0.0.1:8000/api/apartments/search", {
         latitude: this.latitude,
@@ -49,9 +33,6 @@ export default {
       }).catch(error => {
         console.error("Error submitting form:", error);
       });
-    },
-    testDistance() {
-      calculateDistance(this.latitude, this.longitude, this.secondLat, this.secondLon)
     },
     initializeMap() {
       if (
@@ -224,22 +205,6 @@ export default {
           <div class="col-auto p-3">
             <p>User address: {{ address }}</p>
           </div>
-
-          <div class="d-none" id="distance-test">
-            <div class="col-6 p-3">
-              <input type="number" v-model="secondLat" name="secondLat" />
-              <label for="secondLat">Second Lat</label>
-            </div>
-            <div class="col-6 p-3 mb-3">
-              <input type="number" v-model="secondLon" name="secondLon" />
-              <label for="secondLon">Second Lon</label>
-            </div>
-            <div class="col-3">
-              <button id="submit-btn" class="btn btn-primary" @click="testDistance()">
-                Test Distance
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -263,11 +228,13 @@ export default {
 
   <button class="btn btn-primary d-none" @click="console.log(this.apartments)">Test Apartments</button>
 
-  <!--   <div v-for="apartment in apartments">
-    <div v-if="calculateDistance(apartment.latitude, apartment.longitude, this.latitude, this.longitude) < 20">
-      Appartamento
+  <section v-if="this.apartments">
+    <div v-for="apartment in this.apartments">
+      <p>
+        {{ apartment.title }}
+      </p>
     </div>
-  </div> -->
+  </section>
 
   <section class="svg-wave"></section>
 </template>
