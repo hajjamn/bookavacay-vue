@@ -23,7 +23,52 @@ export default {
     performSearch() {
       this.$router.push({ name: 'research', query: { q: this.searchQuery } });
     }
+    // if (!document.getElementById("search-input")) {
+    //       let ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
+    //       let searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+    //       document.getElementById("searchbar").appendChild(searchBoxHTML);
+    //       searchBoxHTML.id = "search-input";
+
+    //       ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
+    //         let result = data.data.result;
+    //         let lngLat = result.position;
+    //         map.setCenter(lngLat);
+    //         marker.setLngLat(lngLat);
+    //         this.latitude = lngLat.lat;
+    //         this.longitude = lngLat.lng;
+    //         this.address = result.address.freeformAddress;
+    //       });
+
+    //       searchBoxHTML.addEventListener("input", (event) => {
+    //         let query = event.target.value;
+    //         tt.services
+    //           .fuzzySearch({
+    //             key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+    //             query: query,
+    //             language: "en-GB",
+    //           })
+    //           .then((response) => {
+    //             if (response.results && response.results.length > 0) {
+    //               let result = response.results[0];
+    //               let lngLat = result.position;
+    //               map.setCenter(lngLat);
+    //               marker.setLngLat(lngLat);
+    //               this.latitude = lngLat.lat;
+    //               this.longitude = lngLat.lng;
+    //               this.address = result.address.freeformAddress;
+    //               console.log('Searchbox used.');
+    //               console.log('latitude:' + this.latitude);
+    //               console.log('longitude:' + this.longitude);
+    //             }
+    //           });
+    //       });
+    //     }
+    //   } else {
+    //     console.error("TomTom SDK not loaded properly.");
+    //   }
   },
+
+
 
   components: {
   },
@@ -38,17 +83,17 @@ export default {
 
 <template>
 
-<header :class="headerClass">
+  <header :class="headerClass">
     <div class="header-container">
       <div class="header-row">
         <img class="logo-home" src="/public/img/BookaVacay_01.png">
         <RouterLink to="/" class="back-home">
-          <img class="logo" src="/public/img/BookaVacay_02.png">          
+          <img class="logo" src="/public/img/BookaVacay_02.png">
         </RouterLink>
         <form action="" class="search-home">
-          <input type="text">
+          <input v-model="searchQuery" id="search-input" type="text">
           <RouterLink to="/search">
-            <button><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+            <button @onclick="performSearch()"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
           </RouterLink>
         </form>
         <h1 class="search-title">Apartments advanced research</h1>
