@@ -12,6 +12,7 @@ export default {
       secondLat: 44.2838767133773,
       secondLon: 11.326890902470534,
       distance: 0,
+      map: {},
     }
   },
   methods: {
@@ -27,9 +28,6 @@ export default {
           console.log(this.apartments)
         })
     },
-    /*     testDistance() {
-          console.log(`https://api.tomtom.com/routing/1/calculateRoute/${this.latitude},${this.longitude}:${this.secondLat},${this.secondLon}/json?key=VtdGJcQDaomboK5S3kbxFvhtbupZjoK0`)
-        } */
     testDistance() {
       console.log('Latitude:', this.latitude);
       console.log('Longitude:', this.longitude);
@@ -37,10 +35,71 @@ export default {
       console.log('Second Longitude:', this.secondLon);
 
       console.log(`https://api.tomtom.com/routing/1/calculateRoute/${this.latitude},${this.longitude}:${this.secondLat},${this.secondLon}/json?key=VtdGJcQDaomboK5S3kbxFvhtbupZjoK0`);
-    }
+    },
+    setLatitude(value) {
+      this.latitude = value
+    },
+    setLongitude(value) {
+      this.longitude = value
+    },
+    // Function to initialize the map and search functionality
+    initializeMap() {
+      // Check if TomTom SDK scripts are loaded
+      if (typeof tt !== 'undefined' && typeof tt.map !== 'undefined' && typeof tt.services !== 'undefined') {
+        // Initialize the map
+        var map = tt.map({
+          key: 'VtdGJcQDaomboK5S3kbxFvhtbupZjoK0',
+          container: 'map',
+          center: [0, 0],
+          zoom: 15
+        });
+
+        // Add marker
+        var marker = new tt.Marker({
+          draggable: true
+        })
+          .setLngLat([0, 0])
+          .addTo(map);
+
+        // $nextTick to wait for Vue to render the template
+        Vue.nextTick(() => {
+          // Add event listeners or modify DOM elements
+          document.getElementById('search-input').addEventListener('input', (event) => {
+            var query = event.target.value;
+            tt.services.fuzzySearch({
+              key: 'YOUR_TOMTOM_API_KEY',
+              query: query,
+              language: 'en-GB'
+            }).then((response) => {
+              if (response.results && response.results.length > 0) {
+                var result = response.results[0];
+                var lngLat = result.position;
+                map.setCenter(lngLat);
+                marker.setLngLat(lngLat);
+                this.setLatitude(lngLat.lat);
+                this.setLongitude(lngLat.lng);
+                // Update other UI elements if needed
+                // Reverse geocode to get address
+                tt.services.reverseGeocode({
+                  key: 'VtdGJcQDaomboK5S3kbxFvhtbupZjoK0',
+                  position: lngLat
+                }).then(function (response) {
+                  var address = response.addresses[0].address.freeformAddress;
+                  document.getElementById('address').value = address;
+                }).catch(function (error) {
+                  /* console.error('Reverse geocode error:', error); */
+                });
+              });
+          }
+            });
+      });
+    });
+  } else {
+    console.error('TomTom SDK not loaded properly.');
 
   }
 }
+  }
 
 
 // Function to initialize the map and search functionality
@@ -66,7 +125,10 @@ function initializeMap() {
     marker.on('dragend', function () {
       var lngLat = marker.getLngLat();
       document.getElementById('latitude').value = lngLat.lat;
+      setLatitude(lngLat.lat);
       document.getElementById('longitude').value = lngLat.lng;
+      this.longitude = lngLat.lng;
+      setLongitude(lngLat.lng);
 
       // Reverse geocode to get address
       tt.services.reverseGeocode({
@@ -87,9 +149,9 @@ function initializeMap() {
         map.setCenter(userLocation);
         marker.setLngLat(userLocation);
         document.getElementById('latitude').value = userLocation[1];
-        latitude = userLocation[1];
+        setLatitude(userLocation[1]);
         document.getElementById('longitude').value = userLocation[0];
-        longitude = userLocation[0];
+        setLongitude(userLocation[0]);
 
         // Reverse geocode to get address
         tt.services.reverseGeocode({
@@ -193,11 +255,11 @@ function test() {
       <div class="card">
         <div class="row justify-content-center">
           <div class="col-6 p-3">
-            <input id="latitude" type="number" v-model="latitude" name="latitude" @input="testDistance()">
+            <input id="latitude" type="number" v-model="latitude" name="latitude" @input="testDistance()" readonly>
             <label for="latitude">First Lat</label>
           </div>
           <div class="col-6 p-3">
-            <input id="longitude" type="number" v-model="longitude" name="longitude">
+            <input id="longitude" type="number" v-model="longitude" name="longitude" readonly>
             <label for="longitude">First Lon</label>
           </div>
           <div class="col-6 p-3">
@@ -214,22 +276,10 @@ function test() {
         </div>
       </div>
     </div>
-
-
-
-
-
   </main>
-  <!-- <img class="svg-wave" src="/public/img/wave.svg" alt=""> -->
   <section class="svg-wave">
-
   </section>
-
-
-
 </template>
-
-
 
 
 <style scoped>
