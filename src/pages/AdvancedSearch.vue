@@ -251,7 +251,7 @@ export default {
             <input type="hidden" v-model="this.latitude" name="latitude">
             <input type="hidden" v-model="this.longitude" name="longitude">
             <input type="hidden" v-model="this.address" name="address">
-            <button id="form-submit" type="submit" class="btn btn-warning">
+            <button @click="fetchResults" id="form-submit" type="submit" class="btn btn-warning">
               Search
             </button>
           </form>
