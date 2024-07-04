@@ -19,11 +19,17 @@ export default {
 
     return { headerClass };
   },
+  methods: {
+    performSearch() {
+      this.$router.push({ name: 'research', query: { q: this.searchQuery } });
+    }
+  },
 
   components: {
   },
   data() {
     return {
+      searchQuery: ''
     }
   }
 }
@@ -35,15 +41,10 @@ export default {
   <header :class="headerClass">
     <div class="header-container">
       <div class="header-row">
-        <img class="logo-home" src="/public/img/BookaVacay_01.png">
-        <RouterLink to="/" class="back-home">
-          <img class="logo" src="/public/img/BookaVacay_02.png">          
-        </RouterLink>
-        <form action="" class="search-home">
-          <input type="text">
-          <RouterLink to="/search">
-            <button><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
-          </RouterLink>
+        <img class="logo" src="/public/img/BookaVacay_01.png">
+        <form action="">
+          <input type="text" v-model="searchQuery">
+          <button @click="performSearch"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
         </form>
         <h1 class="search-title">Apartments advanced research</h1>
         <a class="register-btn">Register <br><span class="underline">or log in</span></a>
@@ -55,5 +56,4 @@ export default {
 
 </template>
 
-<style>
-</style>
+<style></style>

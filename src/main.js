@@ -4,6 +4,11 @@ import App from './App.vue'
 import Home from './pages/Home.vue'
 import Research from './pages/Research.vue'
 import AdvancedSearch from './pages/AdvancedSearch.vue'
+import AppHeader from './components/AppHeader.vue'
+// import router from './router'
+
+
+import * as Vue from 'vue';
 
 /* import the fontawesome core */
 import { library } from '@fortawesome/fontawesome-svg-core'
@@ -12,10 +17,16 @@ import { far } from '@fortawesome/free-regular-svg-icons'
 import { fab } from '@fortawesome/free-brands-svg-icons'
 
 /* import vue router */
+// import {Vue} from 'vue';
+// import {VueRouter} from 'vue-router';
 import { createRouter, createWebHistory } from 'vue-router'
+
+// Vue.use(VueRouter);
+
 const routes = [
     { path: '/', component: Home, name: 'home' },
     { path: '/research', component: Research, name: 'research' },
+    {path: '/input', component: AppHeader, name: 'input' },
     { path: '/search', component: AdvancedSearch, name: 'search' },
 
 ]
@@ -24,6 +35,9 @@ const router = createRouter({
     history: createWebHistory(),
     routes: routes
 })
+
+export default router;
+
 
 
 
@@ -41,5 +55,8 @@ app.component('font-awesome-icon', FontAwesomeIcon)
 app.use(router)
 
 app.mount('#app')
+
+
+
 
 
