@@ -42,7 +42,7 @@ export default {
 
   <AppHeader></AppHeader>
   <!-- <AppContent></AppContent> -->
-  <RouterLink to="/search">Go search</RouterLink>
+  <RouterLink to="/search">Go search</RouterLink><br>
   <RouterLink to="/research">Go research</RouterLink>
   <RouterView />
   <!-- <AppFooter></AppFooter> -->
