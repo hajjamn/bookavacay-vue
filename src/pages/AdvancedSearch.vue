@@ -30,6 +30,18 @@ export default {
           console.log(this.apartments);
         });
     },
+    submitForm() {
+      axios.post("http://127.0.0.1:8000/api/apartments/search", {
+        latitude: this.latitude,
+        longitude: this.longitude,
+        address: this.address,
+      }).then(response => {
+        this.apartments = response.data.apartments;
+        console.log("Form submitted successfully:", response.data);
+      }).catch(error => {
+        console.error("Error submitting form:", error);
+      });
+    },
     testDistance() {
       calculateDistance(this.latitude, this.longitude, this.secondLat, this.secondLon)
     },
@@ -207,35 +219,54 @@ export default {
 
     <div class="container py-5">
       <div class="card">
-        <div class="row justify-content-center">
-          <div class="col-4 p-3">
+        <div class="row justify-content-evenly text-center">
+          <div class="col-auto p-3">
             <p>User latitude: {{ latitude }}</p>
           </div>
-          <div class="col-4 p-3">
+          <div class="col-auto p-3">
             <p>User longitude: {{ longitude }}</p>
           </div>
-          <div class="col-4 p-3">
+          <div class="col-auto p-3">
             <p>User address: {{ address }}</p>
           </div>
-          <div class="col-6 p-3">
-            <input type="number" v-model="secondLat" name="secondLat" />
-            <label for="secondLat">Second Lat</label>
-          </div>
-          <div class="col-6 p-3 mb-3">
-            <input type="number" v-model="secondLon" name="secondLon" />
-            <label for="secondLon">Second Lon</label>
-          </div>
-          <div class="col-3">
-            <button id="submit-btn" class="btn btn-primary" @click="testDistance()">
-              Test
-            </button>
+
+          <div class="d-none" id="distance-test">
+            <div class="col-6 p-3">
+              <input type="number" v-model="secondLat" name="secondLat" />
+              <label for="secondLat">Second Lat</label>
+            </div>
+            <div class="col-6 p-3 mb-3">
+              <input type="number" v-model="secondLon" name="secondLon" />
+              <label for="secondLon">Second Lon</label>
+            </div>
+            <div class="col-3">
+              <button id="submit-btn" class="btn btn-primary" @click="testDistance()">
+                Test Distance
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="container py-5">
+      <div class="row justify-content-center">
+        <div class="col-3">
+          <form @submit.prevent="submitForm">
+            <input type="hidden" v-model="this.latitude" name="latitude">
+            <input type="hidden" v-model="this.longitude" name="longitude">
+            <input type="hidden" v-model="this.address" name="address">
+            <button id="form-submit" type="submit" class="btn btn-warning">
+              Search
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
   </main>
 
-  <button class="btn btn-primary" @click="console.log(this.apartments)">Test</button>
+  <button class="btn btn-primary d-none" @click="console.log(this.apartments)">Test Apartments</button>
 
   <div v-for="apartment in apartments">
     <div v-if="calculateDistance(apartment.latitude, apartment.longitude, this.latitude, this.longitude) < 20">
