@@ -38,12 +38,12 @@ export default {
 
 <template>
 
-<header :class="headerClass">
+  <header :class="headerClass">
     <div class="header-container">
       <div class="header-row">
         <img class="logo-home" src="/public/img/BookaVacay_01.png">
         <RouterLink to="/" class="back-home">
-          <img class="logo" src="/public/img/BookaVacay_02.png">          
+          <img class="logo" src="/public/img/BookaVacay_02.png">
         </RouterLink>
         <form action="" class="search-home">
           <input type="text">
@@ -52,7 +52,13 @@ export default {
           </RouterLink>
         </form>
         <h1 class="search-title">Apartments advanced research</h1>
-        <a class="register-btn">Register <br><span class="underline">or log in</span></a>
+
+        <div class="register-btn">
+          <a href="http://127.0.0.1:8000/register"><span>Register</span></a>
+          <br>
+          <a href="http://127.0.0.1:8000/login"><span class="underline">or log in</span></a>
+        </div>
+
       </div>
     </div>
     <!-- <RouterLink class="link-home" to="home">Home</RouterLink> -->
