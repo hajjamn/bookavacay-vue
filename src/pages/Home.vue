@@ -44,7 +44,6 @@ export default {
 </script>
 
 <template>
-    <RouterLink to="research">Research</RouterLink>
     <main>
         <section class="section-title">
             <div class="container-title">
