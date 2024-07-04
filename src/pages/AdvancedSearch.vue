@@ -6,22 +6,19 @@ export default {
   data() {
     return {
       apartments: [],
-      searchbarAppended: false,
       latitude: 0,
       longitude: 0,
-      address: '',
+      address: "",
       secondLat: 44.2838767133773,
       secondLon: 11.326890902470534,
-      secondAddress: '',
       distance: 0,
-      searchQuery: ''
+      searchQuery: ""
     };
   },
   methods: {
     async fetchResults() {
       try {
         const response = await axios.get(`http://127.0.0.1:8000/api/apartments/search?q=${this.searchQuery}`);
-        // Process and display the data
         this.apartments = response.data.filtered_apartments;
         console.log("Fetch results successful:", response.data);
       } catch (error) {
@@ -47,7 +44,7 @@ export default {
         longitude: this.longitude,
         address: this.address,
       }).then(response => {
-        this.apartments = response.data.filtered_apartments;
+        this.apartments = response.data.apartments;
         console.log("Form submitted successfully:", response.data);
       }).catch(error => {
         console.error("Error submitting form:", error);
@@ -57,13 +54,11 @@ export default {
       calculateDistance(this.latitude, this.longitude, this.secondLat, this.secondLon)
     },
     initializeMap() {
-      // Check if TomTom SDK scripts are loaded
       if (
         typeof tt !== "undefined" &&
         typeof tt.map !== "undefined" &&
         typeof tt.services !== "undefined"
       ) {
-        // Initialize the map
         var map = tt.map({
           key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
           container: "map",
@@ -71,14 +66,12 @@ export default {
           zoom: 15,
         });
 
-        // Add marker
         var marker = new tt.Marker({
           draggable: true,
         })
           .setLngLat([0, 0])
           .addTo(map);
 
-        // Add event listener for marker drag end
         marker.on("dragend", () => {
           var lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
@@ -87,7 +80,6 @@ export default {
           console.log('latitude:' + this.latitude);
           console.log('longitude:' + this.longitude);
 
-          // Reverse geocode to get address
           tt.services
             .reverseGeocode({
               key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
@@ -102,7 +94,6 @@ export default {
             });
         });
 
-        // Center the map and marker based on user's location
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition((position) => {
             var userLocation = [
@@ -116,7 +107,7 @@ export default {
             console.log('Initial user location loaded.')
             console.log('latitude:' + this.latitude);
             console.log('longitude:' + this.longitude);
-            // Reverse geocode to get address
+
             tt.services
               .reverseGeocode({
                 key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
@@ -133,7 +124,6 @@ export default {
           });
         }
 
-        // Search box functionality
         var searchBoxOptions = {
           searchOptions: {
             key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
@@ -147,29 +137,23 @@ export default {
           noResultsMessage: "No results found.",
         };
 
-        if (!document.getElementById("searchbox")) {
+        if (!document.getElementById("search-input")) {
           var ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
           var searchBoxHTML = ttSearchBox.getSearchBoxHTML();
           document.getElementById("searchbar").appendChild(searchBoxHTML);
-          searchBoxHTML.id = "searchbox";
-          this.searchbarAppended = true
-          console.log('searchbox appended to searchbar')
-        }
+          searchBoxHTML.id = "search-input";
 
-        ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
-          var result = data.data.result;
-          var lngLat = result.position;
-          map.setCenter(lngLat);
-          marker.setLngLat(lngLat);
-          this.latitude = lngLat.lat;
-          this.longitude = lngLat.lng;
-          this.address = result.address.freeformAddress;
-        });
+          ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
+            var result = data.data.result;
+            var lngLat = result.position;
+            map.setCenter(lngLat);
+            marker.setLngLat(lngLat);
+            this.latitude = lngLat.lat;
+            this.longitude = lngLat.lng;
+            this.address = result.address.freeformAddress;
+          });
 
-        // Add the search box input handler if the element exists
-        var searchInput = document.getElementById("search-input");
-        if (searchInput) {
-          searchInput.addEventListener("input", (event) => {
+          searchBoxHTML.addEventListener("input", (event) => {
             var query = event.target.value;
             tt.services
               .fuzzySearch({
@@ -192,8 +176,6 @@ export default {
                 }
               });
           });
-        } else {
-          console.error("Element with id 'search-input' not found.");
         }
       } else {
         console.error("TomTom SDK not loaded properly.");
@@ -205,8 +187,8 @@ export default {
       this.initializeMap();
     });
     this.searchQuery = this.$route.query.q;
-    this.fetchResults();
-  },
+    /* this.fetchResults(); */
+  }
 };
 </script>
 
@@ -281,11 +263,11 @@ export default {
 
   <button class="btn btn-primary d-none" @click="console.log(this.apartments)">Test Apartments</button>
 
-  <div v-for="apartment in apartments">
+  <!--   <div v-for="apartment in apartments">
     <div v-if="calculateDistance(apartment.latitude, apartment.longitude, this.latitude, this.longitude) < 20">
       Appartamento
     </div>
-  </div>
+  </div> -->
 
   <section class="svg-wave"></section>
 </template>
