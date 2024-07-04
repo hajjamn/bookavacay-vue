@@ -1,9 +1,10 @@
-// RESEARCH BAR ADDRESS
+// RESEARCH BAR ADDRESS -----------------------------------
 
 .address-research {
     display: flex;
     width: 100%;
     justify-content: center;
+    margin-top: 20px;
 }
 
 .address-research-input {
@@ -22,6 +23,7 @@
     border-top-right-radius: 15px;
     border-top-left-radius: 15px;
     font-size: 20px;
+    font-weight: 600;
 }
 
 .address-research-input input {
@@ -41,4 +43,71 @@
     margin-left: 15px;
     font-size: 25px;
     align-self: center;
+}
+
+
+// FILTRI EXTRA --------------------------------------
+
+.filter-box {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.filter-container {
+    background-color: white;
+    padding: 10px;
+    gap: 8px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    margin-top: 20px;
+    display: flex;
+    width: 160px;
+    justify-content: center;
+    align-items: center;
+    color: #2889B6;
+}
+
+.filter-container img {
+    width: 17px;
+    height: 17px;
+}
+
+.all-filter-container {
+    background-color: white;
+    padding: 20px;
+    gap: 10px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    width: 720px;
+    justify-content: center;
+    color: #2889B6;
+    margin-bottom: 30px;
+}
+
+.numeric-filters {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.filter-num {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-weight: 600;
+}
+
+.input-num {
+    border: solid, 1px, #2889B6;
+    border-radius: 99999px;
+    width: 100px;
+}
+
+.filters-divider {
+    background-color: #2889B6;
+    height: 1px;
+    width: 100%;
+    margin: 10px 0;
 }
