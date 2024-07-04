@@ -19,11 +19,17 @@ export default {
 
     return { headerClass };
   },
+  methods: {
+    performSearch() {
+      this.$router.push({ name: 'research', query: { q: this.searchQuery } });
+    }
+  },
 
   components: {
   },
   data() {
     return {
+      searchQuery: ''
     }
   }
 }
@@ -37,8 +43,8 @@ export default {
       <div class="header-row">
         <img class="logo" src="/public/img/BookaVacay_01.png">
         <form action="">
-          <input type="text">
-          <button><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+          <input type="text" v-model="searchQuery">
+          <button @click="performSearch"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
         </form>
         <a>Register <br><span class="underline">or log in</span></a>
       </div>
@@ -49,5 +55,4 @@ export default {
 
 </template>
 
-<style>
-</style>
+<style></style>

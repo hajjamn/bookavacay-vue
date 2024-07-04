@@ -55,7 +55,7 @@ export default {
             </div>
         </section>
 
-        <button @click="calculateDistance(firstLat, firstLon, secondLat, secondLon)">Test</button>
+        <!-- <button @click="calculateDistance(firstLat, firstLon, secondLat, secondLon)">Test</button>
         <input type="text" v-model="firstLat" name="firstLat" value="44.270661682974485">
         <label for="firstLat">First Lat</label>
         <input type="text" v-model="firstLon" name="firstLon" value="11.291301837729694">
@@ -63,7 +63,7 @@ export default {
         <input type="text" v-model="secondLat" name="secondLat" value="44.2838767133773">
         <label for="secondLat">Second Lat</label>
         <input type="text" v-model="secondLon" name="secondLon" value="11.326890902470534">
-        <label for="secondLon">Second Lon</label>
+        <label for="secondLon">Second Lon</label> -->
         <section id="articles">
             <div class="container-article">
                 <h1>Our top choices:</h1>

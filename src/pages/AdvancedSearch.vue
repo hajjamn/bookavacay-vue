@@ -13,9 +13,20 @@ export default {
       secondLon: 11.326890902470534,
       secondAddress: '',
       distance: 0,
+      searchQuery: ''
     };
   },
   methods: {
+    async fetchResults() {
+      try {                    //inserire api
+        const response = await fetch(`http://127.0.0.1:8000/api/apartments/search?q=${this.searchQuery}`);
+        const data = await response.json();
+        // Process and display the data
+        console.log(data);
+      } catch (error) {
+        console.error('Error fetching search results:', error);
+      }
+    },
     fetchApartments(perPage) {
       axios
         .get("http://127.0.0.1:8000/api/apartments", {
@@ -174,7 +185,11 @@ export default {
     this.$nextTick(() => {
       this.initializeMap();
     });
-  }
+  },
+  created() {
+    this.searchQuery = this.$route.query.q;
+    this.fetchResults();
+  },
 };
 </script>
 
