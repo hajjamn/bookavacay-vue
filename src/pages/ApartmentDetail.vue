@@ -38,8 +38,10 @@ export default {
       </div>
       <!-- DATI DESTRA -->
       <div class="data-container">
-        <h1>{{ apartment.title }}</h1>
-        <h4>Indirizzo appartamento</h4>
+        <div>
+          <h1>{{ apartment.title }}</h1>
+          <h4>Indirizzo appartamento</h4>
+        </div>
         <div class="detail-container">
           <div class="detail-info">
               <img class="icon-detail" src="/public/img/icon_room_01.png" alt="">
