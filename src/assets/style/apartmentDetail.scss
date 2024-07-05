@@ -91,7 +91,7 @@
     background-position: bottom center;
     width: 50px;
     height: 50px;
-    margin: -9px 0 10px 200px;
+    margin: -9px 0 20px 200px;
   }
 
 .message-send {
@@ -106,4 +106,23 @@
 .message-send a {
     text-decoration: none;
     color: white;
+}
+
+.message-mail-label {
+    width: 500px;
+    background-color: #F7851D;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    padding: 8px 12px;
+    color: white;
+    font-size: 16px;
+}
+
+.message-mail-box {
+    width: 500px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;    
+    padding: 6px 12px;
+    border: none;
+    margin-bottom: 10px;
 }

@@ -119,10 +119,12 @@ export default {
       <textarea class="message-box" name="" id="" cols="30" rows="5" placeholder="Hi! Is the apartment still available?"></textarea>
       <div class="message-leg"></div>
       <div>
-        <button class="message-send">
-          <a href="">Send</a>
-        </button>
+        <p class="message-mail-label">You are not logged in, enter your e-mail to send the message:</p>
+        <input class="message-mail-box" type="e-mail" name="" id="">
       </div>
+      <button class="message-send">
+        <a href="">Send</a>
+      </button>
     </form>
    </section>
 
