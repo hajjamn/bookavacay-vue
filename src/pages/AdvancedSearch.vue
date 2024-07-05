@@ -41,23 +41,27 @@ export default {
     // },
     submitForm() {
       this.isSearching = true; // Set isSearching to true before API call
-      axios.post("http://127.0.0.1:8000/api/apartments/search", {
-        latitude: this.latitude,
-        longitude: this.longitude,
-        address: this.address,
-        beds: this.beds,
-        rooms: this.rooms,
-        services: this.services,
-        distance: this.distance
-      }).then(response => {
-        this.apartments = response.data.apartments;
-        console.log("Form submitted successfully:", response.data);
-      }).catch(error => {
-        console.error("Error submitting form:", error);
-      }).finally(() => {
-        this.isSearching = false; // Reset isSearching after API call completes
-        this.pastSearches = true;
-      });
+      axios
+        .post("http://127.0.0.1:8000/api/apartments/search", {
+          latitude: this.latitude,
+          longitude: this.longitude,
+          address: this.address,
+          beds: this.beds,
+          rooms: this.rooms,
+          services: this.services,
+          distance: this.distance,
+        })
+        .then((response) => {
+          this.apartments = response.data.apartments;
+          console.log("Form submitted successfully:", response.data);
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error);
+        })
+        .finally(() => {
+          this.isSearching = false; // Reset isSearching after API call completes
+          this.pastSearches = true;
+        });
     },
     initializeMap() {
       if (
@@ -82,9 +86,9 @@ export default {
           let lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
           this.longitude = lngLat.lng;
-          console.log('Marker dragged.')
-          console.log('latitude:' + this.latitude);
-          console.log('longitude:' + this.longitude);
+          console.log("Marker dragged.");
+          console.log("latitude:" + this.latitude);
+          console.log("longitude:" + this.longitude);
 
           tt.services
             .reverseGeocode({
@@ -96,7 +100,7 @@ export default {
               this.address = userAddress;
             })
             .catch((error) => {
-              console.error('Reverse geocode error:', error);
+              console.error("Reverse geocode error:", error);
             });
         });
 
@@ -110,9 +114,9 @@ export default {
             marker.setLngLat(userLocation);
             this.latitude = userLocation[1];
             this.longitude = userLocation[0];
-            console.log('Initial user location loaded.')
-            console.log('latitude:' + this.latitude);
-            console.log('longitude:' + this.longitude);
+            console.log("Initial user location loaded.");
+            console.log("latitude:" + this.latitude);
+            console.log("longitude:" + this.longitude);
 
             tt.services
               .reverseGeocode({
@@ -122,10 +126,10 @@ export default {
               .then((response) => {
                 let address = response.addresses[0].address.freeformAddress;
                 this.address = address;
-                console.log('Address:' + this.address)
+                console.log("Address:" + this.address);
               })
               .catch((error) => {
-                console.error('Reverse geocode error:', error);
+                console.error("Reverse geocode error:", error);
               });
           });
         }
@@ -144,7 +148,10 @@ export default {
         };
 
         if (!document.getElementById("search-input")) {
-          let ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
+          let ttSearchBox = new tt.plugins.SearchBox(
+            tt.services,
+            searchBoxOptions
+          );
           let searchBoxHTML = ttSearchBox.getSearchBoxHTML();
           document.getElementById("searchbar").appendChild(searchBoxHTML);
           searchBoxHTML.id = "search-input";
@@ -176,9 +183,9 @@ export default {
                   this.latitude = lngLat.lat;
                   this.longitude = lngLat.lng;
                   this.address = result.address.freeformAddress;
-                  console.log('Searchbox used.');
-                  console.log('latitude:' + this.latitude);
-                  console.log('longitude:' + this.longitude);
+                  console.log("Searchbox used.");
+                  console.log("latitude:" + this.latitude);
+                  console.log("longitude:" + this.longitude);
                 }
               });
           });
@@ -186,7 +193,7 @@ export default {
       } else {
         console.error("TomTom SDK not loaded properly.");
       }
-    }
+    },
   },
   mounted() {
     this.$nextTick(() => {
@@ -194,9 +201,6 @@ export default {
     });
     this.searchQuery = this.$route.query.q;
     /* this.fetchResults(); */
-  },
-  created() {
-    this.fetchResults();
   }
 };
 </script>
@@ -240,12 +244,11 @@ export default {
     <div class="container py-5">
       <div class="row justify-content-center">
         <div class="col-7">
-          <form @submit.prevent="submitForm">
-            <input type="hidden" v-model="latitude" name="latitude">
-            <input type="hidden" v-model="longitude" name="longitude">
-            <input type="hidden" v-model="address" name="address">
+          <input type="hidden" v-model="latitude" name="latitude" />
+          <input type="hidden" v-model="longitude" name="longitude" />
+          <input type="hidden" v-model="address" name="address" />
 
-            <!-- <div>
+          <!-- <div>
               <label for="rooms">Rooms</label>
               <input type="number" v-model="rooms" name="rooms">
             </div>
@@ -258,96 +261,90 @@ export default {
               <input type="number" v-model="distance" name="distance">
             </div> -->
 
-            <!-- filter head -->
-            <div class="filter-box">
-              <div class="filter-container">
-                <img src="/public/img/icon_filter_01.png" alt="">
-                <p>More filters</p>
-                <span><font-awesome-icon :icon="['fas', 'sort-down']" /></span>
-              </div>
+          <!-- filter head -->
+          <div class="filter-box">
+            <div class="filter-container">
+              <img src="/public/img/icon_filter_01.png" alt="" />
+              <p>More filters</p>
+              <span><font-awesome-icon :icon="['fas', 'sort-down']" /></span>
             </div>
-            <!-- filter body -->
-            <div class="filter-box">
-              <div class="all-filter-container">
-                <div class="numeric-filters">
-                  <div class="filter-num">
-                    <p>Min beds:</p>
-                    <input class="input-num" v-model="beds" name="beds" placeholder="0">
-                  </div>
-                  <div class="filter-num">
-                    <p>Min rooms:</p>
-                    <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="0">
-                  </div>
-                  <div class="filter-num">
-                    <p>Search km radius:</p>
-                    <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20">
-                  </div>
+          </div>
+          <!-- filter body -->
+          <div class="filter-box">
+            <div class="all-filter-container">
+              <div class="numeric-filters">
+                <div class="filter-num">
+                  <p>Min beds:</p>
+                  <input class="input-num" v-model="beds" name="beds" placeholder="0" />
                 </div>
-                <div class="filters-divider"></div>
+                <div class="filter-num">
+                  <p>Min rooms:</p>
+                  <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="0" />
+                </div>
+                <div class="filter-num">
+                  <p>Search km radius:</p>
+                  <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" />
+                </div>
+              </div>
+              <div class="filters-divider"></div>
 
-                <!-- SERVONO SERVICES API -->
-                <!-- <div class="filter-service">
+              <!-- SERVONO SERVICES API -->
+              <!-- <div class="filter-service">
                     <div v-for="service in services">
                         <input type="checkbox" name="" id="">
                         <p>{{ service.name }}</p>
                     </div>
                 </div> -->
-              </div>
             </div>
-
-            <ul>
-              <li v-for="result in results" :key="result.id">{{ result.title }}</li>
-            </ul>
+          </div>
 
 
-            <div class="row justify-content-center">
-              <div class="col-auto">
-                <label for="services">Services</label>
-                <input type="number" v-model="services" name="services">
-              </div>
-              <div class="col-auto text-center">
-                <button @click="submitForm" id="form-submit" type="submit" class="btn btn-warning">
-                  Search
-                </button>
-              </div>
+          <div class="row justify-content-center">
+            <div class="col-auto">
+              <label for="services">Services</label>
+              <input type="number" v-model="services" name="services" />
             </div>
-
-          </form>
+            <div class="col-auto text-center">
+              <button @click="submitForm" id="form-submit" type="submit" class="btn btn-warning">
+                Search
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-
   </main>
 
-  <button class="btn btn-primary d-none" @click="console.log(apartments)">Test Apartments</button>
+  <button class="btn btn-primary d-none" @click="console.log(apartments)">
+    Test Apartments
+  </button>
 
   <section id="articles" v-if="apartments.length > 0 || pastSearches || isSearching">
-
     <!-- La ricerca e' finita e abbiamo dei risultati -->
     <div class="container-article" v-if="apartments.length > 0 && !isSearching">
       <h1>Your results:</h1>
       <div class="row-article">
         <article v-for="apartment in apartments" class="col-article">
-          <img :src="getImageUrl(apartment.image)" alt="">
+          <img :src="getImageUrl(apartment.image)" alt="" />
           <p>{{ apartment.title }}</p>
           <div class="container-article-info">
             <div class="article-info primo">
-              <img class="icon-info" src="/public/img/icon_room_01.png" alt="">
+              <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
               <span>Rooms</span>
               <span>{{ apartment.rooms }}</span>
             </div>
             <div class="article-info secondo">
-              <img class="icon-info" src="/public/img/icon_space_01.png" alt="">
+              <img class="icon-info" src="/public/img/icon_space_01.png" alt="" />
               <span>m ^2</span>
               <span>{{ apartment.sqr_mt }}</span>
             </div>
             <div class="article-info terzo">
-              <img class="icon-info" src="/public/img/icon_room_01.png" alt="">
+              <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
               <span>Beds</span>
               <span>{{ apartment.beds }}</span>
             </div>
             <div class="article-info">
-              <img class="icon-info" src="/public/img/icon_bathroom_01.png" alt="">
+              <img class="icon-info" src="/public/img/icon_bathroom_01.png" alt="" />
               <span>Bathroom</span>
               <span>{{ apartment.bathrooms }}</span>
             </div>
@@ -373,7 +370,6 @@ export default {
         </div>
       </div>
     </div>
-
   </section>
 
   <section class="svg-wave"></section>
@@ -395,10 +391,9 @@ export default {
   }
 }
 
-
 @keyframes l13 {
   100% {
-    transform: rotate(1turn)
+    transform: rotate(1turn);
   }
 }
 
