@@ -13,3 +13,7 @@ export function calculateDistance(lat1, lon1, lat2, lon2) {
       console.log('Longitude: ' + lon1)
     })
 }
+
+export function getImageUrl(image) {
+  return `http://localhost:8000/storage/images/${image}`;
+}
