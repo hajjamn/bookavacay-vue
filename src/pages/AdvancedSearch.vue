@@ -18,7 +18,8 @@ export default {
       isSearching: false,
       pastSearches: false,
       query: this.$route.query.q,
-      results: []
+      results: [],
+      servicesList: []
     };
   },
   methods: {
@@ -39,6 +40,17 @@ export default {
     //     console.error('Error fetching search results:', error);
     //   }
     // },
+    fetchServices() {
+      axios
+        .get("http://127.0.0.1:8000/api/apartments/services")
+        .then((response) => {
+          this.servicesList = response.data.services;
+          console.log(this.servicesList)
+        })
+        .catch((error) => {
+          console.error("Error submitting form:", error);
+        })
+    },
     submitForm() {
       this.isSearching = true; // Set isSearching to true before API call
       axios
@@ -200,6 +212,7 @@ export default {
       this.initializeMap();
     });
     this.searchQuery = this.$route.query.q;
+    this.fetchServices();
     /* this.fetchResults(); */
   }
 };
@@ -261,58 +274,87 @@ export default {
               <input type="number" v-model="distance" name="distance">
             </div> -->
 
+
           <!-- filter head -->
-          <div class="filter-box">
+
+          <!-- PER ORA TI HO COMMENTATO LA TUA, POI VEDI COME MODIFICARE -->
+
+          <!--           <div class="filter-box">
             <div class="filter-container">
               <img src="/public/img/icon_filter_01.png" alt="" />
               <p>More filters</p>
               <span><font-awesome-icon :icon="['fas', 'sort-down']" /></span>
             </div>
-          </div>
-          <!-- filter body -->
-          <div class="filter-box">
-            <div class="all-filter-container">
-              <div class="numeric-filters">
-                <div class="filter-num">
-                  <p>Min beds:</p>
-                  <input class="input-num" v-model="beds" name="beds" placeholder="0" />
-                </div>
-                <div class="filter-num">
-                  <p>Min rooms:</p>
-                  <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="0" />
-                </div>
-                <div class="filter-num">
-                  <p>Search km radius:</p>
-                  <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" />
+          </div> -->
+
+          <div class="accordion mb-3" id="servicesAccordion">
+            <div class="accordion-item">
+              <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                  Apartment Services**
+                </button>
+              </h2>
+              <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#servicesAccordion">
+                <div class="accordion-body">
+                  <div class="row">
+
+                    <div class="col-2" v-for="service in servicesList">
+                      <label :for="service.name">{{ service.name }}</label>
+                      <input type="checkbox" name="services[]" :id="service.name" :value="service.id">
+                    </div>
+
+                  </div>
                 </div>
               </div>
-              <div class="filters-divider"></div>
+            </div>
 
-              <!-- SERVONO SERVICES API -->
-              <!-- <div class="filter-service">
+            <!-- filter body -->
+            <div class="filter-box">
+              <div class="all-filter-container">
+                <div class="numeric-filters">
+                  <div class="filter-num">
+                    <p>Min beds:</p>
+                    <input class="input-num" v-model="beds" name="beds" placeholder="0" />
+                  </div>
+                  <div class="filter-num">
+                    <p>Min rooms:</p>
+                    <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="0" />
+                  </div>
+                  <div class="filter-num">
+                    <p>Search km radius:</p>
+                    <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" />
+                  </div>
+                </div>
+                <div class="filters-divider"></div>
+
+                <!-- SERVONO SERVICES API -->
+                <!-- <div class="filter-service">
                     <div v-for="service in services">
                         <input type="checkbox" name="" id="">
                         <p>{{ service.name }}</p>
                     </div>
                 </div> -->
+              </div>
             </div>
-          </div>
 
 
-          <div class="row justify-content-center">
-            <div class="col-auto">
-              <label for="services">Services</label>
-              <input type="number" v-model="services" name="services" />
-            </div>
-            <div class="col-auto text-center">
-              <button @click="submitForm" id="form-submit" type="submit" class="btn btn-warning">
-                Search
-              </button>
+            <div class="row justify-content-center">
+              <div class="col-auto">
+                <label for="services">Services</label>
+                <input type="number" v-model="services" name="services" />
+              </div>
+              <div class="col-auto text-center">
+                <button @click="submitForm" id="form-submit" type="submit" class="btn btn-warning">
+                  Search
+                </button>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
   </main>
 
   <button class="btn btn-primary d-none" @click="console.log(apartments)">
