@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getImageUrl } from "../functions.js";
 
 export default {
-  props: ['id'],
+  props: ['id', 'currentUser'],
   data() {
     return {
       apartment: {},
@@ -20,7 +20,6 @@ export default {
       axios.get(`http://127.0.0.1:8000/api/apartments/${this.id}`)
         .then(res => {
           this.apartment = res.data.apartment;
-          // Imposta le coordinate dell'appartamento
           this.latitude = this.apartment.latitude;
           this.longitude = this.apartment.longitude;
           this.initializeMap();
@@ -44,7 +43,7 @@ export default {
         });
 
         let marker = new tt.Marker({
-          draggable: false, // Marker non trascinabile
+          draggable: false,
         })
           .setLngLat([this.longitude, this.latitude])
           .addTo(map);
@@ -52,12 +51,6 @@ export default {
         console.error("TomTom SDK not loaded properly.");
       }
     }
-  },
-  mounted() {
-    // Rimuovi la chiamata a initializeMap da qui
-    // this.$nextTick(() => {
-    //   this.initializeMap();
-    // });
   }
 };
 </script>
@@ -117,6 +110,7 @@ export default {
   </section>
 
   <!-- MESSAGGIO -->
+   <!--Da aggiungere a section qunado il login sarà lato client: v-if="apartment.user_id !== currentUser.id" -->
    <section>
     <form class="container-message">
       <label class="message-label">
