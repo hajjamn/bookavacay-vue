@@ -20,8 +20,13 @@ export default {
     return { headerClass };
   },
   methods: {
-    performSearch() {
-      this.$router.push({ name: 'research', query: { q: this.searchQuery } });
+    // performSearch() {
+    //   this.$router.push({ name: 'research', query: { q: this.searchQuery } });
+    // }
+    search() {
+      if (this.query) {
+        this.$router.push({ name: 'search', query: { q: this.query } });
+      }
     }
   },
 
@@ -29,7 +34,8 @@ export default {
   },
   data() {
     return {
-      searchQuery: ''
+      // searchQuery: ''
+      query: ''
     }
   }
 }
@@ -46,9 +52,9 @@ export default {
           <img class="logo" src="/public/img/BookaVacay_02.png">
         </RouterLink>
         <form action="" class="search-home">
-          <input type="text">
+          <input type="text" v-model="query" @keyup.enter="search" placeholder="Search...">
           <RouterLink to="/search">
-            <button><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
+            <button @click="search"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
           </RouterLink>
         </form>
         <h1 class="search-title">Apartments advanced research</h1>

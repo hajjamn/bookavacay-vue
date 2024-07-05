@@ -17,19 +17,28 @@ export default {
       services: null,
       isSearching: false,
       pastSearches: false,
+      query: this.$route.query.q,
+      results: []
     };
   },
   methods: {
     getImageUrl,
-    async fetchResults() {
-      try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/apartments/search?q=${this.searchQuery}`);
-        this.apartments = response.data.filtered_apartments;
-        console.log("Fetch results successful:", response.data);
-      } catch (error) {
-        console.error('Error fetching search results:', error);
-      }
+    fetchResults() {
+      axios.get('http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268', { params: { q: this.query } })
+        .then(response => {
+          this.results = response.data;
+        });
+      console.log(this.results);
     },
+    // async fetchResults() {
+    //   try {
+    //     const response = await axios.get(`http://127.0.0.1:8000/api/apartments/search?q=${this.searchQuery}`);
+    //     this.apartments = response.data.filtered_apartments;
+    //     console.log("Fetch results successful:", response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching search results:', error);
+    //   }
+    // },
     submitForm() {
       this.isSearching = true; // Set isSearching to true before API call
       axios.post("http://127.0.0.1:8000/api/apartments/search", {
@@ -185,6 +194,9 @@ export default {
     });
     this.searchQuery = this.$route.query.q;
     /* this.fetchResults(); */
+  },
+  created() {
+    this.fetchResults();
   }
 };
 </script>
@@ -282,6 +294,10 @@ export default {
                 </div> -->
               </div>
             </div>
+
+            <ul>
+              <li v-for="result in results" :key="result.id">{{ result.title }}</li>
+            </ul>
 
 
             <div class="row justify-content-center">
