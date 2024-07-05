@@ -1,0 +1,50 @@
+.apartment-detail-card {
+    display: flex;
+    padding: 30px 0;
+}
+
+.image-container {
+    object-fit: cover;
+    width: 400px;
+    height: 300px;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.data-container {
+    color: #2889B6;
+    padding: 15px 25px 15px 25px;
+    background-color: white;
+    width: 100%;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.detail-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.detail-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 18px;
+    color: #2889B6;
+    text-align: center;
+    padding: 3px 15px;
+}
+
+.icon-detail {
+    width: 40px;
+    height: 40px;
+}
+
+.icon-divider {
+    border: 1px solid #95CFE9;
+    height: 80px;
+}

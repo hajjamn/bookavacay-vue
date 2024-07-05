@@ -2,6 +2,7 @@
 @use './headerHome.scss';
 @use './contentHome.scss';
 @use './research.scss';
+@use './apartmentDetail.scss';
 
 
 // #app {
@@ -54,4 +55,8 @@ p {
 
 .flex {
   display: flex;
+}
+
+.container-sm {
+  width: 720px;
 }
