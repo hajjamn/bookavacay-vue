@@ -4,6 +4,7 @@ import { calculateDistance } from "../functions.js";
 import { getImageUrl } from "../functions.js";
 
 export default {
+  props: ['query'],
   data() {
     return {
       apartments: [],
@@ -31,15 +32,6 @@ export default {
         });
       console.log(this.results);
     },
-    // async fetchResults() {
-    //   try {
-    //     const response = await axios.get(`http://127.0.0.1:8000/api/apartments/search?q=${this.searchQuery}`);
-    //     this.apartments = response.data.filtered_apartments;
-    //     console.log("Fetch results successful:", response.data);
-    //   } catch (error) {
-    //     console.error('Error fetching search results:', error);
-    //   }
-    // },
     fetchServices() {
       axios
         .get("http://127.0.0.1:8000/api/apartments/services")
@@ -74,6 +66,9 @@ export default {
           this.isSearching = false; // Reset isSearching after API call completes
           this.pastSearches = true;
         });
+    },
+    automaticSearch() {
+      console.log(this.query)
     },
     initializeMap() {
       if (
@@ -213,6 +208,7 @@ export default {
     });
     this.searchQuery = this.$route.query.q;
     this.fetchServices();
+    this.automaticSearch();
     /* this.fetchResults(); */
   }
 };

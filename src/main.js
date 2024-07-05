@@ -28,7 +28,7 @@ const routes = [
     { path: '/', component: Home, name: 'home' },
     { path: '/research', component: Research, name: 'research' },
     { path: '/input', component: AppHeader, name: 'input' },
-    { path: '/search', component: AdvancedSearch, name: 'search' },
+    { path: '/search', component: AdvancedSearch, name: 'search', props: true },
     { path: '/apartments/:id', component: ApartmentDetail, name: ApartmentDetail, props: true }
 ]
 
