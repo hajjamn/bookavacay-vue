@@ -309,7 +309,7 @@ export default {
 
     <!-- La ricerca e' finita e abbiamo dei risultati -->
     <div class="container-article" v-if="apartments.length > 0 && !isSearching">
-      <h1>Your results!:</h1>
+      <h1>Your results:</h1>
       <div class="row-article">
         <article v-for="apartment in apartments" class="col-article">
           <img :src="getImageUrl(apartment.image)" alt="">
