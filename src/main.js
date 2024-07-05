@@ -5,6 +5,7 @@ import Home from './pages/Home.vue'
 import Research from './pages/Research.vue'
 import AdvancedSearch from './pages/AdvancedSearch.vue'
 import AppHeader from './components/AppHeader.vue'
+import ApartmentDetail from './pages/ApartmentDetail.vue'
 // import router from './router'
 
 
@@ -26,9 +27,9 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     { path: '/', component: Home, name: 'home' },
     { path: '/research', component: Research, name: 'research' },
-    {path: '/input', component: AppHeader, name: 'input' },
+    { path: '/input', component: AppHeader, name: 'input' },
     { path: '/search', component: AdvancedSearch, name: 'search' },
-
+    { path: '/apartments/:id', component: ApartmentDetail, name: ApartmentDetail, props: true }
 ]
 
 const router = createRouter({
