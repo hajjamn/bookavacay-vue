@@ -1,5 +1,6 @@
 <script>
-import axios from 'axios'
+import axios from 'axios';
+import { getImageUrl } from "../functions.js";
 
 
 export default {
@@ -14,9 +15,7 @@ export default {
         }
     },
     methods: {
-        getImageUrl(image) {
-            return `http://localhost:8000/storage/images/${image}`;
-        },
+        getImageUrl,
         fetchApartments(perPage) {
             axios.get('http://127.0.0.1:8000/api/apartments', {
                 params: {
