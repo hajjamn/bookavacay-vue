@@ -8,9 +8,6 @@ export default {
       apartment: {}
     };
   },
-  created() {
-    this.fetchApartment();
-  },
   methods: {
     fetchApartment() {
       axios.get(`http://127.0.0.1:8000/api/apartments/${this.id}`)
@@ -20,7 +17,25 @@ export default {
         .catch(error => {
           console.error('Error fetching apartment:', error);
         });
+    },
+    async checkLoginStatus() {
+      try {
+        const response = await axios.get('http://127.0.0.1:8000/api/check-login', {
+          withCredentials: true
+        });
+        if (response.data.loggedIn) {
+          console.log('User is logged in', response);
+        } else {
+          console.log('User is not logged in', response);
+        }
+      } catch (error) {
+        console.error('Error checking login status:', error);
+      }
     }
+  },
+  mounted() {
+    this.fetchApartment();
+    this.checkLoginStatus();
   }
 };
 </script>
