@@ -85,16 +85,16 @@ export default {
         let map = tt.map({
           key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
           container: "map",
-          center: [this.query.lon, this.query.lat],
+          center: [this.query.lng, this.query.lat],
           zoom: 15,
         });
 
         // inizializza il marker
         let marker = new tt.Marker({
-          draggable: false,
+          draggable: true,
         })
           // setta LAT e LON del marker e aggiungilo alla mappa
-          .setLngLat(this.query.lon, this.query.lat)
+          .setLngLat(this.query.lng, this.query.lat)
           .addTo(map);
 
         // Quando il marker viene spostato cambia la LAT e LON che vengono salvate
@@ -108,7 +108,7 @@ export default {
             // Chiama la funzione reverseGeocode() passando Key e coordinate salvate
             .reverseGeocode({
               key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-              position: { lng: this.query.lon, lat: this.query.lat },
+              position: { lng: this.query.lng, lat: this.query.lat },
             })
             // Imposta l'indirizzo (userAddress) e salvalo in this.address
             .then((response) => {
@@ -236,6 +236,7 @@ export default {
     this.fetchServices();
     this.automaticSearch();
     /* this.fetchResults(); */
+    console.log(this.query)
   }
 };
 </script>

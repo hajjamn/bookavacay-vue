@@ -49,7 +49,7 @@ export default {
         },
         search() {
 
-            this.$router.push({ name: 'search', query: { lat: this.latitude, lon: this.longitude, add: this.address } });
+            this.$router.push({ name: 'search', query: { lat: this.latitude, lng: this.longitude, add: this.address } });
 
         },
         initializeMap() {
@@ -227,9 +227,6 @@ export default {
     },
     mounted() {
         this.initializeMap();
-        console.log('LAT', this.latitude);
-        console.log('LON', this.longitude);
-        console.log('ADD', this.address);
     }
 }
 
