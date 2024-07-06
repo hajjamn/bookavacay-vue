@@ -71,11 +71,18 @@ export default {
       console.log(this.query)
     },
     initializeMap() {
+
+      // tt è l'oggetto con tutte le info di tomtom,
+      // tt.map ha le info della mappa 
+      // tt.services ha tutte le informazioni aggiuntive (ricerca, distanza, ecc...) 
+
+      // Se tt, tt.map, tt.services NON sono undefined => crea la mappa
       if (
         typeof tt !== "undefined" &&
         typeof tt.map !== "undefined" &&
         typeof tt.services !== "undefined"
       ) {
+        // Inizializza la mappa con TomTom Key, indicazione di dove inserirla nel HTML, dove centrarla e zoom
         let map = tt.map({
           key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
           container: "map",
@@ -83,25 +90,28 @@ export default {
           zoom: 15,
         });
 
+        // inizializza il marker
         let marker = new tt.Marker({
           draggable: true,
         })
+          // setta LAT e LON del marker e aggiungilo alla mappa
           .setLngLat([0, 0])
           .addTo(map);
 
+        // Quando il marker viene spostato cambia la LAT e LON che vengono salvate
         marker.on("dragend", () => {
           let lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
           this.longitude = lngLat.lng;
-          console.log("Marker dragged.");
-          console.log("latitude:" + this.latitude);
-          console.log("longitude:" + this.longitude);
 
+          // Servizi di TomTom (ricerca, distanza, ecc...)
           tt.services
+            // Chiama la funzione reverseGeocode() passando Key e coordinate salvate
             .reverseGeocode({
               key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
               position: lngLat,
             })
+            // Imposta l'indirizzo (userAddress) e salvalo in this.address
             .then((response) => {
               let userAddress = response.addresses[0].address.freeformAddress;
               this.address = userAddress;
@@ -111,25 +121,31 @@ export default {
             });
         });
 
+        // Se necessaria la geolocalizzazione dello user
         if (navigator.geolocation) {
+          // Imposta la localizzazione dello user recuperando la sua posizione attuale
           navigator.geolocation.getCurrentPosition((position) => {
             let userLocation = [
               position.coords.longitude,
               position.coords.latitude,
             ];
+            // Fai coincidere il centro della mappa e il marker con la posizione dello user (userPosition è un array con LAT e LON, è definita solo qui dentro)
             map.setCenter(userLocation);
             marker.setLngLat(userLocation);
             this.latitude = userLocation[1];
             this.longitude = userLocation[0];
             console.log("Initial user location loaded.");
-            console.log("latitude:" + this.latitude);
-            console.log("longitude:" + this.longitude);
+            // console.log("latitude:" + this.latitude);
+            // console.log("longitude:" + this.longitude);
 
+            // Servizi di TomTom (ricerca, distanza, ecc...)
             tt.services
+              // Chiama la funzione reverseGeocode() passando Key e coordinate salvate
               .reverseGeocode({
                 key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
                 position: userLocation,
               })
+              // Imposta l'indirizzo (userAddress) e salvalo in this.address
               .then((response) => {
                 let address = response.addresses[0].address.freeformAddress;
                 this.address = address;
@@ -141,12 +157,15 @@ export default {
           });
         }
 
+        // Inizializzazione searchbox 
         let searchBoxOptions = {
+          // Opzioni necessarie per la fuzzy search (Key, lingua, limite(?))
           searchOptions: {
             key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
             language: "en-GB",
             limit: 5,
           },
+          // Opzioni necessarie per l'autocompletamento (Key, lingua)
           autocompleteOptions: {
             key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
             language: "en-GB",
@@ -154,15 +173,19 @@ export default {
           noResultsMessage: "No results found.",
         };
 
+        // Se non esiste già un elemento con id 'search-input'
         if (!document.getElementById("search-input")) {
+          // Inizializza una searchBox tramite plugin di TomTom, passando i tt.services e le opzioni per Fuzzy search e autocompletamento
           let ttSearchBox = new tt.plugins.SearchBox(
             tt.services,
             searchBoxOptions
           );
+          // Rendi la searchbox inizializzata un elemento HTML e inseriscilo come 'figlio' di #searchbar
           let searchBoxHTML = ttSearchBox.getSearchBoxHTML();
           document.getElementById("searchbar").appendChild(searchBoxHTML);
           searchBoxHTML.id = "search-input";
 
+          // Prendi le informazioni passate dalla searchbar e impostale come coordinate salvate, centratura della mappa e del marker
           ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
             let result = data.data.result;
             let lngLat = result.position;
@@ -173,14 +196,18 @@ export default {
             this.address = result.address.freeformAddress;
           });
 
+          // Quando viene inserito un input nella searchbar 
           searchBoxHTML.addEventListener("input", (event) => {
+            // Imposta query come il valore inserito nell'input
             let query = event.target.value;
             tt.services
+              // effettua fuzzy search
               .fuzzySearch({
                 key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
                 query: query,
                 language: "en-GB",
               })
+              // In base alla risposta della fuzzy search setta le coordinate, centratura mappa, marker e indirizzo
               .then((response) => {
                 if (response.results && response.results.length > 0) {
                   let result = response.results[0];
@@ -190,9 +217,9 @@ export default {
                   this.latitude = lngLat.lat;
                   this.longitude = lngLat.lng;
                   this.address = result.address.freeformAddress;
-                  console.log("Searchbox used.");
-                  console.log("latitude:" + this.latitude);
-                  console.log("longitude:" + this.longitude);
+                  // console.log("Searchbox used.");
+                  // console.log("latitude:" + this.latitude);
+                  // console.log("longitude:" + this.longitude);
                 }
               });
           });
@@ -210,6 +237,7 @@ export default {
     this.fetchServices();
     this.automaticSearch();
     /* this.fetchResults(); */
+    console.log('Mattia',);
   }
 };
 </script>
