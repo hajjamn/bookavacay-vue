@@ -1,8 +1,6 @@
 <script>
-import axios from 'axios';
 import { getImageUrl } from "../functions.js";
-
-
+import axios from 'axios';
 
 export default {
     data() {
@@ -19,35 +17,73 @@ export default {
         getImageUrl,
         fetchApartments(perPage) {
             axios.get('http://127.0.0.1:8000/api/apartments', {
-                params: {
-                    perPage
-                }
+                params: { perPage },
+                withCredentials: true
             })
                 .then(res => {
-                    console.log(res.data.apartments.data)
-                    this.apartments = res.data.apartments.data
-                    console.log(this.apartments)
+                    console.log(res.data.apartments.data);
+                    this.apartments = res.data.apartments.data;
+                    console.log(this.apartments);
                 })
+                .catch(error => {
+                    console.error(error);
+                });
         },
         calculateDistance(lat1, lon1, lat2, lon2) {
             axios.get(`https://api.tomtom.com/routing/1/calculateRoute/${lat1},${lon1}:${lat2},${lon2}/json`, {
-                params: {
-                    key: this.key
-                }
-            }).then(res => {
-                console.log(res.data.routes[0].summary.lengthInMeters / 1000)
+                params: { key: this.key }
             })
+                .then(res => {
+                    console.log(res.data.routes[0].summary.lengthInMeters / 1000);
+                })
+                .catch(error => {
+                    console.error(error);
+                });
         },
         showApartment(apartmentId) {
-            //My code here
+            // Your code here
+        },
+        fetchUser() {
+            axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie')
+                .then(response => {
+                    console.log('CSRF token response:', response);
+                    // Proceed to fetch user data or perform other actions
+                })
+                .catch(error => {
+                    console.error('CSRF token could not be fetched:', error);
+                });
         }
     },
     created() {
-        this.fetchApartments(6)
+        this.fetchApartments(6);
     }
 }
 
+/* fetchUser() {
+            axios.get('http://127.0.0.1:8000/sanctum/csrf-cookie').then(response => {
+                axios.get('http://127.0.0.1:8000/api/user')
+                    .then(response => {
+                        console.log('User data:', response.data);
+                        // Handle user data as needed
+                    })
+                    .catch(error => {
+                        if (error.response.status === 401) {
+                            console.error('Unauthorized: Redirect to login page or handle accordingly');
+                            // Example: Redirect to login page
+                            this.$router.push('/login');
+                        } else {
+                            console.error('Error fetching user:', error);
+                            // Handle other errors
+                        }
+                    });
+            }).catch(error => {
+                console.error('CSRF token could not be fetched:', error);
+            });
+        } */
+
 </script>
+
+
 
 <template>
     <main>
@@ -95,6 +131,14 @@ export default {
 
                 </div>
             </div>
+            <div class="container py-5">
+                <div class="row justify-content-center">
+                    <div class="col-auto">
+                        <button @click="fetchUser" class="btn btn-warning">Fetch User</button>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </main>
     <!-- <img class="svg-wave" src="/public/img/wave.svg" alt=""> -->

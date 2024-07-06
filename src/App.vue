@@ -47,6 +47,9 @@ export default {
     <RouterLink to="/search">
       <button class="btn btn-warning me-3">Search</button>
     </RouterLink>
+    <RouterLink to="/login">
+      <button class="btn btn-warning me-3">Login</button>
+    </RouterLink>
     <!--     <RouterLink to="/research">
       <button class="btn btn-warning">Research</button>
     </RouterLink> -->

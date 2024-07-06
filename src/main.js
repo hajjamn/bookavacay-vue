@@ -6,7 +6,14 @@ import Research from './pages/Research.vue'
 import AdvancedSearch from './pages/AdvancedSearch.vue'
 import AppHeader from './components/AppHeader.vue'
 import ApartmentDetail from './pages/ApartmentDetail.vue'
+import Login from './pages/Login.vue'
 // import router from './router'
+
+//axios
+
+import axios from 'axios'
+
+axios.defaults.withCredentials = true
 
 
 import * as Vue from 'vue';
@@ -29,7 +36,8 @@ const routes = [
     { path: '/research', component: Research, name: 'research' },
     { path: '/input', component: AppHeader, name: 'input' },
     { path: '/search', component: AdvancedSearch, name: 'search', props: true },
-    { path: '/apartments/:id', component: ApartmentDetail, name: ApartmentDetail, props: true }
+    { path: '/apartments/:id', component: ApartmentDetail, name: ApartmentDetail, props: true },
+    { path: '/login', component: Login, name: 'login' },
 ]
 
 const router = createRouter({
