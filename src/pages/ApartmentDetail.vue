@@ -8,7 +8,13 @@ export default {
     return {
       apartment: {},
       latitude: null,
-      longitude: null
+      longitude: null,
+      message: {
+        sender_email: '',
+        content: '',
+        sender_name: ''
+      },
+      messageSentSuccessfully: false
     };
   },
   created() {
@@ -50,6 +56,22 @@ export default {
       } else {
         console.error("TomTom SDK not loaded properly.");
       }
+    },
+    sendMessage() {
+      axios
+        .post('http://127.0.0.1:8000/api/apartments/message', {
+          apartment_id: this.apartment.id,
+          sender_email: this.message.sender_email,
+          sender_name: this.message.sender_name,
+          content: this.message.content
+        })
+        .then(response => {
+          console.log('Message sent successfully');
+          this.messageSentSuccessfully = true
+        })
+        .catch(error => {
+          console.error('Error sending message:', error.response.data);
+        });
     }
   }
 };
@@ -72,33 +94,33 @@ export default {
         </div>
         <div class="detail-container">
           <div class="detail-info">
-              <img class="icon-detail" src="/public/img/icon_room_01.png" alt="">
-              <span>Rooms</span>
-              <span>{{ apartment.rooms }}</span>
+            <img class="icon-detail" src="/public/img/icon_room_01.png" alt="">
+            <span>Rooms</span>
+            <span>{{ apartment.rooms }}</span>
           </div>
           <div class="icon-divider"></div>
           <div class="detail-info">
-              <img class="icon-detail" src="/public/img/icon_space_01.png" alt="">
-              <span>m ^2</span>
-              <span>{{ apartment.sqr_mt }}</span>
+            <img class="icon-detail" src="/public/img/icon_space_01.png" alt="">
+            <span>m ^2</span>
+            <span>{{ apartment.sqr_mt }}</span>
           </div>
           <div class="icon-divider"></div>
           <div class="detail-info">
-              <img class="icon-detail" src="/public/img/icon_room_01.png" alt="">
-              <span>Beds</span>
-              <span>{{ apartment.beds }}</span>
+            <img class="icon-detail" src="/public/img/icon_room_01.png" alt="">
+            <span>Beds</span>
+            <span>{{ apartment.beds }}</span>
           </div>
           <div class="icon-divider"></div>
           <div class="detail-info">
-              <img class="icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
-              <span>Bathroom</span>
-              <span>{{ apartment.bathrooms }}</span>
+            <img class="icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+            <span>Bathroom</span>
+            <span>{{ apartment.bathrooms }}</span>
           </div>
         </div>
       </div>
     </div>
   </section>
-  
+
   <!-- MAPPA -->
   <section>
     <div class="container-sm container-map">
@@ -110,25 +132,28 @@ export default {
   </section>
 
   <!-- MESSAGGIO -->
-   <!--Da aggiungere a section qunado il login sarà lato client: v-if="apartment.user_id !== currentUser.id" -->
-   <section>
-    <form class="container-message">
+  <!--Da aggiungere a section qunado il login sarà lato client: v-if="apartment.user_id !== currentUser.id" -->
+  <section>
+    <form class="container-message" @submit.prevent="sendMessage">
+      <p class="py-3" v-if="messageSentSuccessfully === true">Message sent successfully!</p>
+      <label for="sender_name">Sender name</label>
+      <input type="text" required v-model="message.sender_name" name="sender_name" id="sender_name">
       <label class="message-label">
         <p>Send a message to the owner:</p>
       </label>
-      <textarea class="message-box" name="" id="" cols="30" rows="5" placeholder="Hi! Is the apartment still available?"></textarea>
+      <textarea class="message-box" name="content" id="content" v-model="message.content" cols="30" rows="5"
+        placeholder="Hi! Is the apartment still available?" required></textarea>
       <div class="message-leg"></div>
       <div>
         <p class="message-mail-label">You are not logged in, enter your e-mail to send the message:</p>
-        <input class="message-mail-box" type="e-mail" name="" id="">
+        <input class="message-mail-box" type="sender_email" name="sender_email" id="sender_email"
+          v-model="message.sender_email" required>
       </div>
-      <button class="message-send">
-        <a href="">Send</a>
+      <button class="message-send" type="submit">Send
       </button>
     </form>
-   </section>
+  </section>
 
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
