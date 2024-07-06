@@ -8,14 +8,14 @@ export default {
   data() {
     return {
       apartments: [],
-      latitude: 0,
-      longitude: 0,
+      latitude: 44.49508802535032, // default values instead of 0
+      longitude: 11.34181285319268, // default values instead of 0
       address: "",
       searchQuery: "",
       beds: null,
       rooms: null,
       distance: null,
-      services: null,
+      services: [],  //empty arrey instead of null
       isSearching: false,
       pastSearches: false,
       myQuery: this.$route.query.q,
@@ -26,7 +26,7 @@ export default {
   methods: {
     getImageUrl,
     fetchResults() {
-      axios.get('http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268', { params: { q: this.query } })
+      axios.get('http://127.0.0.1:8000/api/apartments/search', { params: { q: this.query } })  // before http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268
         .then(response => {
           this.results = response.data;
         });
@@ -87,7 +87,7 @@ export default {
           let marker = new tt.Marker({
             draggable: true,
           })
-            .setLngLat([0, 0])
+            .setLngLat([this.latitude, this.longitude])  // this.longitude, this.latitude instaed of 0,0
             .addTo(map);
 
           marker.on("dragend", () => {
@@ -112,35 +112,35 @@ export default {
               });
           });
 
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition((position) => {
-              let userLocation = [
-                position.coords.longitude,
-                position.coords.latitude,
-              ];
-              map.setCenter(userLocation);
-              marker.setLngLat(userLocation);
-              // this.latitude = userLocation[1];
-              // this.longitude = userLocation[0];
-              console.log("Initial user location loaded.");
-              console.log("latitude:" + this.latitude);
-              console.log("longitude:" + this.longitude);
+          // if (navigator.geolocation) {
+          //   navigator.geolocation.getCurrentPosition((position) => {
+          //     let userLocation = [
+          //       position.coords.longitude,
+          //       position.coords.latitude,
+          //     ];
+          //     map.setCenter(userLocation);
+          //     marker.setLngLat(userLocation);
+          //     // this.latitude = userLocation[1];
+          //     // this.longitude = userLocation[0];
+          //     console.log("Initial user location loaded.");
+          //     console.log("latitude:" + this.latitude);
+          //     console.log("longitude:" + this.longitude);
 
-              tt.services
-                .reverseGeocode({
-                  key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-                  position: userLocation,
-                })
-                .then((response) => {
-                  let address = response.addresses[0].address.freeformAddress;
-                  this.address = address;
-                  console.log("Address:" + this.address);
-                })
-                .catch((error) => {
-                  console.error("Reverse geocode error:", error);
-                });
-            });
-          }
+          //     tt.services
+          //       .reverseGeocode({
+          //         key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+          //         position: userLocation,
+          //       })
+          //       .then((response) => {
+          //         let address = response.addresses[0].address.freeformAddress;
+          //         this.address = address;
+          //         console.log("Address:" + this.address);
+          //       })
+          //       .catch((error) => {
+          //         console.error("Reverse geocode error:", error);
+          //       });
+          //   });
+          // }
 
           let searchBoxOptions = {
             searchOptions: {
@@ -209,8 +209,8 @@ export default {
     },
   },
   mounted() {
-    this.latitude = this.myQuery.latitude
-    this.longitude = this.myQuery.longitude
+    this.latitude = this.myQuery.latitude || this.latitude; // added || this.latitude
+    this.longitude = this.myQuery.longitude || this.longitude; // added || this.longitude
     this.$nextTick(() => {
       this.initializeMap().then(() => {
         this.automaticSearch();
