@@ -23,6 +23,7 @@ export default {
     // performSearch() {
     //   this.$router.push({ name: 'research', query: { q: this.searchQuery } });
     // }
+    // Vai alla pagina advancedSearch passando la query (valore inserito nella barra di ricerca)
     search() {
       if (this.query) {
         this.$router.push({ name: 'search', query: { q: this.query } });
@@ -52,7 +53,7 @@ export default {
           <img class="logo" src="/public/img/BookaVacay_02.png">
         </RouterLink>
         <form action="" class="search-home">
-          <input type="text" v-model="query" @keyup.enter="search" placeholder="Search..." :key="query">
+          <input type="text" v-model="query" @keyup.enter="search" placeholder="Search...">
           <RouterLink to="/search">
             <button @click="search"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
           </RouterLink>
