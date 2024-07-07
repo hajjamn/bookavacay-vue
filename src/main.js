@@ -27,8 +27,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 const routes = [
     { path: '/', component: Home, name: 'home' },
     { path: '/research', component: Research, name: 'research' },
-    { path: '/input', component: AppHeader, name: 'input' },
-    { path: '/search', component: AdvancedSearch, name: 'search', props: true },
+    { path: '/input', component: AppHeader, name: 'input', props: true },
+    { path: '/search', component: AdvancedSearch, name: 'AdvancedSearch', props: true },
     { path: '/apartments/:id', component: ApartmentDetail, name: ApartmentDetail, props: true }
 ]
 

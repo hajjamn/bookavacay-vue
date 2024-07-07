@@ -4,7 +4,11 @@ import { calculateDistance } from "../functions.js";
 import { getImageUrl } from "../functions.js";
 
 export default {
-  props: ['query'],
+  props: [
+    'queryLatitude',
+    'queryLongitude',
+    'queryAddress'
+  ],
   data() {
     return {
       apartments: [],
@@ -18,9 +22,12 @@ export default {
       services: null,
       isSearching: false,
       pastSearches: false,
-      query: this.$route.query.q,
       results: [],
-      servicesList: []
+      servicesList: [],
+      currentPage: 1,
+      lastPage: null,
+      ttSearchBox: null,
+      searchBoxHTML: null,
     };
   },
   methods: {
@@ -30,20 +37,18 @@ export default {
         .then(response => {
           this.results = response.data;
         });
-      console.log(this.results);
     },
     fetchServices() {
       axios
         .get("http://127.0.0.1:8000/api/apartments/services")
         .then((response) => {
           this.servicesList = response.data.services;
-          console.log(this.servicesList)
         })
         .catch((error) => {
           console.error("Error submitting form:", error);
         })
     },
-    submitForm() {
+    submitForm(n) {
       this.isSearching = true; // Set isSearching to true before API call
       axios
         .post("http://127.0.0.1:8000/api/apartments/search", {
@@ -54,10 +59,15 @@ export default {
           rooms: this.rooms,
           services: this.services,
           distance: this.distance,
+          page: n
         })
         .then((response) => {
-          this.apartments = response.data.apartments;
-          console.log("Form submitted successfully:", response.data);
+          /* this.apartments = response.data.apartments; */
+          let paginatedResults = response.data.apartments
+          this.apartments = paginatedResults.data
+          this.currentPage = paginatedResults.current_page
+          this.lastPage = paginatedResults.lastPage
+          console.log("Form submitted successfully:", paginatedResults);
         })
         .catch((error) => {
           console.error("Error submitting form:", error);
@@ -66,9 +76,6 @@ export default {
           this.isSearching = false; // Reset isSearching after API call completes
           this.pastSearches = true;
         });
-    },
-    automaticSearch() {
-      console.log(this.query)
     },
     initializeMap() {
 
@@ -89,6 +96,7 @@ export default {
           center: [0, 0],
           zoom: 15,
         });
+        console.log('Map set')
 
         // inizializza il marker
         let marker = new tt.Marker({
@@ -98,11 +106,14 @@ export default {
           .setLngLat([0, 0])
           .addTo(map);
 
+        console.log('Marker set')
         // Quando il marker viene spostato cambia la LAT e LON che vengono salvate
         marker.on("dragend", () => {
           let lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
           this.longitude = lngLat.lng;
+
+          console.log('Listening to marker drag')
 
           // Servizi di TomTom (ricerca, distanza, ecc...)
           tt.services
@@ -115,14 +126,31 @@ export default {
             .then((response) => {
               let userAddress = response.addresses[0].address.freeformAddress;
               this.address = userAddress;
+              console.log('Address and coordinates set at: ', lngLat)
             })
             .catch((error) => {
               console.error("Reverse geocode error:", error);
             });
         });
 
-        // Se necessaria la geolocalizzazione dello user
-        if (navigator.geolocation) {
+        //Se e' stata mandata una query con le props allora prendi quelle coordinate e indirizzo
+        if (this.queryLatitude !== undefined) {
+          //recupera i dati della query
+          let queryLocation = [
+            this.queryLongitude,
+            this.queryLatitude,
+          ];
+          console.log('Query found with this data: ', queryLocation, this.queryAddress)
+          //centra la mappa e il marker su quelle coordinate
+          map.setCenter(queryLocation);
+          marker.setLngLat(queryLocation);
+          this.latitude = queryLocation[1];
+          this.longitude = queryLocation[0];
+          this.address = this.queryAddress;
+          console.log('Location updated: ', this.latitude, this.longitude, this.address)
+        }
+        //Altrimenti, se necessaria la geolocalizzazione dello user
+        else if (navigator.geolocation) {
           // Imposta la localizzazione dello user recuperando la sua posizione attuale
           navigator.geolocation.getCurrentPosition((position) => {
             let userLocation = [
@@ -134,9 +162,9 @@ export default {
             marker.setLngLat(userLocation);
             this.latitude = userLocation[1];
             this.longitude = userLocation[0];
-            console.log("Initial user location loaded.");
-            // console.log("latitude:" + this.latitude);
-            // console.log("longitude:" + this.longitude);
+            console.log('Query not found, data now is: ', this.latitude, this.longitude)
+            console.log('Moved the marker to user location')
+
 
             // Servizi di TomTom (ricerca, distanza, ecc...)
             tt.services
@@ -173,57 +201,62 @@ export default {
           noResultsMessage: "No results found.",
         };
 
-        // Se non esiste già un elemento con id 'search-input'
-        if (!document.getElementById("search-input")) {
+        // Se non esiste già un elemento con id 'advanced-search-input'
+        if (!document.getElementById("advanced-search-input")) {
           // Inizializza una searchBox tramite plugin di TomTom, passando i tt.services e le opzioni per Fuzzy search e autocompletamento
-          let ttSearchBox = new tt.plugins.SearchBox(
+          this.ttSearchBox = new tt.plugins.SearchBox(
             tt.services,
             searchBoxOptions
           );
           // Rendi la searchbox inizializzata un elemento HTML e inseriscilo come 'figlio' di #searchbar
-          let searchBoxHTML = ttSearchBox.getSearchBoxHTML();
-          document.getElementById("searchbar").appendChild(searchBoxHTML);
-          searchBoxHTML.id = "search-input";
+          this.searchBoxHTML = this.ttSearchBox.getSearchBoxHTML();
+          document.getElementById("searchbar").appendChild(this.searchBoxHTML);
+          this.searchBoxHTML.id = "advanced-search-input";
+          console.log('Child appended')
 
-          // Prendi le informazioni passate dalla searchbar e impostale come coordinate salvate, centratura della mappa e del marker
-          ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
-            let result = data.data.result;
-            let lngLat = result.position;
-            map.setCenter(lngLat);
-            marker.setLngLat(lngLat);
-            this.latitude = lngLat.lat;
-            this.longitude = lngLat.lng;
-            this.address = result.address.freeformAddress;
-          });
-
-          // Quando viene inserito un input nella searchbar 
-          searchBoxHTML.addEventListener("input", (event) => {
-            // Imposta query come il valore inserito nell'input
-            let query = event.target.value;
-            tt.services
-              // effettua fuzzy search
-              .fuzzySearch({
-                key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-                query: query,
-                language: "en-GB",
-              })
-              // In base alla risposta della fuzzy search setta le coordinate, centratura mappa, marker e indirizzo
-              .then((response) => {
-                if (response.results && response.results.length > 0) {
-                  let result = response.results[0];
-                  let lngLat = result.position;
-                  map.setCenter(lngLat);
-                  marker.setLngLat(lngLat);
-                  this.latitude = lngLat.lat;
-                  this.longitude = lngLat.lng;
-                  this.address = result.address.freeformAddress;
-                  // console.log("Searchbox used.");
-                  // console.log("latitude:" + this.latitude);
-                  // console.log("longitude:" + this.longitude);
-                }
-              });
-          });
+        } else {
+          console.log('Ho trovato un search input')
         }
+
+        // Prendi le informazioni selezionate dai suggerimenti e impostale come coordinate salvate, centratura della mappa e del marker
+        this.ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
+          let result = data.data.result;
+          let lngLat = result.position;
+          map.setCenter(lngLat);
+          marker.setLngLat(lngLat);
+          this.latitude = lngLat.lat;
+          this.longitude = lngLat.lng;
+          this.address = result.address.freeformAddress;
+        });
+
+        // Quando viene inserito un input nella searchbar 
+        this.searchBoxHTML.addEventListener("input", (event) => {
+          // Imposta query come il valore inserito nell'input
+          let query = event.target.value;
+          tt.services
+            // effettua fuzzy search
+            .fuzzySearch({
+              key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+              query: query,
+              language: "en-GB",
+            })
+            // In base alla risposta della fuzzy search setta le coordinate, centratura mappa, marker e indirizzo
+            .then((response) => {
+              if (response.results && response.results.length > 0) {
+                let result = response.results[0];
+                let lngLat = result.position;
+                map.setCenter(lngLat);
+                marker.setLngLat(lngLat);
+                this.latitude = lngLat.lat;
+                this.longitude = lngLat.lng;
+                this.address = result.address.freeformAddress;
+                // console.log("Searchbox used.");
+                // console.log("latitude:" + this.latitude);
+                // console.log("longitude:" + this.longitude);
+              }
+            });
+        });
+
       } else {
         console.error("TomTom SDK not loaded properly.");
       }
@@ -232,13 +265,18 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.initializeMap();
+      if (this.queryLatitude !== undefined) {
+        // Wait for the map initialization to complete before calling submitForm()
+        setTimeout(() => {
+          this.submitForm(1);
+        }, 1000);
+      }
     });
-    this.searchQuery = this.$route.query.q;
     this.fetchServices();
-    this.automaticSearch();
     /* this.fetchResults(); */
-    console.log('Mattia',);
+    console.log('myQuery: ', this.$route.params);
   }
+
 };
 </script>
 
@@ -369,7 +407,7 @@ export default {
                 <input type="number" v-model="services" name="services" />
               </div>
               <div class="col-auto text-center">
-                <button @click="submitForm" id="form-submit" type="submit" class="btn btn-warning">
+                <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning">
                   Search
                 </button>
               </div>
@@ -417,6 +455,31 @@ export default {
           </div>
         </article>
       </div>
+
+      <div class="container nav-menu">
+        <div class="row py-3 justify-content-center align-items-baseline">
+          <div class="col-auto">
+            <font-awesome-icon :class="currentPage === 1 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angles-left']" @click="submitForm(1)" />
+          </div>
+          <div class="col-auto" @click="">
+            <font-awesome-icon :class="currentPage - 1 <= 0 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angle-left']" @click="submitForm(currentPage - 1)" />
+          </div>
+          <div class="col-auto">
+            <span class="fs-4 nav-number">{{ currentPage }}</span>
+          </div>
+          <div class="col-auto">
+            <font-awesome-icon :class="currentPage + 1 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angle-right']" @click="submitForm(currentPage + 1)" />
+          </div>
+          <div class="col-auto">
+            <font-awesome-icon :class="currentPage + 2 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angles-right']" @click="submitForm(lastPage)" />
+          </div>
+        </div>
+      </div>
+
     </div>
 
     <!-- La ricerca e' finita ma NON ci sono risultati -->
@@ -501,5 +564,30 @@ export default {
 
 #search-map {
   position: relative;
+}
+
+.nav-number {
+  color: var(--orange);
+  cursor: default;
+}
+
+.nav-btn {
+  cursor: pointer;
+  color: var(--orange);
+}
+
+.nav-btn:hover {
+  color: var(--light--orange);
+}
+
+.nav-btn-disabled {
+  cursor: default;
+  color: lightgrey;
+  pointer-events: none;
+}
+
+.nav-menu a {
+  color: currentColor;
+  text-decoration: none;
 }
 </style>
