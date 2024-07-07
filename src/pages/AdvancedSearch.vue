@@ -430,30 +430,32 @@ export default {
       <h1>Your results:</h1>
       <div class="row-article">
         <article v-for="apartment in apartments" class="col-article">
-          <img :src="getImageUrl(apartment.image)" alt="" />
-          <p>{{ apartment.title }}</p>
-          <div class="container-article-info">
-            <div class="article-info primo">
-              <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
-              <span>Rooms</span>
-              <span>{{ apartment.rooms }}</span>
+          <router-link :to="'/apartments/' + apartment.id">
+            <img :src="getImageUrl(apartment.image)" alt="" />
+            <p>{{ apartment.title }}</p>
+            <div class="container-article-info">
+              <div class="article-info primo">
+                <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
+                <span>Rooms</span>
+                <span>{{ apartment.rooms }}</span>
+              </div>
+              <div class="article-info secondo">
+                <img class="icon-info" src="/public/img/icon_space_01.png" alt="" />
+                <span>m ^2</span>
+                <span>{{ apartment.sqr_mt }}</span>
+              </div>
+              <div class="article-info terzo">
+                <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
+                <span>Beds</span>
+                <span>{{ apartment.beds }}</span>
+              </div>
+              <div class="article-info">
+                <img class="icon-info" src="/public/img/icon_bathroom_01.png" alt="" />
+                <span>Bathroom</span>
+                <span>{{ apartment.bathrooms }}</span>
+              </div>
             </div>
-            <div class="article-info secondo">
-              <img class="icon-info" src="/public/img/icon_space_01.png" alt="" />
-              <span>m ^2</span>
-              <span>{{ apartment.sqr_mt }}</span>
-            </div>
-            <div class="article-info terzo">
-              <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
-              <span>Beds</span>
-              <span>{{ apartment.beds }}</span>
-            </div>
-            <div class="article-info">
-              <img class="icon-info" src="/public/img/icon_bathroom_01.png" alt="" />
-              <span>Bathroom</span>
-              <span>{{ apartment.bathrooms }}</span>
-            </div>
-          </div>
+          </router-link>
         </article>
       </div>
 
