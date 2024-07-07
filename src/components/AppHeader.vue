@@ -22,23 +22,28 @@ export default {
   },
   data() {
     return {
-      // searchQuery: ''
-      query: {
+      myQuery: {
         latitude: '',
         longitude: '',
         address: ''
       },
+      ttSearchBox: null
     }
   },
   methods: {
-    // performSearch() {
-    //   this.$router.push({ name: 'research', query: { q: this.searchQuery } });
-    // }
     search() {
-      if (this.query) {
-        this.$router.push({ name: 'search', query: { q: this.query } });
+      if (this.myQuery) {
+        this.$router.push({
+          name: 'AdvancedSearch',
+          params: {
+            queryLatitude: this.myQuery.latitude,
+            queryLongitude: this.myQuery.longitude,
+            queryAddress: this.myQuery.address
+          }
+        });
       }
     },
+
     initializeSearchBox() {
       //Controlliamo se tt e tt.services sono definiti
       if (
@@ -67,12 +72,22 @@ export default {
         if (!document.getElementById("search-input")) {
 
           //inizializza una searchBox con il plugin di tom tom, passando per i tt.services e le opzioni di prima
-          let ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
+          this.ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
           //Rendi la searchbox inizializzata un elemento HTML e inseriscilo come figlio di #searchbar
-          let searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+          let searchBoxHTML = this.ttSearchBox.getSearchBoxHTML();
           document.getElementById("header-searchbar").appendChild(searchBoxHTML);
           searchBoxHTML.id = "search-input";
         }
+
+        //prendi le informazioni passate dalla searchbar e salvale in data()
+        this.ttSearchBox.on("tomtom.searchbox.resultselected", (data) => {
+          let result = data.data.result;
+          let lngLat = result.position;
+          this.myQuery.latitude = lngLat.lat;
+          this.myQuery.longitude = lngLat.lng;
+          this.myQuery.address = result.address.freeformAddress;
+          console.log('myQuery: ', this.myQuery)
+        });
 
 
       } else {
@@ -99,7 +114,7 @@ export default {
           <img class="logo" src="/public/img/BookaVacay_02.png">
         </RouterLink>
         <form action="" class="search-home">
-          <div @keyup.enter="search" placeholder="Search..." id="header-searchbar" :key="query"></div>
+          <div @keyup.enter="search" placeholder="Search..." id="header-searchbar" :key="myQuery"></div>
           <RouterLink to="/search">
             <button @click="search"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
           </RouterLink>
@@ -114,7 +129,6 @@ export default {
 
       </div>
     </div>
-    <!-- <RouterLink class="link-home" to="home">Home</RouterLink> -->
   </header>
 
 

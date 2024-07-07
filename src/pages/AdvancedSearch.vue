@@ -4,7 +4,11 @@ import { calculateDistance } from "../functions.js";
 import { getImageUrl } from "../functions.js";
 
 export default {
-  props: ['query'],
+  props: [
+    'queryLatitude',
+    'queryLongitude',
+    'queryAddress'
+  ],
   data() {
     return {
       apartments: [],
@@ -18,7 +22,6 @@ export default {
       services: null,
       isSearching: false,
       pastSearches: false,
-      query: this.$route.query.q,
       results: [],
       servicesList: []
     };
@@ -233,11 +236,10 @@ export default {
     this.$nextTick(() => {
       this.initializeMap();
     });
-    this.searchQuery = this.$route.query.q;
     this.fetchServices();
-    this.automaticSearch();
+    /* this.automaticSearch(); */
     /* this.fetchResults(); */
-    console.log('Mattia',);
+    console.log('myQuery: ', this.$route.params);
   }
 };
 </script>
