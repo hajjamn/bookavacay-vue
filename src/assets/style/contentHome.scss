@@ -136,8 +136,25 @@ main {
     border-right: 1px solid #95CFE9;
 }
 
+/* Media query SMARTPHONE */
 
-/* --------------------------WaVE------------------------------------- */
+@media screen and (max-width: 480px) {
 
-.svg-wave {
+    main {
+        padding-top: 0px;
+        max-width: 100%;
+    }
+
+    .container-title {
+        width: 100%;
+        height: 180px;
+        line-height: 38px;
+        background-image: url('https://picsum.photos/700/200/?blur');
+        background-size: cover;
+        border-radius: 15px;
+        font-size: 32px;
+        font-weight: bold;
+        letter-spacing: 2px;
+    }
+
 }
