@@ -50,6 +50,7 @@ export default {
     },
     submitForm(n) {
       this.isSearching = true; // Set isSearching to true before API call
+      console.log(n)
       axios
         .post("http://127.0.0.1:8000/api/apartments/search", {
           latitude: this.latitude,
@@ -66,7 +67,7 @@ export default {
           let paginatedResults = response.data.apartments
           this.apartments = paginatedResults.data
           this.currentPage = paginatedResults.current_page
-          this.lastPage = paginatedResults.lastPage
+          this.lastPage = paginatedResults.last_page
           console.log("Form submitted successfully:", paginatedResults);
         })
         .catch((error) => {
@@ -474,7 +475,7 @@ export default {
               :icon="['fas', 'angle-right']" @click="submitForm(currentPage + 1)" />
           </div>
           <div class="col-auto">
-            <font-awesome-icon :class="currentPage + 2 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+            <font-awesome-icon :class="currentPage === lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
               :icon="['fas', 'angles-right']" @click="submitForm(lastPage)" />
           </div>
         </div>

@@ -119,7 +119,7 @@ export default {
                             @click="fetchApartments(currentPage + 1)" />
                     </div>
                     <div class="col-auto">
-                        <font-awesome-icon :class="currentPage + 2 > lastPage ? 'nav-btn-disabled' : ''"
+                        <font-awesome-icon :class="currentPage === lastPage ? 'nav-btn-disabled' : ''"
                             class="fs-5 nav-btn" :icon="['fas', 'angles-right']" @click="fetchApartments(lastPage)" />
                     </div>
                 </div>
