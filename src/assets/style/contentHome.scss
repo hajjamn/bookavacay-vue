@@ -1,10 +1,6 @@
 /* --------------------------MAIN------------------------------------- */
 
-main {
-    background-color:#95CFE9 ;
-    // padding-top: 25px;
-    max-width: 100%;
-}
+
 
 
 .container-title {
@@ -89,18 +85,7 @@ main {
     border-top-right-radius: 0 !important;
 }
 
-.col-article p {
-    text-align: center;
-    background-color: #2889B6;
-    color: white;
-    margin-top: -4px;
-    font-size: 14px;
-    font-weight: 500;
-    height: 36px;
-    padding-top: 4px;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-}
+
 
 .container-article-info {
     display: flex;
@@ -114,50 +99,14 @@ main {
     position: relative;
 }
 
-.primo{
-    position: absolute;
-    bottom: 45px;
-    left: 40px;
-}
-
-.secondo{
-    position: absolute;
-    bottom: 45px;
-    left: 102px;
-
-}
-.terzo{
-    position: absolute;
-    bottom: 45px;
-    left: 162px;
-
-}
-.quarto{
-    position: absolute;
-    bottom: 45px;
-    left: 222px;
-
-}
 
 
 
 
 
 
-.article-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 11px;
-    color: #2889B6;
-    text-align: center;
-    background-color: var(--white);
-    padding: 7px;
-    aspect-ratio: 1/1;
-    width: 45px;
-    border-radius: 50%;
 
-}
+
 
 .span-info {
     display: none;
@@ -178,7 +127,7 @@ main {
 
 
 
-/* --------------------------RESPONSIVE PHONE------------------------------------- */
+/* --------------------------RESPONSIVE PC------------------------------------- */
 
 @media (min-width: 480px) {
 
@@ -274,6 +223,7 @@ main {
         text-align: center;
         padding: 3px 15px;
         width: 60px;
+
     
     }
     
@@ -290,18 +240,95 @@ main {
 
     .primo{
         border-right: 1px solid #95CFE9;
+        // position: relative;
     }
     
     .secondo{
         border-right: 1px solid #95CFE9;
+        // position: relative;
+
     }
     
     .terzo{
         border-right: 1px solid #95CFE9;
+        // position: relative;
+
     }
 
     .span-info {
         display: block;
+    }
+
+    main {
+        background-color:#95CFE9 ;
+        padding-top: 25px;
+        max-width: 100%;
+    }
+
+}
+
+
+/* --------------------------RESPONSIVE PHONE------------------------------------- */
+
+
+@media (max-width: 480px) {
+
+    .article-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-size: 11px;
+        color: #2889B6;
+        text-align: center;
+        background-color: var(--white);
+        padding: 7px;
+        aspect-ratio: 1/1;
+        width: 45px;
+        border-radius: 50%;
+    
+    }
+
+    .primo{
+        position: absolute;
+        bottom: 45px;
+        left: 40px;
+    }
+    
+    .secondo{
+        position: absolute;
+        bottom: 45px;
+        left: 102px;
+    
+    }
+    .terzo{
+        position: absolute;
+        bottom: 45px;
+        left: 162px;
+    
+    }
+    .quarto{
+        position: absolute;
+        bottom: 45px;
+        left: 222px;
+    
+    }
+
+    .col-article p {
+        text-align: center;
+        background-color: #2889B6;
+        color: white;
+        margin-top: -4px;
+        font-size: 14px;
+        font-weight: 500;
+        height: 36px;
+        padding-top: 4px;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    main {
+        background-color:#95CFE9 ;
+        max-width: 100%;
     }
 
 }
