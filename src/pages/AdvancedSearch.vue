@@ -33,14 +33,12 @@ export default {
         .then(response => {
           this.results = response.data;
         });
-      console.log(this.results);
     },
     fetchServices() {
       axios
         .get("http://127.0.0.1:8000/api/apartments/services")
         .then((response) => {
           this.servicesList = response.data.services;
-          console.log(this.servicesList)
         })
         .catch((error) => {
           console.error("Error submitting form:", error);
@@ -70,9 +68,6 @@ export default {
           this.pastSearches = true;
         });
     },
-    automaticSearch() {
-      console.log(this.query)
-    },
     initializeMap() {
 
       // tt è l'oggetto con tutte le info di tomtom,
@@ -92,6 +87,7 @@ export default {
           center: [0, 0],
           zoom: 15,
         });
+        console.log('Map set')
 
         // inizializza il marker
         let marker = new tt.Marker({
@@ -101,11 +97,14 @@ export default {
           .setLngLat([0, 0])
           .addTo(map);
 
+        console.log('Marker set')
         // Quando il marker viene spostato cambia la LAT e LON che vengono salvate
         marker.on("dragend", () => {
           let lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
           this.longitude = lngLat.lng;
+
+          console.log('Listening to marker drag')
 
           // Servizi di TomTom (ricerca, distanza, ecc...)
           tt.services
@@ -118,14 +117,31 @@ export default {
             .then((response) => {
               let userAddress = response.addresses[0].address.freeformAddress;
               this.address = userAddress;
+              console.log('Address and coordinates set at: ', lngLat)
             })
             .catch((error) => {
               console.error("Reverse geocode error:", error);
             });
         });
 
-        // Se necessaria la geolocalizzazione dello user
-        if (navigator.geolocation) {
+        //Se e' stata mandata una query con le props allora prendi quelle coordinate e indirizzo
+        if (this.queryLatitude !== undefined) {
+          //recupera i dati della query
+          let queryLocation = [
+            this.queryLongitude,
+            this.queryLatitude,
+          ];
+          console.log('Query found with this data: ', queryLocation, this.queryAddress)
+          //centra la mappa e il marker su quelle coordinate
+          map.setCenter(queryLocation);
+          marker.setLngLat(queryLocation);
+          this.latitude = queryLocation[1];
+          this.longitude = queryLocation[0];
+          this.address = this.queryAddress;
+          console.log('Location updated: ', this.latitude, this.longitude, this.address)
+        }
+        //Altrimenti, se necessaria la geolocalizzazione dello user
+        else if (navigator.geolocation) {
           // Imposta la localizzazione dello user recuperando la sua posizione attuale
           navigator.geolocation.getCurrentPosition((position) => {
             let userLocation = [
@@ -137,9 +153,9 @@ export default {
             marker.setLngLat(userLocation);
             this.latitude = userLocation[1];
             this.longitude = userLocation[0];
-            console.log("Initial user location loaded.");
-            // console.log("latitude:" + this.latitude);
-            // console.log("longitude:" + this.longitude);
+            console.log('Query not found, data now is: ', this.latitude, this.longitude)
+            console.log('Moved the marker to user location')
+
 
             // Servizi di TomTom (ricerca, distanza, ecc...)
             tt.services
@@ -235,12 +251,18 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.initializeMap();
+      if (this.queryLatitude !== undefined) {
+        // Wait for the map initialization to complete before calling submitForm()
+        setTimeout(() => {
+          this.submitForm();
+        }, 5000);
+      }
     });
     this.fetchServices();
-    /* this.automaticSearch(); */
     /* this.fetchResults(); */
     console.log('myQuery: ', this.$route.params);
   }
+
 };
 </script>
 
