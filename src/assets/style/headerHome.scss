@@ -54,7 +54,7 @@
     width: 400px;
     height: 45px;
     border: 3px solid #F7851D;
-    border-radius: 40px;
+    border-radius: 999px;
     padding: 0 20px;
 }
 
@@ -108,6 +108,46 @@
     cursor: pointer;
 }
 
+.register-btn a {
+    text-decoration: none;
+    color: white;
+}
+
+.register-btn-one {
+    font-size: 12px;
+}
+
 .header-row a span:hover {
     color: #FFB440;
+}
+
+/* Media query SMARTPHONE */
+
+@media screen and (max-width: 480px) {
+
+    .home-header .header-row {
+        padding: 16px 16px;
+    }
+    
+    .search-header .header-row {
+        padding: 16px 16px;
+    }
+
+    .home-header .header-row form input {
+        width: 200px;
+        height: 45px;
+        border-radius: 999px;
+        padding: 0 20px;
+    }
+
+    .home-header .header-row form button {
+        width: 42px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        border: none;
+        background-color: #F7851D;
+        color: white;
+        margin-left: 10px;
+    }
+
 }
