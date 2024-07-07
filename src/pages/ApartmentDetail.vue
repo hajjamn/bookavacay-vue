@@ -12,7 +12,6 @@ export default {
       message: {
         sender_email: '',
         content: '',
-        sender_name: ''
       },
       messageSentSuccessfully: false
     };
@@ -62,7 +61,6 @@ export default {
         .post('http://127.0.0.1:8000/api/apartments/message', {
           apartment_id: this.apartment.id,
           sender_email: this.message.sender_email,
-          sender_name: this.message.sender_name,
           content: this.message.content
         })
         .then(response => {
@@ -136,8 +134,6 @@ export default {
   <section>
     <form class="container-message" @submit.prevent="sendMessage">
       <p class="py-3" v-if="messageSentSuccessfully === true">Message sent successfully!</p>
-      <label for="sender_name">Sender name</label>
-      <input type="text" required v-model="message.sender_name" name="sender_name" id="sender_name">
       <label class="message-label">
         <p>Send a message to the owner:</p>
       </label>
