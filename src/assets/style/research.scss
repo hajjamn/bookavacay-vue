@@ -1,5 +1,32 @@
 // RESEARCH BAR ADDRESS -----------------------------------
 
+.map-flex {
+    display: flex;
+    justify-content: center;
+}
+
+.tt-search-box-input-container {
+    width: 100%;
+    height: 45px;
+    width: 400px;
+    border: 3px solid #F7851D;
+    background-color: white;
+    border-radius: 999px;
+    padding: 0 20px;
+}
+
+.searchbar-style {
+    display: flex;
+    justify-content: center;
+    left: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+.tt-search-box {
+    background: none;
+}
+
 .address-research {
     display: flex;
     width: 100%;
@@ -66,6 +93,7 @@
     justify-content: center;
     align-items: center;
     color: #2889B6;
+    border: none;
 }
 
 .filter-container img {
@@ -110,4 +138,102 @@
     height: 1px;
     width: 100%;
     margin: 10px 0;
+}
+
+.services-container {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    margin-bottom: 0;
+    padding-left: 0;
+}
+
+.service-box {
+    padding: 10px 10px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+
+}
+
+// Checkbox personalization
+
+.container-checkbox {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  
+.container-checkbox input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+  
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: white;
+    border: solid 1px #2889B6;
+    border-radius: 6px;
+}
+
+  /* When the checkbox is checked, add a blue background */
+  .container-checkbox input:checked ~ .checkmark {
+    background-color: #2889B6;
+    border: solid 2px white;
+  }
+
+.service-box:has(input.checkbox:checked) {
+    background-color: #2889B6;
+    color: white;
+  }
+  
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+  
+  /* Show the checkmark when checked */
+  .container-checkbox input:checked ~ .checkmark:after {
+    display: block;
+  }
+  
+  /* Style the checkmark/indicator */
+  .container-checkbox .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+  }
+
+
+/* Media query SMARTPHONE */
+
+@media screen and (max-width: 480px) {
+
+    .container {
+        margin: 0;
+        width: 100%;
+    }
+
 }

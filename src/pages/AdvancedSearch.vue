@@ -282,25 +282,19 @@ export default {
 
 <template>
   <main>
-    <section class="section-title mb-5">
-      <div class="container-title">
-        <div>
-          <p>The best way</p>
-          <p class="to-book">to book your next vacay</p>
-        </div>
-      </div>
-    </section>
 
+    <!-- MAP -->
     <section>
       <div class="container">
-        <div id="search-map">
-          <div id="searchbar"></div>
+        <div id="search-map" class="map-flex">
+          <div id="searchbar" class="searchbar-style" ></div>
           <div id="map"></div>
         </div>
       </div>
     </section>
 
-    <div class="container py-5">
+    <!-- USER GEO-DATA -->
+    <!-- <div class="container py-5">
       <div class="card">
         <div class="row justify-content-evenly text-center">
           <div class="col-auto p-3">
@@ -314,7 +308,7 @@ export default {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="container py-5">
       <div class="row justify-content-center">
@@ -323,6 +317,7 @@ export default {
           <input type="hidden" v-model="longitude" name="longitude" />
           <input type="hidden" v-model="address" name="address" />
 
+          <!-- SEARCH BASE INPUT -->
           <!-- <div>
               <label for="rooms">Rooms</label>
               <input type="number" v-model="rooms" name="rooms">
@@ -335,41 +330,28 @@ export default {
               <label for="distance">Distance</label>
               <input type="number" v-model="distance" name="distance">
             </div> -->
+            <!-- <div class="col-auto">
+              <label for="services">Services</label>
+              <input type="number" v-model="services" name="services" />
+            </div> -->
 
 
           <!-- filter head -->
-
-          <!-- PER ORA TI HO COMMENTATO LA TUA, POI VEDI COME MODIFICARE -->
-
-          <!--           <div class="filter-box">
-            <div class="filter-container">
+          <div class="filter-box">
+            <button 
+            class="filter-container" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
               <img src="/public/img/icon_filter_01.png" alt="" />
               <p>More filters</p>
               <span><font-awesome-icon :icon="['fas', 'sort-down']" /></span>
-            </div>
-          </div> -->
-
-          <div class="accordion mb-3" id="servicesAccordion">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Apartment Services**
-                </button>
-              </h2>
-              <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#servicesAccordion">
-                <div class="accordion-body">
-                  <div class="row">
-
-                    <div class="col-2" v-for="service in servicesList">
-                      <label :for="service.name">{{ service.name }}</label>
-                      <input type="checkbox" name="services[]" :id="service.name" :value="service.id">
-                    </div>
-
-                  </div>
+            </button>
+            <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#servicesAccordion">
+              <div class="accordion-body">
+                <div class="row">
                 </div>
               </div>
             </div>
+          </div>
 
             <!-- filter body -->
             <div class="filter-box">
@@ -377,11 +359,11 @@ export default {
                 <div class="numeric-filters">
                   <div class="filter-num">
                     <p>Min beds:</p>
-                    <input class="input-num" v-model="beds" name="beds" placeholder="0" />
+                    <input class="input-num" v-model="beds" name="beds" placeholder="1" />
                   </div>
                   <div class="filter-num">
                     <p>Min rooms:</p>
-                    <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="0" />
+                    <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="1" />
                   </div>
                   <div class="filter-num">
                     <p>Search km radius:</p>
@@ -390,22 +372,21 @@ export default {
                 </div>
                 <div class="filters-divider"></div>
 
-                <!-- SERVONO SERVICES API -->
-                <!-- <div class="filter-service">
-                    <div v-for="service in services">
-                        <input type="checkbox" name="" id="">
-                        <p>{{ service.name }}</p>
-                    </div>
-                </div> -->
+                <!-- Services -->
+                <ul class="services-container">
+                  <li class="service-box" v-for="service in servicesList">
+                    <label class="container-checkbox">
+                      <input class="checkbox" type="checkbox" name="services[]" :id="service.name" :value="service.id">
+                      <span class="checkmark"></span>
+                    </label>
+                    <label :for="service.name">{{ service.name }}</label>
+                  </li>
+                </ul>
               </div>
             </div>
 
 
             <div class="row justify-content-center">
-              <div class="col-auto">
-                <label for="services">Services</label>
-                <input type="number" v-model="services" name="services" />
-              </div>
               <div class="col-auto text-center">
                 <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning">
                   Search
@@ -415,7 +396,6 @@ export default {
           </div>
         </div>
       </div>
-    </div>
 
   </main>
 
