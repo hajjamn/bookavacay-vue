@@ -144,13 +144,13 @@ export default {
                     // Opzioni necessarie per la fuzzy search (Key, lingua, limite(?))
                     searchOptions: {
                         key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-                        language: "en-GB",
+                        language: "it-IT",
                         limit: 5,
                     },
                     // Opzioni necessarie per l'autocompletamento (Key, lingua)
                     autocompleteOptions: {
                         key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
-                        language: "en-GB",
+                        language: "it-IT",
                     },
                     noResultsMessage: "No results found.",
                 };
@@ -327,6 +327,7 @@ export default {
 #map {
     width: 100%;
     height: 500px;
+    display: none;
 }
 
 #searchbar {

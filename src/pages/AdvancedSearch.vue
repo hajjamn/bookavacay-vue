@@ -94,8 +94,15 @@ export default {
           draggable: true,
         })
           // setta LAT e LON del marker e aggiungilo alla mappa
-          .setLngLat(this.query.lng, this.query.lat)
+          .setLngLat({ lng: this.query.lng, lat: this.query.lat })
           .addTo(map);
+
+        // setta latitudine e longitudine = a quelle del marker
+        this.latitude = this.query.lat
+        this.longitude = this.query.lng
+
+        this.submitForm();
+        console.log('marker: ', marker)
 
         // Quando il marker viene spostato cambia la LAT e LON che vengono salvate
         marker.on("dragend", () => {
