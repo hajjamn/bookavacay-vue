@@ -43,14 +43,14 @@ export default {
 
   <AppHeader></AppHeader>
   <!-- <AppContent></AppContent> -->
-  <div class="px-5 py-3">
+  <!-- <div class="px-5 py-3">
     <RouterLink to="/search">
       <button class="btn btn-warning me-3">Search</button>
-    </RouterLink>
-    <!--     <RouterLink to="/research">
+    </RouterLink> -->
+  <!--     <RouterLink to="/research">
       <button class="btn btn-warning">Research</button>
     </RouterLink> -->
-  </div>
+  <!-- </div> -->
   <RouterView />
   <!-- <AppFooter></AppFooter> -->
 
