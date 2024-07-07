@@ -51,7 +51,7 @@ export default {
         typeof tt.services !== "undefined"
       ) {
         //Sono definiti, procediamo!
-        console.log('tt and tt.services not undefined')
+        console.log('SearchBox inizialitaion begun. tt and tt.services not undefined')
 
         //Inizializzazione della searchbox
         let searchBoxOptions = {
@@ -92,7 +92,7 @@ export default {
 
       } else {
         //Non sono definiti quindi RIP
-        console.log('tt or tt.services undefined')
+        console.error('tt or tt.services undefined')
       }
     }
   },
