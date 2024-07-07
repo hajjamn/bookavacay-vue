@@ -16,8 +16,19 @@ export default {
           return 'search-header';
       }
     });
-
     return { headerClass };
+  },
+  components: {
+  },
+  data() {
+    return {
+      // searchQuery: ''
+      query: {
+        latitude: '',
+        longitude: '',
+        address: ''
+      },
+    }
   },
   methods: {
     // performSearch() {
@@ -27,17 +38,53 @@ export default {
       if (this.query) {
         this.$router.push({ name: 'search', query: { q: this.query } });
       }
-    }
-  },
+    },
+    initializeSearchBox() {
+      //Controlliamo se tt e tt.services sono definiti
+      if (
+        typeof tt !== "undefined" &&
+        typeof tt.services !== "undefined"
+      ) {
+        //Sono definiti, procediamo!
+        console.log('tt and tt.services not undefined')
 
-  components: {
-  },
-  data() {
-    return {
-      // searchQuery: ''
-      query: ''
+        //Inizializzazione della searchbox
+        let searchBoxOptions = {
+          //Opzioni necessarie per la fuzzy search
+          searchOptions: {
+            key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+            language: "en-GB",
+            limit: 5
+          },
+          autocompleteOptions: {
+            key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+            language: "en-GB",
+          },
+          noResultsMessage: "No results found.",
+        };
+
+        //Se non esiste gia' un elemento con id 'search-input'
+        if (!document.getElementById("search-input")) {
+
+          //inizializza una searchBox con il plugin di tom tom, passando per i tt.services e le opzioni di prima
+          let ttSearchBox = new tt.plugins.SearchBox(tt.services, searchBoxOptions);
+          //Rendi la searchbox inizializzata un elemento HTML e inseriscilo come figlio di #searchbar
+          let searchBoxHTML = ttSearchBox.getSearchBoxHTML();
+          document.getElementById("header-searchbar").appendChild(searchBoxHTML);
+          searchBoxHTML.id = "search-input";
+        }
+
+
+      } else {
+        //Non sono definiti quindi RIP
+        console.log('tt or tt.services undefined')
+      }
     }
+  },
+  mounted() {
+    this.initializeSearchBox()
   }
+
 }
 
 </script>
@@ -52,7 +99,7 @@ export default {
           <img class="logo" src="/public/img/BookaVacay_02.png">
         </RouterLink>
         <form action="" class="search-home">
-          <input type="text" v-model="query" @keyup.enter="search" placeholder="Search...">
+          <div @keyup.enter="search" placeholder="Search..." id="header-searchbar" :key="query"></div>
           <RouterLink to="/search">
             <button @click="search"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
           </RouterLink>
@@ -74,4 +121,16 @@ export default {
 
 </template>
 
-<style></style>
+<style>
+#header-searchbar .tt-search-box-input-container,
+#header-searchbar .-focus,
+#header-searchbar .-focused {
+  border: 0 !important;
+  transition: none !important;
+  border-color: white !important;
+}
+
+#header-searchbar svg {
+  display: none;
+}
+</style>
