@@ -13,20 +13,24 @@ export default {
             firstLon: '',
             secondLat: '',
             secondLon: '',
+            currentPage: 1,
+            lastPage: null,
         }
     },
     methods: {
         getImageUrl,
-        fetchApartments(perPage) {
+        fetchApartments(n) {
             axios.get('http://127.0.0.1:8000/api/apartments', {
                 params: {
-                    perPage
+                    page: n
                 }
             })
-                .then(res => {
-                    console.log(res.data.apartments.data)
-                    this.apartments = res.data.apartments.data
-                    console.log(this.apartments)
+                .then(response => {
+                    let results = response.data.apartments
+                    this.apartments = results.data
+                    this.currentPage = results.current_page
+                    this.lastPage = results.last_page
+                    console.log(results)
                 })
         },
         calculateDistance(lat1, lon1, lat2, lon2) {
@@ -43,7 +47,7 @@ export default {
         }
     },
     created() {
-        this.fetchApartments(6)
+        this.fetchApartments(1)
     }
 }
 
@@ -95,6 +99,31 @@ export default {
 
                 </div>
             </div>
+
+            <div class="container nav-menu">
+                <div class="row py-3 justify-content-center align-items-baseline">
+                    <div class="col-auto">
+                        <font-awesome-icon :class="currentPage === 1 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+                            :icon="['fas', 'angles-left']" @click="fetchApartments(1)" />
+                    </div>
+                    <div class="col-auto" @click="">
+                        <font-awesome-icon :class="currentPage - 1 <= 0 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+                            :icon="['fas', 'angle-left']" @click="fetchApartments(currentPage - 1)" />
+                    </div>
+                    <div class="col-auto">
+                        <span class="fs-4 nav-number">{{ currentPage }}</span>
+                    </div>
+                    <div class="col-auto">
+                        <font-awesome-icon :class="currentPage + 1 > lastPage ? 'nav-btn-disabled' : ''"
+                            class="fs-5 nav-btn" :icon="['fas', 'angle-right']"
+                            @click="fetchApartments(currentPage + 1)" />
+                    </div>
+                    <div class="col-auto">
+                        <font-awesome-icon :class="currentPage + 2 > lastPage ? 'nav-btn-disabled' : ''"
+                            class="fs-5 nav-btn" :icon="['fas', 'angles-right']" @click="fetchApartments(lastPage)" />
+                    </div>
+                </div>
+            </div>
         </section>
     </main>
     <!-- <img class="svg-wave" src="/public/img/wave.svg" alt=""> -->
@@ -131,5 +160,30 @@ export default {
     .svg-wave {
         height: 100px;
     }
+}
+
+.nav-number {
+    color: var(--orange);
+    cursor: default;
+}
+
+.nav-btn {
+    cursor: pointer;
+    color: var(--orange);
+}
+
+.nav-btn:hover {
+    color: var(--light--orange);
+}
+
+.nav-btn-disabled {
+    cursor: default;
+    color: lightgrey;
+    pointer-events: none;
+}
+
+.nav-menu a {
+    color: currentColor;
+    text-decoration: none;
 }
 </style>
