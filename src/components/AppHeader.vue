@@ -43,7 +43,6 @@ export default {
         });
       }
     },
-
     initializeSearchBox() {
       //Controlliamo se tt e tt.services sono definiti
       if (
@@ -87,6 +86,30 @@ export default {
           this.myQuery.longitude = lngLat.lng;
           this.myQuery.address = result.address.freeformAddress;
           console.log('myQuery: ', this.myQuery)
+        });
+
+        // Quando viene inserito un input nella searchbar 
+        document.getElementById('search-input').addEventListener("input", (event) => {
+          // Imposta query come il valore inserito nell'input
+          let query = event.target.value;
+          tt.services
+            // effettua fuzzy search
+            .fuzzySearch({
+              key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
+              query: query,
+              language: "en-GB",
+            })
+            // In base alla risposta della fuzzy search setta le coordinate, centratura mappa, marker e indirizzo
+            .then((response) => {
+              if (response.results && response.results.length > 0) {
+                let result = response.results[0];
+                let lngLat = result.position;
+                this.myQuery.latitude = lngLat.lat;
+                this.myQuery.longitude = lngLat.lng;
+                this.myQuery.address = result.address.freeformAddress;
+                console.log('Hai schiacciato qualcosa e ora myQuery e`: ', this.myQuery)
+              }
+            });
         });
 
 
