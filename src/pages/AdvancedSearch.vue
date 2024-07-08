@@ -28,9 +28,15 @@ export default {
       lastPage: null,
       ttSearchBox: null,
       searchBoxHTML: null,
+      showFilters: false,
+      filtersVisible: false, 
     };
   },
   methods: {
+    toggleFilters() {
+      this.filtersVisible = !this.filtersVisible;
+      this.showFilters = !this.showFilters;
+    },
     getImageUrl,
     fetchResults() {
       axios.get('http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268', { params: { q: this.query } })
@@ -283,25 +289,19 @@ export default {
 
 <template>
   <main>
-    <section class="section-title mb-5">
-      <div class="container-title">
-        <div>
-          <p>The best way</p>
-          <p class="to-book">to book your next vacay</p>
-        </div>
-      </div>
-    </section>
 
+    <!-- MAP -->
     <section>
-      <div class="container">
-        <div id="search-map">
-          <div id="searchbar"></div>
+      <div class="container-map-search">
+        <div id="search-map" class="map-flex">
+          <div id="searchbar" class="searchbar-style" ></div>
           <div id="map"></div>
         </div>
       </div>
     </section>
 
-    <div class="container py-5">
+    <!-- USER GEO-DATA -->
+    <!-- <div class="container py-5">
       <div class="card">
         <div class="row justify-content-evenly text-center">
           <div class="col-auto p-3">
@@ -315,15 +315,16 @@ export default {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-7">
+    <div >
+      <div class="flex justify-content-center">
+        <div class="col-md-7">
           <input type="hidden" v-model="latitude" name="latitude" />
           <input type="hidden" v-model="longitude" name="longitude" />
           <input type="hidden" v-model="address" name="address" />
 
+          <!-- SEARCH BASE INPUT -->
           <!-- <div>
               <label for="rooms">Rooms</label>
               <input type="number" v-model="rooms" name="rooms">
@@ -336,82 +337,58 @@ export default {
               <label for="distance">Distance</label>
               <input type="number" v-model="distance" name="distance">
             </div> -->
+            <!-- <div class="col-auto">
+              <label for="services">Services</label>
+              <input type="number" v-model="services" name="services" />
+            </div> -->
 
 
           <!-- filter head -->
-
-          <!-- PER ORA TI HO COMMENTATO LA TUA, POI VEDI COME MODIFICARE -->
-
-          <!--           <div class="filter-box">
-            <div class="filter-container">
+          <div class="filter-box" >
+            <button class="filter-container" type="button" :class="{ 'border-radius': !filtersVisible }" @click="toggleFilters">
               <img src="/public/img/icon_filter_01.png" alt="" />
               <p>More filters</p>
-              <span><font-awesome-icon :icon="['fas', 'sort-down']" /></span>
-            </div>
-          </div> -->
-
-          <div class="accordion mb-3" id="servicesAccordion">
-            <div class="accordion-item">
-              <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                  Apartment Services**
-                </button>
-              </h2>
-              <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#servicesAccordion">
-                <div class="accordion-body">
-                  <div class="row">
-
-                    <div class="col-2" v-for="service in servicesList">
-                      <label :for="service.name">{{ service.name }}</label>
-                      <input type="checkbox" name="services[]" :id="service.name" :value="service.id">
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
+            </button>
+          </div>
 
             <!-- filter body -->
-            <div class="filter-box">
-              <div class="all-filter-container">
-                <div class="numeric-filters">
-                  <div class="filter-num">
-                    <p>Min beds:</p>
-                    <input class="input-num" v-model="beds" name="beds" placeholder="0" />
-                  </div>
-                  <div class="filter-num">
-                    <p>Min rooms:</p>
-                    <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="0" />
-                  </div>
-                  <div class="filter-num">
-                    <p>Search km radius:</p>
-                    <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" />
-                  </div>
+          <div>
+            <div class="all-filter-container" v-show="showFilters">
+              <div class="numeric-filters">
+                <div class="filter-num">
+                  <p>Min beds:</p>
+                  <input class="input-num" v-model="beds" name="beds" placeholder="1" />
                 </div>
-                <div class="filters-divider"></div>
-
-                <!-- SERVONO SERVICES API -->
-                <!-- <div class="filter-service">
-                    <div v-for="service in services">
-                        <input type="checkbox" name="" id="">
-                        <p>{{ service.name }}</p>
-                    </div>
-                </div> -->
+                <div class="filter-num">
+                  <p>Min rooms:</p>
+                  <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="1" />
+                </div>
+                <div class="filter-num">
+                  <p>Search km radius:</p>
+                  <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" />
+                </div>
               </div>
+              <div class="filters-divider"></div>
+
+              <!-- Services -->
+              <ul class="services-container">
+                <li class="service-box" v-for="service in servicesList">
+                  <label class="container-checkbox">
+                    <input class="checkbox" type="checkbox" name="services[]" :id="service.name" :value="service.id">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label :for="service.name">{{ service.name }}</label>
+                </li>
+              </ul>
             </div>
+          </div>
 
 
-            <div class="row justify-content-center">
-              <div class="col-auto">
-                <label for="services">Services</label>
-                <input type="number" v-model="services" name="services" />
-              </div>
-              <div class="col-auto text-center">
-                <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning">
-                  Search
-                </button>
-              </div>
+          <div class="row justify-content-center">
+            <div class="col-auto text-center">
+              <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning mt-3">
+                Search
+              </button>
             </div>
           </div>
         </div>
@@ -424,41 +401,54 @@ export default {
     Test Apartments
   </button>
 
-  <section id="articles" v-if="apartments.length > 0 || pastSearches || isSearching">
+  <section class="container-search" v-if="apartments.length > 0 || pastSearches || isSearching">
     <!-- La ricerca e' finita e abbiamo dei risultati -->
-    <div class="container-article" v-if="apartments.length > 0 && !isSearching">
+    <div class="container-search-results" v-if="apartments.length > 0 && !isSearching">
       <h1>Your results:</h1>
-      <div class="row-article">
-        <article v-for="apartment in apartments" class="col-article">
-          <router-link :to="'/apartments/' + apartment.id">
-            <img :src="getImageUrl(apartment.image)" alt="" />
-            <p>{{ apartment.title }}</p>
-            <div class="container-article-info">
-              <div class="article-info primo">
-                <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
-                <span>Rooms</span>
-                <span>{{ apartment.rooms }}</span>
+
+        <!-- Singolo apartamento ciclato -->
+        <div v-for="apartment in apartments" >
+          <router-link :to="'/apartments/' + apartment.id" class="search-apartment-detail-card">
+            <!-- IMMAGINE SINISTRA -->
+            <div>
+              <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
+            </div>
+            <!-- DATI DESTRA -->
+            <div class="search-data-container">
+              <div>
+                <h2>{{ apartment.title }}</h2>
+                <h5>{{ apartment.address }}</h5>
               </div>
-              <div class="article-info secondo">
-                <img class="icon-info" src="/public/img/icon_space_01.png" alt="" />
-                <span>m ^2</span>
-                <span>{{ apartment.sqr_mt }}</span>
-              </div>
-              <div class="article-info terzo">
-                <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
-                <span>Beds</span>
-                <span>{{ apartment.beds }}</span>
-              </div>
-              <div class="article-info">
-                <img class="icon-info" src="/public/img/icon_bathroom_01.png" alt="" />
-                <span>Bathroom</span>
-                <span>{{ apartment.bathrooms }}</span>
+              <div class="search-detail-container">
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                  <span>Rooms</span>
+                  <span>{{ apartment.rooms }}</span>
+                </div>
+                <div class="search-icon-divider"></div>
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
+                  <span>m ^2</span>
+                  <span>{{ apartment.sqr_mt }}</span>
+                </div>
+                <div class="search-icon-divider"></div>
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                  <span>Beds</span>
+                  <span>{{ apartment.beds }}</span>
+                </div>
+                <div class="search-icon-divider"></div>
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+                  <span>Bathroom</span>
+                  <span>{{ apartment.bathrooms }}</span>
+                </div>
               </div>
             </div>
           </router-link>
-        </article>
-      </div>
+        </div>
 
+      <!-- Paginazione -->
       <div class="container nav-menu">
         <div class="row py-3 justify-content-center align-items-baseline">
           <div class="col-auto">
@@ -477,7 +467,7 @@ export default {
               :icon="['fas', 'angle-right']" @click="submitForm(currentPage + 1)" />
           </div>
           <div class="col-auto">
-            <font-awesome-icon :class="currentPage === lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+            <font-awesome-icon :class="currentPage + 2 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
               :icon="['fas', 'angles-right']" @click="submitForm(lastPage)" />
           </div>
         </div>
@@ -505,6 +495,8 @@ export default {
   </section>
 
   <section class="svg-wave"></section>
+
+
 </template>
 
 <style scoped>
