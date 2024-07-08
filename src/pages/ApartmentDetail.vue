@@ -115,6 +115,12 @@ export default {
             <span>{{ apartment.bathrooms }}</span>
           </div>
         </div>
+        <div class="container">
+          <p>Services:</p>
+          <ul>
+            <li v-for="service in apartment.services" :key="service.id">{{ service.name }}</li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
