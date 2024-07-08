@@ -431,7 +431,6 @@ export default {
               <h5>{{ apartment.address }}</h5>
             </div>
             <div class="search-detail-container">
-              <div class="search-detail-container">
                 <div class="search-detail-info">
                   <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
                   <span>Rooms</span>
@@ -455,7 +454,6 @@ export default {
                   <span>Bathroom</span>
                   <span>{{ apartment.bathrooms }}</span>
                 </div>
-              </div>
             </div>
           </div>
         </router-link>
