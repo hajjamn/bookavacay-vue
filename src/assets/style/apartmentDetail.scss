@@ -1,6 +1,6 @@
 .apartment-detail-card {
     display: flex;
-    padding: 30px 0;
+    padding-top: 30px;
 }
 
 .image-container {
@@ -96,6 +96,7 @@
 
 .message-send {
     background-color: #F7851D;
+    color: white;
     border-radius: 15px;
     margin-bottom: 30px;
     padding: 8px 12px;
@@ -125,4 +126,79 @@
     padding: 6px 12px;
     border: none;
     margin-bottom: 10px;
+}
+
+.container-service-detail {
+    width: 720px;
+    border-radius: 15px;
+    margin: 15px auto;
+    background-color: white;
+    padding: 15px;
+    color: #2889B6;
+}
+
+.service-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.service-detail li {
+    list-style: none;
+    color: white;
+    background-color: #2889B6;
+    border-radius: 8px;
+    padding: 8px;
+    margin: 8px;
+}
+
+.detail-service-list {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+}
+
+
+@media (max-width: 480px) {
+
+    .apartment-detail-card {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .image-container {
+        width: 450px;
+        border-top-right-radius: 15px;
+        border-bottom-left-radius: 0px;
+    }
+    
+    .data-container {
+        width: 450px;
+        border-top-right-radius: 0px;
+        border-bottom-left-radius: 15px;
+        gap: 10px;
+    }
+
+    .container-service-detail {
+        width: 400px;
+    }
+
+    .message-label {
+        width: 300px;
+    }
+    
+    .message-box {
+        width: 300px;
+    }
+
+    .message-mail-label {
+        width: 350px;
+        text-align: center;
+    }
+    
+    .message-mail-box {
+        width: 350px;
+        padding: 12px 12px;
+    }
+
 }

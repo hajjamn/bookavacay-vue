@@ -117,6 +117,14 @@ export default {
         </div>
       </div>
     </div>
+    <div class="container-service-detail">
+      <div class="service-detail">
+        <p>Services:</p>
+        <ul class="detail-service-list">
+          <li v-for="service in apartment.services" :key="service.id">{{ service.name }}</li>
+        </ul>
+      </div>
+    </div>
   </section>
 
   <!-- MAPPA -->
