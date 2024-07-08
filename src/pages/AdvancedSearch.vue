@@ -433,7 +433,7 @@ export default {
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                  <img class="search-icon-detail" src="/public/img/icon_bed_01.png" alt="">
                   <span>Beds</span>
                   <span>{{ apartment.beds }}</span>
                 </div>

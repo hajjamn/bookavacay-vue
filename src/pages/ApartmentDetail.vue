@@ -104,7 +104,7 @@ export default {
           </div>
           <div class="icon-divider"></div>
           <div class="detail-info">
-            <img class="icon-detail" src="/public/img/icon_room_01.png" alt="">
+            <img class="icon-detail" src="/public/img/icon_bed_01.png" alt="">
             <span>Beds</span>
             <span>{{ apartment.beds }}</span>
           </div>
