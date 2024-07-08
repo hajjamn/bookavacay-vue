@@ -74,22 +74,22 @@ export default {
                             <div class="container-article-info">
                                 <div class="article-info primo">
                                     <img class="icon-info" src="/public/img/icon_room_01.png" alt="">
-                                    <span>Rooms</span>
+                                    <span class="span-info">Rooms</span>
                                     <span>{{ apartment.rooms }}</span>
                                 </div>
                                 <div class="article-info secondo">
                                     <img class="icon-info" src="/public/img/icon_space_01.png" alt="">
-                                    <span>m ^2</span>
+                                    <span class="span-info">m ^2</span>
                                     <span>{{ apartment.sqr_mt }}</span>
                                 </div>
                                 <div class="article-info terzo">
                                     <img class="icon-info" src="/public/img/icon_room_01.png" alt="">
-                                    <span>Beds</span>
+                                    <span class="span-info">Beds</span>
                                     <span>{{ apartment.beds }}</span>
                                 </div>
-                                <div class="article-info">
+                                <div class="article-info quarto">
                                     <img class="icon-info" src="/public/img/icon_bathroom_01.png" alt="">
-                                    <span>Bathroom</span>
+                                    <span class="span-info">Bathroom</span>
                                     <span>{{ apartment.bathrooms }}</span>
                                 </div>
                             </div>
