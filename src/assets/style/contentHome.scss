@@ -199,6 +199,7 @@ a{
         border-bottom-right-radius: 15px;
         height: 57px;
         line-height: 14px;
+        align-items: center;
     }
     
     .container-article-info:nth-child(1) {
@@ -256,6 +257,11 @@ a{
         background-color:#95CFE9 ;
         padding-top: 25px;
         max-width: 100%;
+    }
+
+    .divider-home {
+        border: 1px solid #95CFE9;
+        height: 39px;
     }
 
 
