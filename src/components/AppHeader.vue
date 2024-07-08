@@ -9,11 +9,11 @@ export default {
     const route = useRoute();
 
     const headerClass = computed(() => {
-      switch (route.path) {
-        case '/':
-          return 'home-header';
-        case '/search':
-          return 'search-header';
+      const path = route.path;
+      if (path === '/') {
+        return 'home-header';
+      } else if (path === '/search' || /^\/apartments\/\d+$/.test(path)) {
+        return 'secondary-header';
       }
     });
     return { headerClass };
@@ -132,20 +132,21 @@ export default {
   <header :class="headerClass">
     <div class="header-container">
       <div class="header-row">
+
         <img class="logo-home" src="/public/img/BookaVacay_01.png">
         <RouterLink to="/" class="back-home">
           <img class="logo" src="/public/img/BookaVacay_02.png">
         </RouterLink>
+
         <form action="" class="search-home">
           <div @keyup.enter="search" placeholder="Search..." id="header-searchbar" :key="myQuery"></div>
           <RouterLink to="/search">
             <button @click="search"><font-awesome-icon :icon="['fas', 'magnifying-glass']" /></button>
           </RouterLink>
         </form>
-        <h1 class="search-title">Apartments advanced research</h1>
 
         <div class="register-btn">
-          <a href="http://127.0.0.1:8000/register"><span>Register</span></a>
+          <a class="register-btn-one" href="http://127.0.0.1:8000/register"><span>Register</span></a>
           <br>
           <a href="http://127.0.0.1:8000/login"><span class="underline">or log in</span></a>
         </div>
