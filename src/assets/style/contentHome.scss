@@ -1,7 +1,9 @@
 /* --------------------------MAIN------------------------------------- */
 
 
-
+a{
+    text-decoration: none !important;
+}
 
 .container-title {
     width: 100%;
@@ -60,10 +62,7 @@
 
 
 
-.col-article {
-    text-align: center;
-    margin: 4px auto;
-}
+
 
 .col-article img {
     height: 250px;
@@ -129,22 +128,24 @@
         gap: 9px 23px;
         padding: 0px 35px;
         margin-top: -5px;
+        height: auto;
     }
 
     .col-article img {
-        height: 100px;
+        height: 130px;
         width: 100%;
         border-top-right-radius: 15px;
         border-top-left-radius: 15px;
     }
 
     .container-article {
-        width: 865px;
-        height: 440px;
+        width: 1021px;
+        height: auto;
         background-color: white;
         margin: 0 auto;
         margin-top: 15px;
         border-radius: 15px;
+        padding-bottom: 15px;
     }
 
     .container-article h1 {
@@ -333,6 +334,11 @@
         // gap: 9px 23px;
         // padding: 0px 35px;
         // margin-top: -5px;
+    }
+
+    .col-article {
+        text-align: center;
+        margin: 4px auto;
     }
 
 }
