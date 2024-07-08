@@ -30,15 +30,15 @@
                 <div class="numeric-filters">
                     <div class="filter-num">
                         <p>Min beds:</p>
-                        <input class="input-num" type="number" name="" id="" placeholder="1">
+                        <input class="input-num" type="number" name="" id="" placeholder="1" min="1">
                     </div>
                     <div class="filter-num">
                         <p>Min rooms:</p>
-                        <input class="input-num" type="number" name="" id="" placeholder="1">
+                        <input class="input-num" type="number" name="" id="" placeholder="1" min="1">
                     </div>
                     <div class="filter-num">
                         <p>Search km radius:</p>
-                        <input class="input-num" type="number" name="" id="" placeholder="1">
+                        <input class="input-num" type="number" name="" id="" placeholder="1" min="0">
                     </div>
                 </div>
                 <div class="filters-divider"></div>

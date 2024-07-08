@@ -29,7 +29,7 @@ export default {
       ttSearchBox: null,
       searchBoxHTML: null,
       showFilters: false,
-      filtersVisible: false, 
+      filtersVisible: false,
     };
   },
   methods: {
@@ -54,7 +54,17 @@ export default {
           console.error("Error submitting form:", error);
         })
     },
+    validateForm() {
+      if (this.beds < 0 || this.rooms < 0 || this.distance < 0) {
+        alert("Beds, rooms, and distance must be non-negative values.");
+        return false;
+      }
+      return true;
+    },
     submitForm(n) {
+      if (!this.validateForm()) {
+        return;
+      }
       this.isSearching = true; // Set isSearching to true before API call
       console.log(n)
       axios
@@ -294,7 +304,7 @@ export default {
     <section>
       <div class="container-map-search">
         <div id="search-map" class="map-flex">
-          <div id="searchbar" class="searchbar-style" ></div>
+          <div id="searchbar" class="searchbar-style"></div>
           <div id="map"></div>
         </div>
       </div>
@@ -317,7 +327,7 @@ export default {
       </div>
     </div> -->
 
-    <div >
+    <div>
       <div class="flex justify-content-center">
         <div class="col-md-7">
           <input type="hidden" v-model="latitude" name="latitude" />
@@ -337,35 +347,36 @@ export default {
               <label for="distance">Distance</label>
               <input type="number" v-model="distance" name="distance">
             </div> -->
-            <!-- <div class="col-auto">
+          <!-- <div class="col-auto">
               <label for="services">Services</label>
               <input type="number" v-model="services" name="services" />
             </div> -->
 
 
           <!-- filter head -->
-          <div class="filter-box" >
-            <button class="filter-container" type="button" :class="{ 'border-radius': !filtersVisible }" @click="toggleFilters">
+          <div class="filter-box">
+            <button class="filter-container" type="button" :class="{ 'border-radius': !filtersVisible }"
+              @click="toggleFilters">
               <img src="/public/img/icon_filter_01.png" alt="" />
               <p>More filters</p>
             </button>
           </div>
 
-            <!-- filter body -->
+          <!-- filter body -->
           <div>
             <div class="all-filter-container" v-show="showFilters">
               <div class="numeric-filters">
                 <div class="filter-num">
                   <p>Min beds:</p>
-                  <input class="input-num" v-model="beds" name="beds" placeholder="1" />
+                  <input class="input-num" type="number" v-model="beds" name="beds" placeholder="1" min="1" />
                 </div>
                 <div class="filter-num">
                   <p>Min rooms:</p>
-                  <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="1" />
+                  <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="1" min="1" />
                 </div>
                 <div class="filter-num">
                   <p>Search km radius:</p>
-                  <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" />
+                  <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" min="1" />
                 </div>
               </div>
               <div class="filters-divider"></div>
@@ -406,47 +417,47 @@ export default {
     <div class="container-search-results" v-if="apartments.length > 0 && !isSearching">
       <h1>Your results:</h1>
 
-        <!-- Singolo apartamento ciclato -->
-        <div v-for="apartment in apartments" >
-          <router-link :to="'/apartments/' + apartment.id" class="search-apartment-detail-card">
-            <!-- IMMAGINE SINISTRA -->
+      <!-- Singolo apartamento ciclato -->
+      <div v-for="apartment in apartments">
+        <router-link :to="'/apartments/' + apartment.id" class="search-apartment-detail-card">
+          <!-- IMMAGINE SINISTRA -->
+          <div>
+            <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
+          </div>
+          <!-- DATI DESTRA -->
+          <div class="search-data-container">
             <div>
-              <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
+              <h2>{{ apartment.title }}</h2>
+              <h5>{{ apartment.address }}</h5>
             </div>
-            <!-- DATI DESTRA -->
-            <div class="search-data-container">
-              <div>
-                <h2>{{ apartment.title }}</h2>
-                <h5>{{ apartment.address }}</h5>
+            <div class="search-detail-container">
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                <span>Rooms</span>
+                <span>{{ apartment.rooms }}</span>
               </div>
-              <div class="search-detail-container">
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
-                  <span>Rooms</span>
-                  <span>{{ apartment.rooms }}</span>
-                </div>
-                <div class="search-icon-divider"></div>
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
-                  <span>m ^2</span>
-                  <span>{{ apartment.sqr_mt }}</span>
-                </div>
-                <div class="search-icon-divider"></div>
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
-                  <span>Beds</span>
-                  <span>{{ apartment.beds }}</span>
-                </div>
-                <div class="search-icon-divider"></div>
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
-                  <span>Bathroom</span>
-                  <span>{{ apartment.bathrooms }}</span>
-                </div>
+              <div class="search-icon-divider"></div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
+                <span>m ^2</span>
+                <span>{{ apartment.sqr_mt }}</span>
+              </div>
+              <div class="search-icon-divider"></div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                <span>Beds</span>
+                <span>{{ apartment.beds }}</span>
+              </div>
+              <div class="search-icon-divider"></div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+                <span>Bathroom</span>
+                <span>{{ apartment.bathrooms }}</span>
               </div>
             </div>
-          </router-link>
-        </div>
+          </div>
+        </router-link>
+      </div>
 
       <!-- Paginazione -->
       <div class="container nav-menu">
