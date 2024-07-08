@@ -115,11 +115,22 @@
     justify-content: center;
     cursor: pointer;
     line-height: 8px;
+    text-decoration: none;
+}
+
+.header-row .register-btn a {
+    color: white;
+    text-decoration: none;
 }
 
 .header-row a span:hover {
     color: #FFB440;
 }
+
+.register-btn a {
+    text-decoration: none;
+}
+
 
 
 // responsive 

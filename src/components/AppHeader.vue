@@ -146,7 +146,6 @@ export default {
 
         <div class="register-btn">
           <a href="http://127.0.0.1:8000/register"><span>Register</span></a>
-          <br>
           <a href="http://127.0.0.1:8000/login"><span class="underline">or log in</span></a>
         </div>
 
