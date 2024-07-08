@@ -285,7 +285,7 @@ export default {
 
     <!-- MAP -->
     <section>
-      <div class="container">
+      <div class="container-map-search">
         <div id="search-map" class="map-flex">
           <div id="searchbar" class="searchbar-style" ></div>
           <div id="map"></div>
@@ -403,39 +403,54 @@ export default {
     Test Apartments
   </button>
 
-  <section id="articles" v-if="apartments.length > 0 || pastSearches || isSearching">
+  <section class="container-search" v-if="apartments.length > 0 || pastSearches || isSearching">
     <!-- La ricerca e' finita e abbiamo dei risultati -->
-    <div class="container-article" v-if="apartments.length > 0 && !isSearching">
+    <div class="container-search-results" v-if="apartments.length > 0 && !isSearching">
       <h1>Your results:</h1>
-      <div class="row-article">
-        <article v-for="apartment in apartments" class="col-article">
-          <img :src="getImageUrl(apartment.image)" alt="" />
-          <p>{{ apartment.title }}</p>
-          <div class="container-article-info">
-            <div class="article-info primo">
-              <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
-              <span>Rooms</span>
-              <span>{{ apartment.rooms }}</span>
-            </div>
-            <div class="article-info secondo">
-              <img class="icon-info" src="/public/img/icon_space_01.png" alt="" />
-              <span>m ^2</span>
-              <span>{{ apartment.sqr_mt }}</span>
-            </div>
-            <div class="article-info terzo">
-              <img class="icon-info" src="/public/img/icon_room_01.png" alt="" />
-              <span>Beds</span>
-              <span>{{ apartment.beds }}</span>
-            </div>
-            <div class="article-info">
-              <img class="icon-info" src="/public/img/icon_bathroom_01.png" alt="" />
-              <span>Bathroom</span>
-              <span>{{ apartment.bathrooms }}</span>
-            </div>
-          </div>
-        </article>
-      </div>
 
+        <!-- Singolo apartamento ciclato -->
+        <div v-for="apartment in apartments" >
+          <router-link :to="'/apartments/' + apartment.id" class="search-apartment-detail-card">
+            <!-- IMMAGINE SINISTRA -->
+            <div>
+              <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
+            </div>
+            <!-- DATI DESTRA -->
+            <div class="search-data-container">
+              <div>
+                <h2>{{ apartment.title }}</h2>
+                <h5>{{ apartment.address }}</h5>
+              </div>
+              <div class="search-detail-container">
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                  <span>Rooms</span>
+                  <span>{{ apartment.rooms }}</span>
+                </div>
+                <div class="search-icon-divider"></div>
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
+                  <span>m ^2</span>
+                  <span>{{ apartment.sqr_mt }}</span>
+                </div>
+                <div class="search-icon-divider"></div>
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                  <span>Beds</span>
+                  <span>{{ apartment.beds }}</span>
+                </div>
+                <div class="search-icon-divider"></div>
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+                  <span>Bathroom</span>
+                  <span>{{ apartment.bathrooms }}</span>
+                </div>
+              </div>
+            </div>
+          </router-link>
+        </div>
+
+      <!-- Paginazione -->
       <div class="container nav-menu">
         <div class="row py-3 justify-content-center align-items-baseline">
           <div class="col-auto">
