@@ -26,6 +26,7 @@
 }
 
 .tt-search-box-input-container {
+    width: 0;
     padding: 0 !important;
 }
 
@@ -38,8 +39,8 @@
 }
 
 .home-header .logo-home {
-    width: 50px;
-    height: 40px;
+    width: 122px;
+    height: 60px;
 }
 
 .secondary-header .logo-home {
@@ -63,8 +64,8 @@
 }
 
 .home-header .header-row form input {
-    width: 100px;
-    height: 30px;
+    width: 400px;
+    height: 45px;
     border: 3px solid #F7851D;
     border-radius: 999px;
     padding: 0 20px;
@@ -77,7 +78,7 @@
 
 
 .home-header .header-row form button {
-    width: 25px;
+    width: 35px;
     aspect-ratio: 1;
     border-radius: 50%;
     border: none;
@@ -102,8 +103,8 @@
 .header-row .register-btn {
     background-color: #2889B6;
     color: white;
-    width: 55px;
-    height: 28px;
+    width: 65px;
+    height: 35px;
     text-align: center;
     font-size: 10px;
     border-radius: 40px;
@@ -134,21 +135,40 @@
 }
 
 
-@media (min-width: 480px) {
-    
+@media (max-width: 480px) {
+
+
+    .home-header .header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 8px;
+        color: white;
+    }
+
+    .secondary-header .header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 8px 8px;
+        color: white;
+    }
 
     .home-header .header-row form input {
-        width: 400px;
+        width: 200px;
         height: 45px;
         border: 3px solid #F7851D;
         border-radius: 40px;
         padding: 0 20px;
-        // display: inline-block;
+    }
+
+    .tt-search-box-input-container {
+        width: 200px !important;
     }
 
     .home-header .logo-home {
-        width: 122px;
-        height: 60px;
+        width: 85px;
+        height: 40px;
     }
 
     .home-header .header-row form button {
