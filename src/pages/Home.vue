@@ -72,22 +72,25 @@ export default {
                             <img :src="getImageUrl(apartment.image)" alt="">
                             <p>{{ apartment.title }}</p>
                             <div class="container-article-info">
-                                <div class="article-info primo">
+                                <div class="article-info ">
                                     <img class="icon-info" src="/public/img/icon_room_01.png" alt="">
                                     <span class="span-info">Rooms</span>
                                     <span>{{ apartment.rooms }}</span>
                                 </div>
-                                <div class="article-info secondo">
+                                <div class="divider-home"></div>
+                                <div class="article-info ">
                                     <img class="icon-info" src="/public/img/icon_space_01.png" alt="">
                                     <span class="span-info">m ^2</span>
                                     <span>{{ apartment.sqr_mt }}</span>
                                 </div>
-                                <div class="article-info terzo">
-                                    <img class="icon-info" src="/public/img/icon_room_01.png" alt="">
+                                <div class="divider-home"></div>
+                                <div class="article-info ">
+                                    <img class="icon-info" src="/public/img/icon_bed_01.png" alt="">
                                     <span class="span-info">Beds</span>
                                     <span>{{ apartment.beds }}</span>
                                 </div>
-                                <div class="article-info quarto">
+                                <div class="divider-home"></div>
+                                <div class="article-info ">
                                     <img class="icon-info" src="/public/img/icon_bathroom_01.png" alt="">
                                     <span class="span-info">Bathroom</span>
                                     <span>{{ apartment.bathrooms }}</span>
