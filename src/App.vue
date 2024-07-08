@@ -44,7 +44,7 @@ export default {
   <AppHeader></AppHeader>
   <!-- <AppContent></AppContent> -->
   <RouterView />
-  <!-- <AppFooter></AppFooter> -->
+  <AppFooter></AppFooter>
 
 
 </template>

@@ -3,6 +3,7 @@
 @use './contentHome.scss';
 @use './research.scss';
 @use './apartmentDetail.scss';
+@use './footer.scss';
 
 
 // #app {
@@ -64,4 +65,9 @@ p {
 a {
   color: currentColor;
   text-decoration: none;
+}
+
+ul,li,ol,menu {
+  list-style: none;
+  color: currentColor;
 }
