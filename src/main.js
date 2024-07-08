@@ -8,6 +8,7 @@ import AppHeader from './components/AppHeader.vue'
 import ApartmentDetail from './pages/ApartmentDetail.vue'
 // import router from './router'
 
+import * as bootstrap from 'bootstrap'
 
 import * as Vue from 'vue';
 

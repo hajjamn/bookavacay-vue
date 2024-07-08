@@ -28,9 +28,15 @@ export default {
       lastPage: null,
       ttSearchBox: null,
       searchBoxHTML: null,
+      showFilters: false,
+      filtersVisible: false, 
     };
   },
   methods: {
+    toggleFilters() {
+      this.filtersVisible = !this.filtersVisible;
+      this.showFilters = !this.showFilters;
+    },
     getImageUrl,
     fetchResults() {
       axios.get('http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268', { params: { q: this.query } })
@@ -337,65 +343,56 @@ export default {
 
 
           <!-- filter head -->
-          <div class="filter-box">
-            <button 
-            class="filter-container" type="button" data-bs-toggle="collapse"
-            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+          <div class="filter-box" >
+            <button class="filter-container" type="button" :class="{ 'border-radius': !filtersVisible }" @click="toggleFilters">
               <img src="/public/img/icon_filter_01.png" alt="" />
               <p>More filters</p>
-              <span><font-awesome-icon :icon="['fas', 'sort-down']" /></span>
             </button>
-            <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#servicesAccordion">
-              <div class="accordion-body">
-                <div class="row">
-                </div>
-              </div>
-            </div>
           </div>
 
             <!-- filter body -->
-            <div >
-              <div class="all-filter-container">
-                <div class="numeric-filters">
-                  <div class="filter-num">
-                    <p>Min beds:</p>
-                    <input class="input-num" v-model="beds" name="beds" placeholder="1" />
-                  </div>
-                  <div class="filter-num">
-                    <p>Min rooms:</p>
-                    <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="1" />
-                  </div>
-                  <div class="filter-num">
-                    <p>Search km radius:</p>
-                    <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" />
-                  </div>
+          <div>
+            <div class="all-filter-container" v-show="showFilters">
+              <div class="numeric-filters">
+                <div class="filter-num">
+                  <p>Min beds:</p>
+                  <input class="input-num" v-model="beds" name="beds" placeholder="1" />
                 </div>
-                <div class="filters-divider"></div>
-
-                <!-- Services -->
-                <ul class="services-container">
-                  <li class="service-box" v-for="service in servicesList">
-                    <label class="container-checkbox">
-                      <input class="checkbox" type="checkbox" name="services[]" :id="service.name" :value="service.id">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label :for="service.name">{{ service.name }}</label>
-                  </li>
-                </ul>
+                <div class="filter-num">
+                  <p>Min rooms:</p>
+                  <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="1" />
+                </div>
+                <div class="filter-num">
+                  <p>Search km radius:</p>
+                  <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" />
+                </div>
               </div>
+              <div class="filters-divider"></div>
+
+              <!-- Services -->
+              <ul class="services-container">
+                <li class="service-box" v-for="service in servicesList">
+                  <label class="container-checkbox">
+                    <input class="checkbox" type="checkbox" name="services[]" :id="service.name" :value="service.id">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label :for="service.name">{{ service.name }}</label>
+                </li>
+              </ul>
             </div>
+          </div>
 
 
-            <div class="row justify-content-center">
-              <div class="col-auto text-center">
-                <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning">
-                  Search
-                </button>
-              </div>
+          <div class="row justify-content-center">
+            <div class="col-auto text-center">
+              <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning mt-3">
+                Search
+              </button>
             </div>
           </div>
         </div>
       </div>
+    </div>
 
   </main>
 
@@ -497,6 +494,8 @@ export default {
   </section>
 
   <section class="svg-wave"></section>
+
+
 </template>
 
 <style scoped>

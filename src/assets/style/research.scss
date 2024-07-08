@@ -100,6 +100,11 @@
     border: none;
 }
 
+.border-radius {
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+
 .filter-container img {
     width: 17px;
     height: 17px;
@@ -115,7 +120,8 @@
     width: auto;
     justify-content: center;
     color: #2889B6;
-    margin-bottom: 30px;
+    transition: max-height 0.3s ease-in-out;
+    overflow: hidden;
 }
 
 .numeric-filters {
