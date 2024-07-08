@@ -1,5 +1,9 @@
 // RESEARCH BAR ADDRESS -----------------------------------
 
+.container-map-search {
+    padding: 0 245px;
+}
+
 .map-flex {
     display: flex;
     justify-content: center;
@@ -310,6 +314,7 @@
     }
 
     .container-map-search {
+        padding: 0 15px;
         margin: auto;
         width: 100%;
     }
