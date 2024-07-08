@@ -310,9 +310,9 @@ export default {
       </div>
     </div> -->
 
-    <div class="container py-5">
-      <div class="row justify-content-center">
-        <div class="col-7">
+    <div >
+      <div class="flex justify-content-center">
+        <div class="col-md-7">
           <input type="hidden" v-model="latitude" name="latitude" />
           <input type="hidden" v-model="longitude" name="longitude" />
           <input type="hidden" v-model="address" name="address" />
@@ -354,7 +354,7 @@ export default {
           </div>
 
             <!-- filter body -->
-            <div class="filter-box">
+            <div >
               <div class="all-filter-container">
                 <div class="numeric-filters">
                   <div class="filter-num">
