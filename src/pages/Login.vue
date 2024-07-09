@@ -8,6 +8,7 @@ export default {
       userToken: null,
       typeToken: null,
       tokenSet: false,
+      name: null,
     };
   },
   computed: {
@@ -34,7 +35,20 @@ export default {
           this.typeToken = res.data.token_type;
           const sessionUserToken = `${this.typeToken} ${this.userToken}`;
           sessionStorage.setItem("sessionUserToken", sessionUserToken);
-          window.location.reload(); // Reload the page after setting the token
+          sessionStorage.setItem("sessionUserEmail", this.email);
+
+          // Perform the second axios call within the same then block
+          return axios.get("http://127.0.0.1:8000/api/auth/user", {
+            headers: {
+              Accept: "application/json",
+              Authorization: `${this.typeToken} ${this.userToken}`,
+            },
+          });
+        })
+        .then((res) => {
+          sessionStorage.setItem("sessionUserName", res.data.name);
+          // Optionally, you can reload the page here if needed
+          window.location.reload();
         })
         .catch((error) => {
           console.error("There was an error!", error);

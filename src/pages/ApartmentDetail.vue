@@ -10,7 +10,7 @@ export default {
       latitude: null,
       longitude: null,
       message: {
-        sender_email: "",
+        sender_email: sessionStorage.getItem("sessionUserEmail"),
         content: "",
       },
       messageSentSuccessfully: false,
@@ -175,18 +175,6 @@ export default {
     </div>
   </section>
 
-  <div>
-    <div>
-      <label for="email">Email:</label>
-      <input type="email" name="email" v-model="email" />
-    </div>
-    <div>
-      <label for="password">Password:</label>
-      <input type="password" name="password" v-model="password" />
-    </div>
-    <button @click="getUser">Cliccami</button>
-  </div>
-
   <!-- MESSAGGIO -->
   <!--Da aggiungere a section qunado il login sarà lato client: v-if="apartment.user_id !== currentUser.id" -->
   <section>
@@ -219,6 +207,7 @@ export default {
           id="sender_email"
           v-model="message.sender_email"
           required
+          placeholder="name@email.com"
         />
       </div>
       <button class="message-send" type="submit">Send</button>
