@@ -12,7 +12,7 @@ export default {
       const path = route.path;
       if (path === '/') {
         return 'home-header';
-      } else if (path === '/search' || /^\/apartments\/\d+$/.test(path)) {
+      } else if (path === '/search' || '/login' || /^\/apartments\/\d+$/.test(path)) {
         return 'secondary-header';
       }
     });
