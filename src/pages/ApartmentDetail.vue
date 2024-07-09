@@ -1,19 +1,19 @@
 <script>
-import axios from 'axios';
+import axios from "axios";
 import { getImageUrl } from "../functions.js";
 
 export default {
-  props: ['id', 'currentUser'],
+  props: ["id", "currentUser"],
   data() {
     return {
       apartment: {},
       latitude: null,
       longitude: null,
       message: {
-        sender_email: '',
-        content: '',
+        sender_email: "",
+        content: "",
       },
-      messageSentSuccessfully: false
+      messageSentSuccessfully: false,
     };
   },
   created() {
@@ -22,15 +22,36 @@ export default {
   methods: {
     getImageUrl,
     fetchApartment() {
-      axios.get(`http://127.0.0.1:8000/api/apartments/${this.id}`)
-        .then(res => {
+      axios
+        .get(`http://127.0.0.1:8000/api/apartments/${this.id}`)
+        .then((res) => {
           this.apartment = res.data.apartment;
           this.latitude = this.apartment.latitude;
           this.longitude = this.apartment.longitude;
           this.initializeMap();
         })
-        .catch(error => {
-          console.error('Error fetching apartment:', error);
+        .catch((error) => {
+          console.error("Error fetching apartment:", error);
+        });
+    },
+    getUser() {
+      axios
+        .post(
+          `http://127.0.0.1:8000/api/auth/login?email=${this.email}&password=${this.password}`
+        )
+        .then((res) => {
+          this.userToken = res.data.accessToken;
+          this.typeToken = res.data.token_type;
+        });
+      axios
+        .get(`http://127.0.0.1:8000/api/auth/user`, {
+          headers: {
+            Accept: "application/json",
+            Authorization: `${this.typeToken} ${this.userToken}`,
+          },
+        })
+        .then((res) => {
+          console.log(res);
         });
     },
     initializeMap() {
@@ -44,7 +65,7 @@ export default {
           key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
           container: "map",
           center: [this.longitude, this.latitude],
-          zoom: 15
+          zoom: 15,
         });
 
         let marker = new tt.Marker({
@@ -58,31 +79,34 @@ export default {
     },
     sendMessage() {
       axios
-        .post('http://127.0.0.1:8000/api/apartments/message', {
+        .post("http://127.0.0.1:8000/api/apartments/message", {
           apartment_id: this.apartment.id,
           sender_email: this.message.sender_email,
-          content: this.message.content
+          content: this.message.content,
         })
-        .then(response => {
-          console.log('Message sent successfully');
-          this.messageSentSuccessfully = true
+        .then((response) => {
+          console.log("Message sent successfully");
+          this.messageSentSuccessfully = true;
         })
-        .catch(error => {
-          console.error('Error sending message:', error.response.data);
+        .catch((error) => {
+          console.error("Error sending message:", error.response.data);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <template>
-
   <section class="container-sm">
     <!-- CONTAINER CARD APARTMENT -->
     <div class="apartment-detail-card">
       <!-- IMMAGINE SINISTRA -->
       <div>
-        <img class="image-container" :src="getImageUrl(apartment.image)" alt="">
+        <img
+          class="image-container"
+          :src="getImageUrl(apartment.image)"
+          alt=""
+        />
       </div>
       <!-- DATI DESTRA -->
       <div class="data-container">
@@ -92,25 +116,37 @@ export default {
         </div>
         <div class="detail-container">
           <div class="detail-info">
-            <img class="icon-detail" src="/public/img/icon_room_01.png" alt="">
+            <img
+              class="icon-detail"
+              src="/public/img/icon_room_01.png"
+              alt=""
+            />
             <span>Rooms</span>
             <span>{{ apartment.rooms }}</span>
           </div>
           <div class="icon-divider"></div>
           <div class="detail-info">
-            <img class="icon-detail" src="/public/img/icon_space_01.png" alt="">
+            <img
+              class="icon-detail"
+              src="/public/img/icon_space_01.png"
+              alt=""
+            />
             <span>m ^2</span>
             <span>{{ apartment.sqr_mt }}</span>
           </div>
           <div class="icon-divider"></div>
           <div class="detail-info">
-            <img class="icon-detail" src="/public/img/icon_bed_01.png" alt="">
+            <img class="icon-detail" src="/public/img/icon_bed_01.png" alt="" />
             <span>Beds</span>
             <span>{{ apartment.beds }}</span>
           </div>
           <div class="icon-divider"></div>
           <div class="detail-info">
-            <img class="icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+            <img
+              class="icon-detail"
+              src="/public/img/icon_bathroom_01.png"
+              alt=""
+            />
             <span>Bathroom</span>
             <span>{{ apartment.bathrooms }}</span>
           </div>
@@ -121,7 +157,9 @@ export default {
       <div class="service-detail">
         <p>Services:</p>
         <ul class="detail-service-list">
-          <li v-for="service in apartment.services" :key="service.id">{{ service.name }}</li>
+          <li v-for="service in apartment.services" :key="service.id">
+            {{ service.name }}
+          </li>
         </ul>
       </div>
     </div>
@@ -137,27 +175,55 @@ export default {
     </div>
   </section>
 
+  <div>
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" name="email" v-model="email" />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" name="password" v-model="password" />
+    </div>
+    <button @click="getUser">Cliccami</button>
+  </div>
+
   <!-- MESSAGGIO -->
   <!--Da aggiungere a section qunado il login sarà lato client: v-if="apartment.user_id !== currentUser.id" -->
   <section>
     <form class="container-message" @submit.prevent="sendMessage">
-      <p class="py-3" v-if="messageSentSuccessfully === true">Message sent successfully!</p>
+      <p class="py-3" v-if="messageSentSuccessfully === true">
+        Message sent successfully!
+      </p>
       <label class="message-label">
         <p>Send a message to the owner:</p>
       </label>
-      <textarea class="message-box" name="content" id="content" v-model="message.content" cols="30" rows="5"
-        placeholder="Hi! Is the apartment still available?" required></textarea>
+      <textarea
+        class="message-box"
+        name="content"
+        id="content"
+        v-model="message.content"
+        cols="30"
+        rows="5"
+        placeholder="Hi! Is the apartment still available?"
+        required
+      ></textarea>
       <div class="message-leg"></div>
       <div>
-        <p class="message-mail-label">You are not logged in, enter your e-mail to send the message:</p>
-        <input class="message-mail-box" type="sender_email" name="sender_email" id="sender_email"
-          v-model="message.sender_email" required>
+        <p class="message-mail-label">
+          You are not logged in, enter your e-mail to send the message:
+        </p>
+        <input
+          class="message-mail-box"
+          type="sender_email"
+          name="sender_email"
+          id="sender_email"
+          v-model="message.sender_email"
+          required
+        />
       </div>
-      <button class="message-send" type="submit">Send
-      </button>
+      <button class="message-send" type="submit">Send</button>
     </form>
   </section>
-
 </template>
 
 <style scoped></style>

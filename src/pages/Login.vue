@@ -1,5 +1,13 @@
 <script>
 export default {
+  data() {
+    return {
+      password: null,
+      email: null,
+      userToken: null,
+      typeToken: null,
+    };
+  },
   methods: {
     getUser() {
       axios
