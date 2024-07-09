@@ -19,7 +19,7 @@ export default {
       beds: null,
       rooms: null,
       distance: null,
-      services: null,
+      selectedServices: [],
       isSearching: false,
       pastSearches: false,
       results: [],
@@ -74,7 +74,7 @@ export default {
           address: this.address,
           beds: this.beds,
           rooms: this.rooms,
-          services: this.services,
+          selectedServices: this.selectedServices,
           distance: this.distance,
           page: n
         })
@@ -93,6 +93,7 @@ export default {
           this.isSearching = false; // Reset isSearching after API call completes
           this.pastSearches = true;
         });
+      console.log('services: ', this.selectedServices);
     },
     initializeMap() {
 
@@ -385,7 +386,8 @@ export default {
               <ul class="services-container">
                 <li class="service-box" v-for="service in servicesList">
                   <label class="container-checkbox">
-                    <input class="checkbox" type="checkbox" name="services[]" :id="service.name" :value="service.id">
+                    <input class="checkbox" type="checkbox" v-model="selectedServices" name="services[]"
+                      :id="`service-${service.id}`" :value="service.id">
                     <span class="checkmark"></span>
                   </label>
                   <label :for="service.name">{{ service.name }}</label>
@@ -431,29 +433,29 @@ export default {
               <h5>{{ apartment.address }}</h5>
             </div>
             <div class="search-detail-container">
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
-                  <span>Rooms</span>
-                  <span>{{ apartment.rooms }}</span>
-                </div>
-                <div class="search-icon-divider"></div>
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
-                  <span>m ^2</span>
-                  <span>{{ apartment.sqr_mt }}</span>
-                </div>
-                <div class="search-icon-divider"></div>
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_bed_01.png" alt="">
-                  <span>Beds</span>
-                  <span>{{ apartment.beds }}</span>
-                </div>
-                <div class="search-icon-divider"></div>
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
-                  <span>Bathroom</span>
-                  <span>{{ apartment.bathrooms }}</span>
-                </div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                <span>Rooms</span>
+                <span>{{ apartment.rooms }}</span>
+              </div>
+              <div class="search-icon-divider"></div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
+                <span>m ^2</span>
+                <span>{{ apartment.sqr_mt }}</span>
+              </div>
+              <div class="search-icon-divider"></div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_bed_01.png" alt="">
+                <span>Beds</span>
+                <span>{{ apartment.beds }}</span>
+              </div>
+              <div class="search-icon-divider"></div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+                <span>Bathroom</span>
+                <span>{{ apartment.bathrooms }}</span>
+              </div>
             </div>
           </div>
         </router-link>
