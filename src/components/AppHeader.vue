@@ -159,7 +159,10 @@ export default {
           >
         </div>
         <div v-if="isLoggedIn" class="register-btn fs-6">
-          <span>{{ userName }}</span>
+          <span v-if="userName !== null && 'null' && '' && undefined">{{
+            (userName, console.log(typeof userName))
+          }}</span>
+          <span class="ciao" v-else> user</span>
         </div>
       </div>
     </div>
