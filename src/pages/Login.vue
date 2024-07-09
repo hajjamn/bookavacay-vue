@@ -1,4 +1,5 @@
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
@@ -35,7 +36,7 @@ export default {
 
 <template>
   <main>
-    <form class="container">
+    <!-- <form class="container">
       <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
         <input
@@ -56,7 +57,19 @@ export default {
         />
       </div>
       <button type="submit" class="btn btn-primary mb-5">Submit</button>
-    </form>
+    </form> -->
+
+    <div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" name="email" v-model="email" />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" name="password" v-model="password" />
+      </div>
+      <button class="btn btn-primary mb-5" @click="getUser">Cliccami</button>
+    </div>
   </main>
 </template>
 
