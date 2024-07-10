@@ -112,7 +112,7 @@
     flex-direction: column;
     justify-content: center;
     cursor: pointer;
-    line-height: 8px;
+    line-height: 3px;
     text-decoration: none;
 }
 
@@ -134,6 +134,10 @@
     color: #FFB440;
 }
 
+
+.login-btn-one{
+    font-size: 10px;
+}
 
 @media (max-width: 480px) {
 
