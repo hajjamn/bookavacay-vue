@@ -122,6 +122,7 @@ export default {
   },
   mounted() {
     this.initializeSearchBox();
+    console.log(sessionStorage.getItem("sessionUserName"))
   },
 };
 </script>
@@ -151,10 +152,12 @@ export default {
           <RouterLink to="/login"><span class="login-btn-one">Log in</span></RouterLink>
         </div>
         <div v-if="isLoggedIn" class="register-btn fs-6">
-          <span v-if="userName !== null && 'null' && '' && undefined">{{
-            (userName, console.log(typeof userName))
-          }}</span>
-          <span class="ciao" v-else> user</span>
+          <span v-if="userName !== null && userName !== ''">
+            {{ userName }}
+          </span>
+          <span class="ciao" v-else>
+            user
+          </span>
         </div>
       </div>
     </div>
