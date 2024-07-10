@@ -3,7 +3,10 @@ import axios from "axios";
 import { getImageUrl } from "../functions.js";
 
 export default {
-  props: ["id", "currentUser"],
+  props: [
+    "id",
+    "currentUser",
+  ],
   data() {
     return {
       apartment: {},
@@ -15,9 +18,6 @@ export default {
       },
       messageSentSuccessfully: false,
     };
-  },
-  created() {
-    this.fetchApartment();
   },
   methods: {
     getImageUrl,
@@ -93,10 +93,35 @@ export default {
         });
     },
   },
+  created() {
+    this.fetchApartment();
+  },
+  mounted() {
+    // Access route query parameters
+    console.log('Query Params:', this.$route.query);
+  }
 };
 </script>
 
 <template>
+
+
+  <router-link :to="{
+    path: '/search', query: {
+      queryLatitude: this.$route.query.queryLatitude,
+      queryLongitude: this.$route.query.queryLongitude,
+      queryAddress: this.$route.query.queryAddress,
+      queryBeds: this.$route.query.queryBeds,
+      queryRooms: this.$route.query.queryRooms,
+      queryServices: this.$route.query.queryServices,
+      queryDistance: this.$route.query.queryDistance,
+      queryPage: this.$route.query.queryPage,
+      queryBack: true
+    }
+  }" class="search-apartment-detail-card m-4">
+    <button class="btn btn-secondary">Go back</button>
+  </router-link>
+
   <section class="container-sm">
     <!-- CONTAINER CARD APARTMENT -->
     <div class="apartment-detail-card">

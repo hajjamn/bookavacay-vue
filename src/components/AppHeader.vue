@@ -43,10 +43,11 @@ export default {
       if (this.myQuery) {
         this.$router.push({
           name: "AdvancedSearch",
-          params: {
+          query: {
             queryLatitude: this.myQuery.latitude,
             queryLongitude: this.myQuery.longitude,
             queryAddress: this.myQuery.address,
+            queryHomeSearch: true
           },
         });
       }
@@ -135,12 +136,7 @@ export default {
         </RouterLink>
 
         <form action="" class="search-home">
-          <div
-            @keyup.enter="search"
-            placeholder="Search..."
-            id="header-searchbar"
-            :key="myQuery"
-          ></div>
+          <div @keyup.enter="search" placeholder="Search..." id="header-searchbar" :key="myQuery"></div>
           <RouterLink to="/search">
             <button @click="search">
               <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
@@ -149,14 +145,10 @@ export default {
         </form>
 
         <div v-if="!isLoggedIn" class="register-btn">
-          <a class="register-btn-one mb-2" href="http://127.0.0.1:8000/register"
-            ><span>Register</span></a
-          >
+          <a class="register-btn-one mb-2" href="http://127.0.0.1:8000/register"><span>Register</span></a>
           <br />
 
-          <RouterLink to="/login"
-            ><span class="login-btn-one">Log in</span></RouterLink
-          >
+          <RouterLink to="/login"><span class="login-btn-one">Log in</span></RouterLink>
         </div>
         <div v-if="isLoggedIn" class="register-btn fs-6">
           <span v-if="userName !== null && 'null' && '' && undefined">{{
