@@ -32,7 +32,7 @@ export default {
     changePage(n) {
       if (n === this.currentPage) return
       this.currentPage = n
-      this.fetchResults()
+      this.submitForm(this.currentPage)
     },
     toggleFilters() {
       this.filtersVisible = !this.filtersVisible;
