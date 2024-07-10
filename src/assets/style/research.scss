@@ -271,6 +271,19 @@
     height: 250px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
+    position: relative;
+}
+
+.sponsor-badge {
+    position: absolute;
+    color: white;
+    background-color: #2889B6;
+    border-radius: 8px;
+    padding: 5px;
+    font-size: 12px;
+    z-index: 999;
+    margin-top: -230px;
+    left: 30px;
 }
 
 .search-data-container {
@@ -368,7 +381,7 @@
     
     .search-detail-info {
         font-size: 13px;
-        padding: 10px 15px;
+        padding: 8px 15px;
         background-color: white;
         border-radius: 50%;
         aspect-ratio: 1 / 1;
@@ -382,6 +395,12 @@
 
     .search-icon-divider {
         display: none;
+    }
+
+    .sponsor-badge {
+        font-size: 15px;
+        margin-top: -295px;
+        left: 25px;
     }
 
 }
