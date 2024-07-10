@@ -299,7 +299,8 @@ export default {
 </script>
 
 <template>
-  <main>
+  <main id="hidden-scrollbar">
+    <div class="scroll-my"></div>
 
     <!-- MAP -->
     <section>
@@ -372,113 +373,113 @@ export default {
       </div>
     </div>
 
-  </main>
 
-  <button class="btn btn-primary d-none" @click="console.log(apartments)">
-    Test Apartments
-  </button>
 
-  <section class="container-search" v-if="apartments.length > 0 || pastSearches || isSearching">
-    <!-- La ricerca e' finita e abbiamo dei risultati -->
-    <div class="container-search-results" v-if="apartments.length > 0 && !isSearching">
-      <h1>Your results:</h1>
+    <button class="btn btn-primary d-none" @click="console.log(apartments)">
+      Test Apartments
+    </button>
 
-      <!-- Singolo apartamento ciclato -->
-      <div v-for="apartment in apartments">
-        <router-link :to="'/apartments/' + apartment.id" class="search-apartment-detail-card">
-          <!-- IMMAGINE SINISTRA -->
-          <div>
-            <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
-          </div>
-          <!-- DATI DESTRA -->
-          <div class="search-data-container">
+    <section class="container-search" v-if="apartments.length > 0 || pastSearches || isSearching">
+      <!-- La ricerca e' finita e abbiamo dei risultati -->
+      <div class="container-search-results" v-if="apartments.length > 0 && !isSearching" :class>
+        <h1>Your results:</h1>
 
-            <div v-if="apartment.sponsors[0]">
-              <p>SPONSORIZZATO</p>
-            </div>
-
+        <!-- Singolo apartamento ciclato -->
+        <div v-for="apartment in apartments">
+          <router-link :to="'/apartments/' + apartment.id" class="search-apartment-detail-card">
+            <!-- IMMAGINE SINISTRA -->
             <div>
-              <h2>{{ apartment.title }}</h2>
-              <h5>{{ apartment.address }}</h5>
+              <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
             </div>
-            <div class="search-detail-container">
-              <div class="search-detail-info">
-                <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
-                <span>Rooms</span>
-                <span>{{ apartment.rooms }}</span>
+            <!-- DATI DESTRA -->
+            <div class="search-data-container">
+
+              <div v-if="apartment.sponsors[0]">
+                <p>SPONSORIZZATO</p>
               </div>
-              <div class="search-icon-divider"></div>
-              <div class="search-detail-info">
-                <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
-                <span>m ^2</span>
-                <span>{{ apartment.sqr_mt }}</span>
+
+              <div>
+                <h2>{{ apartment.title }}</h2>
+                <h5>{{ apartment.address }}</h5>
               </div>
-              <div class="search-icon-divider"></div>
-              <div class="search-detail-info">
-                <img class="search-icon-detail" src="/public/img/icon_bed_01.png" alt="">
-                <span>Beds</span>
-                <span>{{ apartment.beds }}</span>
-              </div>
-              <div class="search-icon-divider"></div>
-              <div class="search-detail-info">
-                <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
-                <span>Bathroom</span>
-                <span>{{ apartment.bathrooms }}</span>
+              <div class="search-detail-container">
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                  <span>Rooms</span>
+                  <span>{{ apartment.rooms }}</span>
+                </div>
+                <div class="search-icon-divider"></div>
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
+                  <span>m ^2</span>
+                  <span>{{ apartment.sqr_mt }}</span>
+                </div>
+                <div class="search-icon-divider"></div>
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_bed_01.png" alt="">
+                  <span>Beds</span>
+                  <span>{{ apartment.beds }}</span>
+                </div>
+                <div class="search-icon-divider"></div>
+                <div class="search-detail-info">
+                  <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+                  <span>Bathroom</span>
+                  <span>{{ apartment.bathrooms }}</span>
+                </div>
               </div>
             </div>
+          </router-link>
+        </div>
+
+        <!-- Paginazione -->
+        <div class="container nav-menu">
+          <div class="row py-3 justify-content-center align-items-baseline">
+            <div class="col-auto">
+              <font-awesome-icon :class="currentPage === 1 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+                :icon="['fas', 'angles-left']" @click="submitForm(1)" />
+            </div>
+            <div class="col-auto" @click="">
+              <font-awesome-icon :class="currentPage - 1 <= 0 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+                :icon="['fas', 'angle-left']" @click="submitForm(currentPage - 1)" />
+            </div>
+            <div class="col-auto">
+              <span class="fs-4 nav-number">{{ currentPage }}</span>
+            </div>
+            <div class="col-auto">
+              <font-awesome-icon :class="currentPage + 1 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+                :icon="['fas', 'angle-right']" @click="submitForm(currentPage + 1)" />
+            </div>
+            <div class="col-auto">
+              <font-awesome-icon :class="currentPage + 2 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+                :icon="['fas', 'angles-right']" @click="submitForm(lastPage)" />
+            </div>
           </div>
-        </router-link>
+        </div>
+
       </div>
 
-      <!-- Paginazione -->
-      <div class="container nav-menu">
-        <div class="row py-3 justify-content-center align-items-baseline">
+      <!-- La ricerca e' finita ma NON ci sono risultati -->
+      <div class="container-article" v-if="apartments.length === 0 && pastSearches && !isSearching">
+        <div class="row justify-content-center aling-items-center align-content-center h-100">
           <div class="col-auto">
-            <font-awesome-icon :class="currentPage === 1 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
-              :icon="['fas', 'angles-left']" @click="submitForm(1)" />
-          </div>
-          <div class="col-auto" @click="">
-            <font-awesome-icon :class="currentPage - 1 <= 0 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
-              :icon="['fas', 'angle-left']" @click="submitForm(currentPage - 1)" />
-          </div>
-          <div class="col-auto">
-            <span class="fs-4 nav-number">{{ currentPage }}</span>
-          </div>
-          <div class="col-auto">
-            <font-awesome-icon :class="currentPage + 1 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
-              :icon="['fas', 'angle-right']" @click="submitForm(currentPage + 1)" />
-          </div>
-          <div class="col-auto">
-            <font-awesome-icon :class="currentPage + 2 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
-              :icon="['fas', 'angles-right']" @click="submitForm(lastPage)" />
+            <h3>No results... try again!</h3>
           </div>
         </div>
       </div>
 
-    </div>
-
-    <!-- La ricerca e' finita ma NON ci sono risultati -->
-    <div class="container-article" v-if="apartments.length === 0 && pastSearches && !isSearching">
-      <div class="row justify-content-center aling-items-center align-content-center h-100">
-        <div class="col-auto">
-          <h3>No results... try again!</h3>
+      <!-- La ricerca e' in corso -->
+      <div class="container-article" v-if="isSearching">
+        <div class="row justify-content-center aling-items-center align-content-center h-100">
+          <div class="col-auto">
+            <div class="loader"></div>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- La ricerca e' in corso -->
-    <div class="container-article" v-if="isSearching">
-      <div class="row justify-content-center aling-items-center align-content-center h-100">
-        <div class="col-auto">
-          <div class="loader"></div>
-        </div>
-      </div>
-    </div>
-  </section>
+    <section class="svg-wave"></section>
 
-  <section class="svg-wave"></section>
-
-
+  </main>
 </template>
 
 <style scoped>
@@ -566,5 +567,26 @@ export default {
 .nav-menu a {
   color: currentColor;
   text-decoration: none;
+}
+
+.scroll-my {
+  width: 100%;
+  height: 10px;
+  background-color: var(--light--orange);
+  border-radius: 10Addpx;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  scale: 0.005 1;
+  animation: scroll-watcher linear;
+  animation-timeline: scroll();
+  transform-origin: left;
+}
+
+@keyframes scroll-watcher {
+  to {
+    scale: 1 1;
+  }
+
 }
 </style>
