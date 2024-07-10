@@ -430,8 +430,8 @@ export default {
 
 
               <div>
-                <h2>{{ apartment.title }}</h2>
-                <h5>{{ apartment.address }}</h5>
+                <h3>{{ apartment.title }}</h3>
+                <h6>{{ apartment.address }}</h6>
               </div>
               <div class="search-detail-container">
                 <div class="search-detail-info">
@@ -456,6 +456,14 @@ export default {
                   <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
                   <span>Bathroom</span>
                   <span>{{ apartment.bathrooms }}</span>
+                </div>
+              </div>
+              <div class="service-apartment-card">
+                <p>Services:</p>
+                <div class="service-badges">
+                  <div class="service-apartment-badge" v-for="service in apartment.services">
+                    {{ service.name }}
+                  </div>
                 </div>
               </div>
             </div>

@@ -268,7 +268,7 @@
 .search-image-container {
     object-fit: cover;
     width: 500px;
-    height: 250px;
+    height: 300px;
     border-top-left-radius: 15px;
     border-bottom-left-radius: 15px;
     position: relative;
@@ -282,7 +282,7 @@
     padding: 5px;
     font-size: 12px;
     z-index: 999;
-    margin-top: -230px;
+    margin-top: -280px;
     margin-left: 20px;
 }
 
@@ -308,21 +308,41 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    font-size: 18px;
+    font-size: 16px;
     color: #2889B6;
     text-align: center;
     padding: 3px 15px;
 }
 
 .search-icon-detail {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
 }
 
 .search-icon-divider {
     border: 1px solid #95CFE9;
-    height: 80px;
+    height: 60px;
 }
+
+.service-apartment-card {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.service-badges {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.service-apartment-badge {
+    font-size: 12px;
+    padding: 4px;
+    border: solid 1px #95CFE9;
+    border-radius: 4px;
+    margin: 3px;
+}
+
 
 /* Media query SMARTPHONE */
 
