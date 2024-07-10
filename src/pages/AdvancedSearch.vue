@@ -384,20 +384,20 @@ export default {
       <div class="container-search-results" v-if="apartments.length > 0 && !isSearching" :class>
         <h1>Your results:</h1>
 
-      <!-- Singolo apartamento ciclato -->
-      <div v-for="apartment in apartments">
-        <router-link :to="'/apartments/' + apartment.id" class="search-apartment-detail-card">
-          <!-- IMMAGINE SINISTRA -->
-          <div>
-            <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
-            <div v-if="apartment.sponsors[0]">
-              <div class="sponsor-badge">
-                <p>&#9733; Sponsored!</p>
+        <!-- Singolo apartamento ciclato -->
+        <div v-for="apartment in apartments">
+          <router-link :to="'/apartments/' + apartment.id" class="search-apartment-detail-card">
+            <!-- IMMAGINE SINISTRA -->
+            <div>
+              <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
+              <div v-if="apartment.sponsors[0]">
+                <div class="sponsor-badge">
+                  <p>&#9733; Sponsored!</p>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- DATI DESTRA -->
-          <div class="search-data-container">
+            <!-- DATI DESTRA -->
+            <div class="search-data-container">
 
 
               <div>
@@ -457,6 +457,7 @@ export default {
             </div>
           </div>
         </div>
+
 
       </div>
 
