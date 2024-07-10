@@ -21,8 +21,7 @@ export default {
           <div class="divider-footer"></div>
           <div class="description">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestiae nam ipsam autem
             quasi magnam sunt ipsum, sapiente maiores possimus velit commodi quae consequuntur rem atque doloremque,
-            totam enim ratione quibusdam! Illo qui quasi hic consequatur debitis, maxime assumenda explicabo itaque sint
-            eveniet, animi tempore. Praesentium ipsum impedit officiis aperiam totam.</div>
+            totam enim ratione quibusdam! Illo qui quasi hic consequatur debitis</div>
           <div class="divider-footer"></div>
           <ul class="members-ul">
             <li class="member">
