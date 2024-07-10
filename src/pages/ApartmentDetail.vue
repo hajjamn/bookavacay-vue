@@ -188,7 +188,7 @@ export default {
   <!--Da aggiungere a section qunado il login sarà lato client: v-if="apartment.user_id !== currentUser.id" -->
   <section>
     <form class="container-message" @submit.prevent="sendMessage">
-      <p class="py-3" v-if="messageSentSuccessfully === true">
+      <p class=" msg-sent" v-if="messageSentSuccessfully === true">
         Message sent successfully!
       </p>
       <label class="message-label">
@@ -209,4 +209,14 @@ export default {
   </section>
 </template>
 
-<style scoped></style>
+<style scoped>
+.msg-sent {
+  background-color: transparent;
+  color: white;
+  padding: 4px 12px;
+  margin-bottom: 15px !important;
+  border: 1px solid white;
+  border-radius: 10px;
+  font-size: 15px;
+}
+</style>
