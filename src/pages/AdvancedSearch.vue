@@ -25,18 +25,27 @@ export default {
       searchBoxHTML: null,
       showFilters: false,
       filtersVisible: false,
+      lastPage: null,
     };
   },
   methods: {
+    changePage(n) {
+      if (n === this.currentPage) return
+      this.currentPage = n
+      this.fetchResults()
+    },
     toggleFilters() {
       this.filtersVisible = !this.filtersVisible;
       this.showFilters = !this.showFilters;
     },
     getImageUrl,
     fetchResults() {
-      axios.get('http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268', { params: { q: this.query } })
+      axios.get('http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268', { params: { q: this.query, page: this.currentPage } })
         .then(response => {
           this.results = response.data;
+          console.log(response.data.apartments.data)
+          this.apartments = response.data.apartments.data
+          this.lastPage = response.data.apartments.last_page
         });
     },
     fetchServices() {
@@ -297,7 +306,11 @@ export default {
     this.fetchServices();
     /* this.fetchResults(); */
     console.log('myQuery: ', this.$route.query);
-  }
+  },
+  created() {
+    this.fetchResults();
+  },
+
 
 };
 </script>
@@ -385,35 +398,35 @@ export default {
 
     <section class="container-search" v-if="apartments.length > 0 || pastSearches || isSearching">
       <!-- La ricerca e' finita e abbiamo dei risultati -->
-      <div class="container-search-results" v-if="apartments.length > 0 && !isSearching" :class>
+      <div class="container-search-results" v-if="apartments.length > 0 && !isSearching">
         <h1>Your results:</h1>
 
-      <!-- Singolo apartamento ciclato -->
-      <div v-for="apartment in apartments">
-        <router-link :to="{
-          path: '/apartments/' + apartment.id, query: {
-            queryLatitude: latitude,
-            queryLongitude: longitude,
-            queryAddress: address,
-            queryBeds: beds,
-            queryRooms: rooms,
-            queryServices: selectedServices,
-            queryDistance: distance,
-            queryPage: currentPage
-          }
-        }" class="search-apartment-detail-card">
+        <!-- Singolo apartamento ciclato -->
+        <div v-for="apartment in apartments">
+          <router-link :to="{
+            path: '/apartments/' + apartment.id, query: {
+              queryLatitude: latitude,
+              queryLongitude: longitude,
+              queryAddress: address,
+              queryBeds: beds,
+              queryRooms: rooms,
+              queryServices: selectedServices,
+              queryDistance: distance,
+              queryPage: currentPage
+            }
+          }" class="search-apartment-detail-card">
 
-          <!-- IMMAGINE SINISTRA -->
-          <div>
-            <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
-            <div v-if="apartment.sponsors[0]">
-              <div class="sponsor-badge">
-                <p>&#9733; Sponsored!</p>
+            <!-- IMMAGINE SINISTRA -->
+            <div>
+              <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
+              <div v-if="apartment.sponsors[0]">
+                <div class="sponsor-badge">
+                  <p>&#9733; Sponsored!</p>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- DATI DESTRA -->
-          <div class="search-data-container">
+            <!-- DATI DESTRA -->
+            <div class="search-data-container">
 
 
               <div>
@@ -450,7 +463,7 @@ export default {
         </div>
 
         <!-- Paginazione -->
-        <div class="container nav-menu">
+        <!-- <div class="container nav-menu">
           <div class="row py-3 justify-content-center align-items-baseline">
             <div class="col-auto">
               <font-awesome-icon :class="currentPage === 1 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
@@ -472,6 +485,10 @@ export default {
                 :icon="['fas', 'angles-right']" @click="submitForm(lastPage)" />
             </div>
           </div>
+        </div> -->
+        <div class="container-paginator">
+          <p v-for="n in lastPage" :key="n" @click="changePage(n)"
+            :class="n === currentPage ? 'bg-orange' : 'bg-lightblue'">{{ n }} </p>
         </div>
 
       </div>
@@ -591,7 +608,7 @@ export default {
   width: 100%;
   height: 10px;
   background-color: var(--light--orange);
-  border-radius: 10Addpx;
+  border-radius: 10px;
   position: fixed;
   z-index: 1000;
   top: 0;
@@ -606,5 +623,47 @@ export default {
     scale: 1 1;
   }
 
+}
+
+.container-paginator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.container-paginator p {
+  padding: 20px;
+  font-size: 25px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.container-paginator>p {
+  position: relative;
+}
+
+.container-paginator>p::before {
+  content: '';
+  position: absolute;
+  top: 67%;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--orange);
+  transition: .3s;
+}
+
+.container-paginator>p:hover::before {
+  width: 50%;
+  margin-left: 15px;
+}
+
+.bg-orange {
+  color: var(--orange);
+}
+
+.bg-lightblue {
+  color: var(--blue);
 }
 </style>
