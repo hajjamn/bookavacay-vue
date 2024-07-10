@@ -8,24 +8,13 @@ footer {
     align-items: center;
 }
 
-.row-footer a {
-    width: calc(100% / 6);
-}
 
-.row-footer .description {
-    width: calc(100% / 3);
-    text-align: center;
-}
-
-.row-footer .members-ul {
-    width: calc(100% / 6);
-}
 
 .container-footer {
     color: white;
     overflow-y: hidden;
     max-width: 100%;
-    max-height: 270px;
+    // max-height: 270px;
 }
 
 a{
@@ -42,16 +31,9 @@ a{
 }
 
 
-.divider-footer {
-    border: 1px solid var(--light--blue);
-    height: 100px;
-}
 
-.divider-member{
-    border: 1px solid var(--light--blue);
-    width: 100px;
-    margin-left: 60px;
-}
+
+
 
 .member h4 p {
     font-size: 10px;
@@ -59,4 +41,66 @@ a{
 
 .members-ul {
     text-align: center;
+}
+
+
+/* --------------------------RESPONSIVE PC------------------------------------- */
+
+@media (min-width: 480px) {
+    .row-footer a {
+        width: calc(100% / 6);
+    }
+    
+    .row-footer .description {
+        width: calc(100% / 3);
+        text-align: center;
+    }
+    
+    .row-footer .members-ul {
+        width: calc(100% / 6);
+    }
+
+    .divider-member{
+        border: 1px solid var(--light--blue);
+        width: 100px;
+        margin-left: 60px;
+    }
+
+    .divider-footer {
+        border: 1px solid var(--light--blue);
+        height: 100px;
+    }
+
+}
+
+
+/* --------------------------RESPONSIVE PHONE------------------------------------- */
+
+
+@media (max-width: 480px) {
+
+    .row-footer a {
+        width: calc(100% / 4);
+    }
+    
+    .row-footer .description {
+        width: calc(100% / 4);
+        text-align: center;
+    }
+    
+    .row-footer .members-ul {
+        width: calc(100% / 4);
+    }
+
+    .divider-member{
+        border: 1px solid var(--light--blue);
+        width: 50px;
+        margin-left: 19px;
+    }
+
+    .divider-footer {
+        border: 1px solid var(--light--blue);
+        height: 200px;
+    }
+    
 }
