@@ -604,11 +604,11 @@ export default {
   width: 100%;
   height: 10px;
   background-color: var(--light--orange);
-  border-radius: 5px;
+  border-radius: 10Addpx;
   position: fixed;
   z-index: 1000;
   top: 0;
-  scale: 0 1;
+  scale: 0.005 1;
   animation: scroll-watcher linear;
   animation-timeline: scroll();
   transform-origin: left;
