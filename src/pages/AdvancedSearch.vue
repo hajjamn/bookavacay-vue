@@ -19,7 +19,7 @@ export default {
       beds: null,
       rooms: null,
       distance: null,
-      services: null,
+      selectedServices: [],
       isSearching: false,
       pastSearches: false,
       results: [],
@@ -74,7 +74,7 @@ export default {
           address: this.address,
           beds: this.beds,
           rooms: this.rooms,
-          services: this.services,
+          selectedServices: this.selectedServices,
           distance: this.distance,
           page: n
         })
@@ -93,6 +93,7 @@ export default {
           this.isSearching = false; // Reset isSearching after API call completes
           this.pastSearches = true;
         });
+      console.log('services: ', this.selectedServices);
     },
     initializeMap() {
 
@@ -349,7 +350,8 @@ export default {
               <ul class="services-container">
                 <li class="service-box" v-for="service in servicesList">
                   <label class="container-checkbox">
-                    <input class="checkbox" type="checkbox" name="services[]" :id="service.name" :value="service.id">
+                    <input class="checkbox" type="checkbox" v-model="selectedServices" name="services[]"
+                      :id="`service-${service.id}`" :value="service.id">
                     <span class="checkmark"></span>
                   </label>
                   <label :for="service.name">{{ service.name }}</label>
