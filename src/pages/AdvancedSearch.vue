@@ -4,11 +4,6 @@ import { calculateDistance } from "../functions.js";
 import { getImageUrl } from "../functions.js";
 
 export default {
-  props: [
-    'queryLatitude',
-    'queryLongitude',
-    'queryAddress'
-  ],
   data() {
     return {
       apartments: [],
@@ -152,19 +147,19 @@ export default {
         });
 
         //Se e' stata mandata una query con le props allora prendi quelle coordinate e indirizzo
-        if (this.queryLatitude !== undefined) {
+        if (this.$route.query.queryLatitude !== undefined) {
           //recupera i dati della query
           let queryLocation = [
-            this.queryLongitude,
-            this.queryLatitude,
+            this.$route.query.queryLongitude,
+            this.$route.query.queryLatitude,
           ];
-          console.log('Query found with this data: ', queryLocation, this.queryAddress)
+          console.log('Query found with this data: ', queryLocation, this.$route.query.queryAddress)
           //centra la mappa e il marker su quelle coordinate
           map.setCenter(queryLocation);
           marker.setLngLat(queryLocation);
           this.latitude = queryLocation[1];
           this.longitude = queryLocation[0];
-          this.address = this.queryAddress;
+          this.address = this.$route.query.queryAddress;
           console.log('Location updated: ', this.latitude, this.longitude, this.address)
         }
         //Altrimenti, se necessaria la geolocalizzazione dello user
@@ -283,16 +278,25 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.initializeMap();
-      if (this.queryLatitude !== undefined) {
-        // Wait for the map initialization to complete before calling submitForm()
+      //Se hai effettuato una ricerca dalla home, fai la ricerca automatica con quei parametri
+      if (this.$route.query.queryHomeSearch) {
         setTimeout(() => {
           this.submitForm(1);
         }, 1000);
+      } else if (this.$route.query.queryBack) {
+        this.beds = this.$route.query.queryBeds
+        this.rooms = this.$route.query.queryRooms
+        this.selectedServices = this.$route.query.queryServices
+        this.distance = this.$route.query.queryDistance
+        setTimeout(() => {
+          this.submitForm(this.$route.query.queryPage);
+        }, 1000);
       }
+      //Se sei tornato dal pulsante back, fai una ricerca automatica con quei parametri
     });
     this.fetchServices();
     /* this.fetchResults(); */
-    console.log('myQuery: ', this.$route.params);
+    console.log('myQuery: ', this.$route.query);
   }
 
 };
@@ -385,7 +389,19 @@ export default {
 
       <!-- Singolo apartamento ciclato -->
       <div v-for="apartment in apartments">
-        <router-link :to="'/apartments/' + apartment.id" class="search-apartment-detail-card">
+        <router-link :to="{
+          path: '/apartments/' + apartment.id, query: {
+            queryLatitude: latitude,
+            queryLongitude: longitude,
+            queryAddress: address,
+            queryBeds: beds,
+            queryRooms: rooms,
+            queryServices: selectedServices,
+            queryDistance: distance,
+            queryPage: currentPage
+          }
+        }" class="search-apartment-detail-card">
+
           <!-- IMMAGINE SINISTRA -->
           <div>
             <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
