@@ -75,3 +75,9 @@ ul,li,ol,menu {
   list-style: none;
   color: currentColor;
 }
+
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+  /* make scrollbar transparent */
+}

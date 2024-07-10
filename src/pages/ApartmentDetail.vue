@@ -102,11 +102,7 @@ export default {
     <div class="apartment-detail-card">
       <!-- IMMAGINE SINISTRA -->
       <div>
-        <img
-          class="image-container"
-          :src="getImageUrl(apartment.image)"
-          alt=""
-        />
+        <img class="image-container" :src="getImageUrl(apartment.image)" alt="" />
       </div>
       <!-- DATI DESTRA -->
       <div class="data-container">
@@ -116,21 +112,13 @@ export default {
         </div>
         <div class="detail-container">
           <div class="detail-info">
-            <img
-              class="icon-detail"
-              src="/public/img/icon_room_01.png"
-              alt=""
-            />
+            <img class="icon-detail" src="/public/img/icon_room_01.png" alt="" />
             <span>Rooms</span>
             <span>{{ apartment.rooms }}</span>
           </div>
           <div class="icon-divider"></div>
           <div class="detail-info">
-            <img
-              class="icon-detail"
-              src="/public/img/icon_space_01.png"
-              alt=""
-            />
+            <img class="icon-detail" src="/public/img/icon_space_01.png" alt="" />
             <span>m ^2</span>
             <span>{{ apartment.sqr_mt }}</span>
           </div>
@@ -142,11 +130,7 @@ export default {
           </div>
           <div class="icon-divider"></div>
           <div class="detail-info">
-            <img
-              class="icon-detail"
-              src="/public/img/icon_bathroom_01.png"
-              alt=""
-            />
+            <img class="icon-detail" src="/public/img/icon_bathroom_01.png" alt="" />
             <span>Bathroom</span>
             <span>{{ apartment.bathrooms }}</span>
           </div>
@@ -185,30 +169,15 @@ export default {
       <label class="message-label">
         <p>Send a message to the owner:</p>
       </label>
-      <textarea
-        class="message-box"
-        name="content"
-        id="content"
-        v-model="message.content"
-        cols="30"
-        rows="5"
-        placeholder="Hi! Is the apartment still available?"
-        required
-      ></textarea>
+      <textarea class="message-box" name="content" id="content" v-model="message.content" cols="30" rows="5"
+        placeholder="Hi! Is the apartment still available?" required></textarea>
       <div class="message-leg"></div>
       <div>
         <p class="message-mail-label">
-          You are not logged in, enter your e-mail to send the message:
+          Enter your e-mail to send the message:
         </p>
-        <input
-          class="message-mail-box"
-          type="sender_email"
-          name="sender_email"
-          id="sender_email"
-          v-model="message.sender_email"
-          required
-          placeholder="name@email.com"
-        />
+        <input class="message-mail-box" type="sender_email" name="sender_email" id="sender_email"
+          v-model="message.sender_email" required placeholder="name@email.com" />
       </div>
       <button class="message-send" type="submit">Send</button>
     </form>
