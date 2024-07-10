@@ -310,48 +310,12 @@ export default {
       </div>
     </section>
 
-    <!-- USER GEO-DATA -->
-    <!-- <div class="container py-5">
-      <div class="card">
-        <div class="row justify-content-evenly text-center">
-          <div class="col-auto p-3">
-            <p>User latitude: {{ latitude }}</p>
-          </div>
-          <div class="col-auto p-3">
-            <p>User longitude: {{ longitude }}</p>
-          </div>
-          <div class="col-auto p-3">
-            <p>User address: {{ address }}</p>
-          </div>
-        </div>
-      </div>
-    </div> -->
-
     <div>
       <div class="flex justify-content-center">
         <div class="col-md-7">
           <input type="hidden" v-model="latitude" name="latitude" />
           <input type="hidden" v-model="longitude" name="longitude" />
           <input type="hidden" v-model="address" name="address" />
-
-          <!-- SEARCH BASE INPUT -->
-          <!-- <div>
-              <label for="rooms">Rooms</label>
-              <input type="number" v-model="rooms" name="rooms">
-            </div>
-            <div>
-              <label for="beds">Beds</label>
-              <input type="number" v-model="beds" name="beds">
-            </div>
-            <div>
-              <label for="distance">Distance</label>
-              <input type="number" v-model="distance" name="distance">
-            </div> -->
-          <!-- <div class="col-auto">
-              <label for="services">Services</label>
-              <input type="number" v-model="services" name="services" />
-            </div> -->
-
 
           <!-- filter head -->
           <div class="filter-box">
@@ -426,34 +390,39 @@ export default {
           </div>
           <!-- DATI DESTRA -->
           <div class="search-data-container">
+
+            <div v-if="apartment.sponsors[0]">
+              <p>SPONSORIZZATO</p>
+            </div>
+
             <div>
               <h2>{{ apartment.title }}</h2>
               <h5>{{ apartment.address }}</h5>
             </div>
             <div class="search-detail-container">
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
-                  <span>Rooms</span>
-                  <span>{{ apartment.rooms }}</span>
-                </div>
-                <div class="search-icon-divider"></div>
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
-                  <span>m ^2</span>
-                  <span>{{ apartment.sqr_mt }}</span>
-                </div>
-                <div class="search-icon-divider"></div>
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_bed_01.png" alt="">
-                  <span>Beds</span>
-                  <span>{{ apartment.beds }}</span>
-                </div>
-                <div class="search-icon-divider"></div>
-                <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
-                  <span>Bathroom</span>
-                  <span>{{ apartment.bathrooms }}</span>
-                </div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                <span>Rooms</span>
+                <span>{{ apartment.rooms }}</span>
+              </div>
+              <div class="search-icon-divider"></div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
+                <span>m ^2</span>
+                <span>{{ apartment.sqr_mt }}</span>
+              </div>
+              <div class="search-icon-divider"></div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_bed_01.png" alt="">
+                <span>Beds</span>
+                <span>{{ apartment.beds }}</span>
+              </div>
+              <div class="search-icon-divider"></div>
+              <div class="search-detail-info">
+                <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+                <span>Bathroom</span>
+                <span>{{ apartment.bathrooms }}</span>
+              </div>
             </div>
           </div>
         </router-link>
