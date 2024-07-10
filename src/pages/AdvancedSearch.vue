@@ -390,13 +390,15 @@ export default {
           <!-- IMMAGINE SINISTRA -->
           <div>
             <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
+            <div v-if="apartment.sponsors[0]">
+              <div class="sponsor-badge">
+                <p>&#9733; Sponsored!</p>
+              </div>
+            </div>
           </div>
           <!-- DATI DESTRA -->
           <div class="search-data-container">
 
-            <div v-if="apartment.sponsors[0]">
-              <p>SPONSORIZZATO</p>
-            </div>
 
               <div>
                 <h2>{{ apartment.title }}</h2>
