@@ -7,6 +7,7 @@ footer {
     justify-content: space-between;
     align-items: center;
     width: 100vw;
+    margin-bottom: 40px;
 }
 
 .container-footer {
@@ -37,6 +38,7 @@ footer {
 
 .footer-programmers {
     width: 30%;
+    margin-bottom: 20px;
 }
 
 .member a{
@@ -73,6 +75,7 @@ footer {
 
     .divider-footer {
         border: 1px solid var(--light--blue);
+        width: 1px;
         height: 100px;
     }
 
@@ -84,28 +87,51 @@ footer {
 
 @media (max-width: 480px) {
 
-    .row-footer a {
-        width: calc(100% / 4);
+    .row-footer {
+        margin-bottom: 20px;
+        flex-direction: column;
+    }
+
+    .footer-boolean {
+        width: 100%;
     }
     
-    .row-footer .description {
-        width: calc(100% / 4);
+    .footer-boolean img {
+        width: 150px;
+        margin-top: 30px;
+    }
+
+    .footer-text {
         text-align: center;
+        width: 100%;
+        padding: 0 40px;
+    }
+
+    .footer-programmers {
+        width: 100%;
+        margin-bottom: 20px;
+        padding-left: 0px;
     }
     
-    .row-footer .members-ul {
-        width: calc(100% / 4);
+    .member h4 {
+        font-size: 25px;
+    }
+    
+    .member p {
+        font-size: 12px;
     }
 
     .divider-member{
         border: 1px solid var(--light--blue);
         width: 50px;
-        margin: 0 auto;
+        margin: 10px auto;
     }
 
     .divider-footer {
         border: 1px solid var(--light--blue);
-        height: 200px;
+        height: 1px;
+        width: 100px;
+        margin: 30px auto;
     }
     
 }

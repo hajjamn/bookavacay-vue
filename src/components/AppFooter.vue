@@ -90,7 +90,7 @@ export default {
                 <p>FrontEnd Developer</p>
               </a>
             </li>
-            
+
           </ul>
         </div>
       </div>
@@ -118,6 +118,7 @@ export default {
 @media (max-width: 480px) {
   .svg-wave {
     height: 100px;
+    background-size: contain;
   }
 }
 </style>
