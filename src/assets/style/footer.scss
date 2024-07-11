@@ -1,5 +1,6 @@
 footer {
     background-color: var(--blue);
+    bottom: 0;
 }
 
 .row-footer {
@@ -19,12 +20,16 @@ footer {
 .footer-boolean {
     width: 30%;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }
 
+.footer-boolean a {
+    width: 70%;
+}
+
 .footer-boolean img {
-    width: 300px;
+    width: 100%;
 }
 
 .footer-text {
@@ -41,7 +46,7 @@ footer {
     margin-bottom: 20px;
 }
 
-.member a{
+.member a {
     color: currentColor !important;
     display: flex;
     flex-direction: column;
@@ -54,7 +59,7 @@ footer {
 }
 
 .linkedin-link {
-    color:var(--light--blue) !important;
+    color: var(--light--blue) !important;
     font-size: 20px;
 }
 
@@ -67,7 +72,7 @@ footer {
 
 @media (min-width: 480px) {
 
-    .divider-member{
+    .divider-member {
         border: 1px solid var(--light--blue);
         width: 100px;
         margin: 8px auto;
@@ -92,12 +97,16 @@ footer {
         flex-direction: column;
     }
 
+    .footer-boolean a {
+        width: 150px;
+    }
+
     .footer-boolean {
         width: 100%;
     }
-    
+
     .footer-boolean img {
-        width: 150px;
+        width: 100%;
         margin-top: 30px;
     }
 
@@ -112,16 +121,16 @@ footer {
         margin-bottom: 20px;
         padding-left: 0px;
     }
-    
+
     .member h4 {
         font-size: 25px;
     }
-    
+
     .member p {
         font-size: 12px;
     }
 
-    .divider-member{
+    .divider-member {
         border: 1px solid var(--light--blue);
         width: 50px;
         margin: 10px auto;
@@ -133,5 +142,5 @@ footer {
         width: 100px;
         margin: 30px auto;
     }
-    
+
 }
