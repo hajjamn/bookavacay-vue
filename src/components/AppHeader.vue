@@ -152,7 +152,7 @@ export default {
           </RouterLink>
         </form>
 
-        <div class="d-flex gap-2">
+        <div class="d-flex">
 
           <a v-if="!isLoggedIn" class="register-btn register-btn-one"
             href="http://127.0.0.1:8000/register"><span>Register</span></a>

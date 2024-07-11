@@ -113,13 +113,23 @@
     width: 65px;
     height: 35px;
     text-align: center;
-    border-radius: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
     line-height: 3px;
     text-decoration: none;
+}
+
+.header-row .register-btn {
+    border-top-left-radius: 999px;
+    border-bottom-left-radius: 999px;
+    margin-right: 2px;
+}
+
+.header-row .login-btn {
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
 }
 
 .profile-btn {
