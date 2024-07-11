@@ -26,6 +26,7 @@ export default {
       showFilters: false,
       filtersVisible: false,
       lastPage: null,
+      markers: [],
     };
   },
   methods: {
@@ -99,6 +100,12 @@ export default {
         });
       console.log('services: ', this.selectedServices);
     },
+    addMarkers() {
+      for (let i = 0; i < this.apartments.length; i++) {
+        let apartment = this.apartments[i]
+        this.markers[i].setLngLat([apartment.longitude, apartment.latitude])
+      }
+    },
     initializeMap() {
 
       // tt è l'oggetto con tutte le info di tomtom,
@@ -129,6 +136,8 @@ export default {
           .addTo(map);
 
         console.log('Marker set')
+
+
         // Quando il marker viene spostato cambia la LAT e LON che vengono salvate
         marker.on("dragend", () => {
           let lngLat = marker.getLngLat();
@@ -154,6 +163,21 @@ export default {
               console.error("Reverse geocode error:", error);
             });
         });
+
+        //Creiamo i 6 marker jankissimi
+
+        for (let i = 0; i < 6; i++) {
+          let element = document.createElement("div")
+          element.id = `marker${i + 1}`
+          element.classList = 'custom-marker'
+          this.markers[i] = new tt.Marker({
+            element: element,
+            draggable: false,
+          })
+            // setta LAT e LON del marker e aggiungilo alla mappa
+            .setLngLat([i, i])
+            .addTo(map)
+        }
 
         //Se e' stata mandata una query con le props allora prendi quelle coordinate e indirizzo
         if (this.$route.query.queryLatitude !== undefined) {
@@ -304,11 +328,10 @@ export default {
       //Se sei tornato dal pulsante back, fai una ricerca automatica con quei parametri
     });
     this.fetchServices();
-    /* this.fetchResults(); */
     console.log('myQuery: ', this.$route.query);
   },
   created() {
-    this.fetchResults();
+    /* this.fetchResults(); */
   },
 
 
@@ -318,6 +341,8 @@ export default {
 <template>
   <main id="hidden-scrollbar">
     <div class="scroll-my"></div>
+
+    <button class="btn btn-warning m-5" @click="addMarkers()">Test</button>
 
     <!-- MAP -->
     <section>

@@ -44,7 +44,8 @@
     width: 400px;
 }
 
-.address-research-input label,input {
+.address-research-input label,
+input {
     padding: 10px 15px;
 }
 
@@ -103,7 +104,7 @@
 .border-radius {
     border-bottom-right-radius: 15px;
     border-bottom-left-radius: 15px;
-  }
+}
 
 .filter-container img {
     width: 17px;
@@ -180,8 +181,8 @@
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-  }
-  
+}
+
 .container-checkbox input {
     position: absolute;
     opacity: 0;
@@ -189,7 +190,7 @@
     height: 0;
     width: 0;
 }
-  
+
 .checkmark {
     position: absolute;
     top: 0;
@@ -201,7 +202,7 @@
     border-radius: 6px;
 }
 
-.container-checkbox input:checked ~ .checkmark {
+.container-checkbox input:checked~.checkmark {
     background-color: #2889B6;
     border: solid 2px white;
 }
@@ -210,17 +211,17 @@
     background-color: #2889B6;
     color: white;
 }
-  
+
 .checkmark:after {
     content: "";
     position: absolute;
     display: none;
 }
 
-.container-checkbox input:checked ~ .checkmark:after {
+.container-checkbox input:checked~.checkmark:after {
     display: block;
 }
-  
+
 .container-checkbox .checkmark:after {
     left: 9px;
     top: 5px;
@@ -263,7 +264,7 @@
 .search-apartment-detail-card {
     display: flex;
     text-decoration: none;
-    }
+}
 
 .search-image-container {
     object-fit: cover;
@@ -370,20 +371,20 @@
     .col-md-7 {
         padding: 0 !important;
     }
-    
+
     .search-apartment-detail-card {
         flex-direction: column;
         margin: 0 15px;
         position: relative;
-        }
-    
+    }
+
     .search-image-container {
         width: 100%;
         height: 320px;
         border-top-right-radius: 15px;
         border-bottom-left-radius: 0px;
     }
-    
+
     .search-data-container {
         width: 100%;
         border-top-right-radius: 0px;
@@ -392,13 +393,13 @@
         flex-direction: column;
         justify-content: space-around;
     }
-    
+
     .search-detail-container {
         position: absolute;
         top: 210px;
-        gap:20px
+        gap: 20px
     }
-    
+
     .search-detail-info {
         font-size: 13px;
         padding: 8px 15px;
@@ -407,7 +408,7 @@
         aspect-ratio: 1 / 1;
         width: 85px;
     }
-    
+
     .search-icon-detail {
         width: 30px;
         height: 30px;
@@ -421,6 +422,20 @@
         font-size: 15px;
         margin-top: -295px;
         margin-left: 25px;
-        }
+    }
 
+}
+
+//Roba a caso di Nicola
+
+#marker1,
+#marker2,
+#marker3,
+#marker4,
+#marker5,
+#marker6 {
+    background-image: url(/public/img/icon_bed_02.png);
+    background-size: contain;
+    width: 70px;
+    height: 70px;
 }
