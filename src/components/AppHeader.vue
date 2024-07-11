@@ -151,14 +151,30 @@ export default {
 
           <RouterLink to="/login"><span class="login-btn-one">Log in</span></RouterLink>
         </div>
-        <div v-if="isLoggedIn" class="register-btn fs-6">
-          <span v-if="userName !== null && userName !== ''">
+
+
+        <!-- <div v-if="isLoggedIn" class="register-btn fs-6">
+          <a href="http://localhost:8000">
+            <span v-if="userName !== null && userName !== ''">
+              {{ userName }}
+            </span>
+          </a>
+        </div> -->
+
+        <div v-if="isLoggedIn" class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
             {{ userName }}
-          </span>
-          <span class="ciao" v-else>
-            user
-          </span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="http://localhost:8000">
+                <span v-if="userName !== null && userName !== ''">
+                  Dashboard
+                </span>
+              </a></li>
+            <li><a class="dropdown-item" href="#">Logout</a></li>
+          </ul>
         </div>
+
       </div>
     </div>
   </header>

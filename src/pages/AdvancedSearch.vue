@@ -109,6 +109,7 @@ export default {
         .finally(() => {
           this.isSearching = false; // Reset isSearching after API call completes
           this.pastSearches = true;
+          this.addMarkers()
         });
       console.log("services: ", this.selectedServices);
     },
@@ -383,7 +384,8 @@ window.addEventListener("scroll", () => {
   <main id="hidden-scrollbar">
     <div class="scroll-my"></div>
 
-    <button class="btn btn-warning m-5" @click="addMarkers()">Test</button>
+    <!-- THEBEST il bottone del TEST -->
+    <!-- <button class="btn btn-warning m-5" @click="">Test</button> -->
 
     <!-- MAP -->
     <section>
@@ -404,12 +406,8 @@ window.addEventListener("scroll", () => {
 
           <!-- filter head -->
           <div class="filter-box">
-            <button
-              class="filter-container"
-              type="button"
-              :class="{ 'border-radius': !filtersVisible }"
-              @click="toggleFilters"
-            >
+            <button class="filter-container" type="button" :class="{ 'border-radius': !filtersVisible }"
+              @click="toggleFilters">
               <img src="/public/img/icon_filter_01.png" alt="" />
               <p>More filters</p>
             </button>
@@ -421,36 +419,15 @@ window.addEventListener("scroll", () => {
               <div class="numeric-filters">
                 <div class="filter-num">
                   <p>Min beds:</p>
-                  <input
-                    class="input-num"
-                    type="number"
-                    v-model="beds"
-                    name="beds"
-                    placeholder="1"
-                    min="1"
-                  />
+                  <input class="input-num" type="number" v-model="beds" name="beds" placeholder="1" min="1" />
                 </div>
                 <div class="filter-num">
                   <p>Min rooms:</p>
-                  <input
-                    class="input-num"
-                    type="number"
-                    v-model="rooms"
-                    name="rooms"
-                    placeholder="1"
-                    min="1"
-                  />
+                  <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="1" min="1" />
                 </div>
                 <div class="filter-num">
                   <p>Search km radius:</p>
-                  <input
-                    class="input-num"
-                    type="number"
-                    v-model="distance"
-                    name="distance"
-                    placeholder="20"
-                    min="1"
-                  />
+                  <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" min="1" />
                 </div>
               </div>
               <div class="filters-divider"></div>
@@ -459,14 +436,8 @@ window.addEventListener("scroll", () => {
               <ul class="services-container">
                 <li class="service-box" v-for="service in servicesList">
                   <label class="container-checkbox">
-                    <input
-                      class="checkbox"
-                      type="checkbox"
-                      v-model="selectedServices"
-                      name="services[]"
-                      :id="`service-${service.id}`"
-                      :value="service.id"
-                    />
+                    <input class="checkbox" type="checkbox" v-model="selectedServices" name="services[]"
+                      :id="`service-${service.id}`" :value="service.id" />
                     <span class="checkmark"></span>
                   </label>
                   <label :for="service.name">{{ service.name }}</label>
@@ -477,12 +448,7 @@ window.addEventListener("scroll", () => {
 
           <div class="row justify-content-center">
             <div class="col-auto text-center">
-              <button
-                @click="submitForm(1)"
-                id="form-submit"
-                type="submit"
-                class="btn btn-warning mt-3"
-              >
+              <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning mt-3">
                 Search
               </button>
             </div>
@@ -495,19 +461,13 @@ window.addEventListener("scroll", () => {
       Test Apartments
     </button>
 
-    <section
-      class="container-search"
-      v-if="apartments.length > 0 || pastSearches || isSearching"
-    >
+    <section class="container-search" v-if="apartments.length > 0 || pastSearches || isSearching">
       <!-- La ricerca e' finita e abbiamo dei risultati -->
-      <div
-        class="container-search-results"
-        v-if="apartments.length > 0 && !isSearching"
-      >
+      <div class="container-search-results" v-if="apartments.length > 0 && !isSearching">
         <h1>Your results:</h1>
 
         <!-- Singolo apartamento ciclato -->
-        <div v-for="(apartment,i) in apartments" :id="`result${i}`">
+        <div v-for="(apartment, i) in apartments" :id="`result${i}`">
           <router-link :to="{
             path: '/apartments/' + apartment.id, query: {
               queryLatitude: latitude,
@@ -523,11 +483,7 @@ window.addEventListener("scroll", () => {
 
             <!-- IMMAGINE SINISTRA -->
             <div>
-              <img
-                class="search-image-container"
-                :src="getImageUrl(apartment.image)"
-                alt=""
-              />
+              <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="" />
               <div v-if="apartment.sponsors[0]">
                 <div class="sponsor-badge">
                   <p>&#9733; Sponsored!</p>
@@ -542,41 +498,25 @@ window.addEventListener("scroll", () => {
               </div>
               <div class="search-detail-container">
                 <div class="search-detail-info">
-                  <img
-                    class="search-icon-detail room"
-                    src="/public/img/icon_room_01.png"
-                    alt=""
-                  />
+                  <img class="search-icon-detail room" src="/public/img/icon_room_01.png" alt="" />
                   <span>Rooms</span>
                   <span>{{ apartment.rooms }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img
-                    class="search-icon-detail space"
-                    src="/public/img/icon_space_01.png"
-                    alt=""
-                  />
+                  <img class="search-icon-detail space" src="/public/img/icon_space_01.png" alt="" />
                   <span>m ^2</span>
                   <span>{{ apartment.sqr_mt }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img
-                    class="search-icon-detail bed"
-                    src="/public/img/icon_bed_01.png"
-                    alt=""
-                  />
+                  <img class="search-icon-detail bed" src="/public/img/icon_bed_01.png" alt="" />
                   <span>Beds</span>
                   <span>{{ apartment.beds }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img
-                    class="search-icon-detail bathroom"
-                    src="/public/img/icon_bathroom_01.png"
-                    alt=""
-                  />
+                  <img class="search-icon-detail bathroom" src="/public/img/icon_bathroom_01.png" alt="" />
                   <span>Bathroom</span>
                   <span>{{ apartment.bathrooms }}</span>
                 </div>
@@ -584,10 +524,7 @@ window.addEventListener("scroll", () => {
               <div class="service-apartment-card">
                 <p>Services:</p>
                 <div class="service-badges">
-                  <div
-                    class="service-apartment-badge"
-                    v-for="service in apartment.services"
-                  >
+                  <div class="service-apartment-badge" v-for="service in apartment.services">
                     {{ service.name }}
                   </div>
                 </div>
@@ -621,25 +558,16 @@ window.addEventListener("scroll", () => {
           </div>
         </div> -->
         <div class="container-paginator">
-          <p
-            v-for="n in lastPage"
-            :key="n"
-            @click="changePage(n)"
-            :class="n === currentPage ? 'bg-orange' : 'bg-lightblue'"
-          >
+          <p v-for="n in lastPage" :key="n" @click="changePage(n)"
+            :class="n === currentPage ? 'bg-orange' : 'bg-lightblue'">
             {{ n }}
           </p>
         </div>
       </div>
 
       <!-- La ricerca e' finita ma NON ci sono risultati -->
-      <div
-        class="container-no-result"
-        v-if="apartments.length === 0 && pastSearches && !isSearching"
-      >
-        <div
-          class="row justify-content-center aling-items-center align-content-center h-100"
-        >
+      <div class="container-no-result" v-if="apartments.length === 0 && pastSearches && !isSearching">
+        <div class="row justify-content-center aling-items-center align-content-center h-100">
           <div class="col-auto">
             <h3>No results... try again!</h3>
           </div>
@@ -648,9 +576,7 @@ window.addEventListener("scroll", () => {
 
       <!-- La ricerca e' in corso -->
       <div class="container-article" v-if="isSearching">
-        <div
-          class="row justify-content-center aling-items-center align-content-center h-100"
-        >
+        <div class="row justify-content-center aling-items-center align-content-center h-100">
           <div class="col-auto">
             <div class="loader"></div>
           </div>
@@ -752,11 +678,11 @@ window.addEventListener("scroll", () => {
   cursor: pointer;
 }
 
-.container-paginator > p {
+.container-paginator>p {
   position: relative;
 }
 
-.container-paginator > p::before {
+.container-paginator>p::before {
   content: "";
   position: absolute;
   top: 67%;
@@ -767,7 +693,7 @@ window.addEventListener("scroll", () => {
   transition: 0.3s;
 }
 
-.container-paginator > p:hover::before {
+.container-paginator>p:hover::before {
   width: 50%;
   margin-left: 15px;
 }
