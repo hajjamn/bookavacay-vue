@@ -64,22 +64,27 @@ export default {
 </script>
 
 <template>
-  <div>
-    <main>
-      <span v-if="tokenSet">LOGGED IN WITH SUCCESS</span>
+    <main class="container-sm">
+      <span v-if="tokenSet" class="success-container">
+        <div class="login-succes">
+          You're logged in
+        </div>
+      </span>
       <div v-else>
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" name="email" v-model="email" />
+        <div class="container-login">
+          <div>
+            <label for="email">Email:</label>
+            <input class="input-container-login" type="email" name="email" v-model="email" />
+          </div>
+          <div>
+            <label for="password">Password:</label>
+            <input class="input-container-login" type="password" name="password" v-model="password" />
+          </div>
+          <button class="button-login" @click="getUser">Log in</button>
+          <a class="button-login-reg" href="http://127.0.0.1:8000/register">Don't have an account? Register now!</a>
         </div>
-        <div>
-          <label for="password">Password:</label>
-          <input type="password" name="password" v-model="password" />
-        </div>
-        <button class="btn btn-primary mb-5" @click="getUser">Cliccami</button>
       </div>
     </main>
-  </div>
 </template>
 
 <style scoped></style>
