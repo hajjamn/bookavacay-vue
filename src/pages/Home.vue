@@ -20,6 +20,11 @@ export default {
     };
   },
   methods: {
+    changePage(n) {
+      if (n === this.currentPage) return;
+      this.currentPage = n;
+      this.fetchApartments(this.currentPage);
+    },
     getImageUrl,
     fetchApartments(n) {
       axios
@@ -79,6 +84,8 @@ export default {
 
 <template>
   <main>
+    <div class="scroll-my"></div>
+
     <section class="section-title">
       <div class="container-title">
         <div>
@@ -130,7 +137,7 @@ export default {
         </div>
       </div>
 
-      <div class="container nav-menu">
+      <!-- <div class="container nav-menu">
         <div class="row py-3 justify-content-center align-items-baseline">
           <div class="col-auto">
             <font-awesome-icon :class="currentPage === 1 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
@@ -152,6 +159,12 @@ export default {
               :icon="['fas', 'angles-right']" @click="fetchApartments(lastPage)" />
           </div>
         </div>
+      </div> -->
+      <div class="container-paginator">
+        <p v-for="n in lastPage" :key="n" @click="changePage(n)"
+          :class="n === currentPage ? 'bg-orange' : 'bg-lightblue'">
+          {{ n }}
+        </p>
       </div>
     </section>
   </main>
@@ -182,5 +195,60 @@ export default {
 .nav-menu a {
   color: currentColor;
   text-decoration: none;
+}
+
+.container-paginator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.container-paginator p {
+  padding: 20px;
+  font-size: 25px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.container-paginator>p {
+  position: relative;
+}
+
+.container-paginator>p::before {
+  content: "";
+  position: absolute;
+  top: 67%;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: var(--orange);
+  transition: 0.3s;
+}
+
+.container-paginator>p:hover::before {
+  width: 50%;
+  margin-left: 15px;
+}
+
+.bg-orange {
+  color: var(--orange);
+}
+
+.bg-lightblue {
+  color: var(--blue);
+}
+
+.scroll-my {
+  width: 100%;
+  height: 10px;
+  background-color: var(--light--orange);
+
+  position: fixed;
+  z-index: 1000;
+  bottom: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.4s ease-out;
 }
 </style>
