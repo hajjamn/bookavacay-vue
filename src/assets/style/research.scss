@@ -434,8 +434,17 @@ input {
 #marker4,
 #marker5,
 #marker6 {
-    background-image: url(/public/img/icon_bed_02.png);
+    background-image: url(/public/img/Logo-pointer-01.png);
     background-size: contain;
     width: 70px;
     height: 70px;
+}
+
+#marker1:hover,
+#marker2:hover,
+#marker3:hover,
+#marker4:hover,
+#marker5:hover,
+#marker6:hover {
+    background-image: url(/public/img/Logo-pointer-02.png);
 }

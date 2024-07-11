@@ -111,7 +111,8 @@ export default {
     addMarkers() {
       for (let i = 0; i < this.apartments.length; i++) {
         let apartment = this.apartments[i]
-        let popupHtml = '<p style="display:inline">' +
+        let popupHtml =
+          '<p style="display:inline">' +
           `<img src="${getImageUrl(this.apartments[i].image)}"style="width:50%;float:right;padding-top:10px"` +
           `<p>${this.apartments[i].title}</p>`
 
