@@ -7,6 +7,7 @@ export default {
   data() {
     return {
       apartments: [],
+      totalResults: [],
       latitude: 0,
       longitude: 0,
       address: "",
@@ -15,6 +16,7 @@ export default {
       rooms: null,
       distance: null,
       selectedServices: [],
+      isSettingMap: false,
       isSearching: false,
       pastSearches: false,
       results: [],
@@ -38,10 +40,20 @@ export default {
     };
   },
   methods: {
-    changePage(n) {
+    changePage(n, id) {
       if (n === this.currentPage) return;
       this.currentPage = n;
-      this.submitForm(this.currentPage);
+      this.submitForm(this.currentPage, 0);
+
+      if (id) {
+        const interval = setInterval(() => {
+          if (!this.isSearching) {
+            clearInterval(interval);
+            document.getElementById(`result${id}`).scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 100); // Check every 100 milliseconds
+      }
+      console.log('Changing page to ', n + ' at ', id);
     },
     toggleFilters() {
       this.filtersVisible = !this.filtersVisible;
@@ -56,7 +68,7 @@ export default {
         )
         .then((response) => {
           this.results = response.data;
-          console.log(response.data.apartments.data);
+          /* console.log(response.data.apartments.data); */
           this.apartments = response.data.apartments.data;
           this.lastPage = response.data.apartments.last_page;
         });
@@ -78,60 +90,142 @@ export default {
       }
       return true;
     },
-    submitForm(n) {
-      if (!this.validateForm()) {
-        return;
+    submitForm(n, id) {
+      console.log('Ricerca inizializzata con: ', n, id);
+
+      // Function to perform the API call and update the results
+      const performSearch = () => {
+        if (!this.validateForm()) {
+          return;
+        }
+        console.log('Comincio la ricerca');
+        this.isSearching = true; // Set isSearching to true before API call
+        axios
+          .post("http://127.0.0.1:8000/api/apartments/search", {
+            latitude: this.latitude,
+            longitude: this.longitude,
+            address: this.address,
+            beds: this.beds,
+            rooms: this.rooms,
+            selectedServices: this.selectedServices,
+            distance: this.distance,
+            page: n,
+          })
+          .then((response) => {
+            let paginatedResults = response.data.apartments;
+            this.apartments = paginatedResults.data;
+            this.totalResults = response.data.totalresults;
+            this.numberOfResults = paginatedResults.total;
+            this.currentPage = paginatedResults.current_page;
+            this.lastPage = paginatedResults.last_page;
+            console.log("Form submitted successfully:", this.apartments, this.totalResults);
+          })
+          .catch((error) => {
+            console.error("Error submitting form:", error);
+          })
+          .finally(() => {
+            this.isSearching = false; // Reset isSearching after API call completes
+            this.pastSearches = true;
+            this.addMarkers();
+
+            // Scroll into view if id is provided
+            if (id !== undefined) {
+              console.log('Scorro verso id che mi hanno passato, ', id);
+              this.$nextTick(() => {
+                const retryScrollIntoView = (retryCount = 0) => {
+                  const element = document.getElementById(`result${id}`);
+                  if (element) {
+                    console.log(`Found element with id result${id}`);
+                    element.scrollIntoView({ behavior: 'smooth' });
+                  } else if (retryCount < 10) { // Retry up to 10 times
+                    console.log(`Element with id result${id} not found, retrying... (${retryCount + 1})`);
+                    setTimeout(() => retryScrollIntoView(retryCount + 1), 100); // Check every 100 milliseconds
+                  } else {
+                    console.warn(`Element with id result${id} not found after multiple retries`);
+                  }
+                };
+                retryScrollIntoView();
+              });
+            }
+          });
+      };
+
+      // Check if isSettingMap is false, otherwise wait until it becomes false
+      if (this.isSettingMap) {
+        console.log('La mappa si sta aggiornando');
+        const interval = setInterval(() => {
+          if (!this.isSettingMap) {
+            console.log('La mappa ha finito');
+            clearInterval(interval);
+            performSearch();
+          }
+        }, 100); // Check every 100 milliseconds
+      } else {
+        performSearch();
       }
-      this.isSearching = true; // Set isSearching to true before API call
-      console.log(n);
-      axios
-        .post("http://127.0.0.1:8000/api/apartments/search", {
-          latitude: this.latitude,
-          longitude: this.longitude,
-          address: this.address,
-          beds: this.beds,
-          rooms: this.rooms,
-          selectedServices: this.selectedServices,
-          distance: this.distance,
-          page: n,
-        })
-        .then((response) => {
-          /* this.apartments = response.data.apartments; */
-          let paginatedResults = response.data.apartments;
-          this.apartments = paginatedResults.data;
-          this.currentPage = paginatedResults.current_page;
-          this.lastPage = paginatedResults.last_page;
-          console.log("Form submitted successfully:", paginatedResults);
-        })
-        .catch((error) => {
-          console.error("Error submitting form:", error);
-        })
-        .finally(() => {
-          this.isSearching = false; // Reset isSearching after API call completes
-          this.pastSearches = true;
-          this.addMarkers()
-        });
-      console.log("services: ", this.selectedServices);
     },
     addMarkers() {
+      // Reset all markers and make them invisible
       this.markers.forEach((marker, i) => {
         marker.setLngLat([0, 0]);
-        document.getElementById(`marker${i + 1}`).classList.add('invisible');
+        document.getElementById(`marker${i}`).classList.add('invisible');
       });
-      for (let i = 0; i < this.apartments.length; i++) {
-        let apartment = this.apartments[i];
-        let popupHtml =
-          `<a href="#result${i}">` +
-          `<img class="popup-image" src="${getImageUrl(this.apartments[i].image)}" style="width:50%;float:right;"` +
-          `<p class="popup-title">${this.apartments[i].title}</p>` +
-          `</a>`
-        document.getElementById(`marker${i + 1}`).classList.remove('invisible');
-        let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(popupHtml)
-        this.markers[i]
-          .setLngLat([apartment.longitude, apartment.latitude])
-          .setPopup(popup)
+
+      let resultNumberInPage = -1;
+
+      // Iterate over all results
+      for (let i = 0; i < this.totalResults.length; i++) {
+        let apartment = this.totalResults[i];
+        let popupHtml;
+        let markerElement = document.getElementById(`marker${i}`);
+        let popup;
+
+        // For the first 6 results
+        if (i < 6) {
+          apartment = this.apartments[i];
+          popupHtml = `
+        <a href="#result${i}">
+          <img class="popup-image" src="${getImageUrl(apartment.image)}" style="width:50%;float:right;">
+          <p class="popup-title">${apartment.title}</p>
+        </a>`;
+
+          markerElement.classList.remove('invisible');
+          popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(popupHtml);
+
+          this.markers[i]
+            .setLngLat([apartment.longitude, apartment.latitude])
+            .setPopup(popup);
+
+        } else {
+          if (resultNumberInPage < 5) {
+            resultNumberInPage++;
+          } else {
+            resultNumberInPage = 0;
+          }
+
+          popupHtml = `
+        <a id="popup${i}" href="#result${resultNumberInPage}">
+          <img class="popup-image" src="${getImageUrl(apartment.image)}" style="width:50%;float:right;">
+          <p class="popup-title">${apartment.title}</p>
+        </a>`;
+
+          markerElement.classList.remove('invisible');
+          popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(popupHtml);
+
+          this.markers[i]
+            .setLngLat([apartment.longitude, apartment.latitude])
+            .setPopup(popup);
+
+          // Add event listener with a closure to capture current iteration variables
+          ((index, resultPos) => {
+            popup.on('open', () => {
+              document.getElementById(`popup${index}`).addEventListener('click', () => this.changePage(Math.floor(index / 6) + 1, resultPos));
+            });
+          })(i, resultNumberInPage);
+        }
       }
-    },
+    }
+    ,
     initializeMap() {
       // tt è l'oggetto con tutte le info di tomtom,
       // tt.map ha le info della mappa
@@ -144,13 +238,13 @@ export default {
         typeof tt.services !== "undefined"
       ) {
         // Inizializza la mappa con TomTom Key, indicazione di dove inserirla nel HTML, dove centrarla e zoom
+        this.isSettingMap = true;
         let map = tt.map({
           key: "VtdGJcQDaomboK5S3kbxFvhtbupZjoK0",
           container: "map",
           center: [0, 0],
           zoom: 15,
         });
-        console.log("Map set");
 
         // inizializza il marker
         let marker = new tt.Marker({
@@ -160,16 +254,11 @@ export default {
           .setLngLat([0, 0])
           .addTo(map);
 
-        console.log("Marker set");
-
-        console.log("Marker set");
         // Quando il marker viene spostato cambia la LAT e LON che vengono salvate
         marker.on("dragend", () => {
           let lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
           this.longitude = lngLat.lng;
-
-          console.log("Listening to marker drag");
 
           // Servizi di TomTom (ricerca, distanza, ecc...)
           tt.services
@@ -182,21 +271,19 @@ export default {
             .then((response) => {
               let userAddress = response.addresses[0].address.freeformAddress;
               this.address = userAddress;
-              console.log("Address and coordinates set at: ", lngLat);
             })
             .catch((error) => {
               console.error("Reverse geocode error:", error);
             });
         });
 
-        //Creiamo i 6 marker jankissimi
-
-        for (let i = 0; i < 6; i++) {
-          //Marker
-          let element = document.createElement("div")
-          element.id = `marker${i + 1}`
-          element.classList = 'invisible'
-          //Popup
+        // Creiamo i 50 marker jankissimi
+        for (let i = 0; i < 60; i++) {
+          // Marker
+          let element = document.createElement("div");
+          element.id = `marker${i}`;
+          element.classList = 'invisible';
+          // Popup
           this.markers[i] = new tt.Marker({
             element: element,
             draggable: false,
@@ -206,32 +293,22 @@ export default {
             .addTo(map);
         }
 
-        //Se e' stata mandata una query con le props allora prendi quelle coordinate e indirizzo
+        // Se e' stata mandata una query con le props allora prendi quelle coordinate e indirizzo
         if (this.$route.query.queryLatitude !== undefined) {
-          //recupera i dati della query
+          // recupera i dati della query
           let queryLocation = [
             this.$route.query.queryLongitude,
             this.$route.query.queryLatitude,
           ];
-          console.log(
-            "Query found with this data: ",
-            queryLocation,
-            this.$route.query.queryAddress
-          );
-          //centra la mappa e il marker su quelle coordinate
+          // centra la mappa e il marker su quelle coordinate
           map.setCenter(queryLocation);
           marker.setLngLat(queryLocation);
           this.latitude = queryLocation[1];
           this.longitude = queryLocation[0];
           this.address = this.$route.query.queryAddress;
-          console.log(
-            "Location updated: ",
-            this.latitude,
-            this.longitude,
-            this.address
-          );
+          this.isSettingMap = false; // Set isSettingMap to false after setting query location
         }
-        //Altrimenti, se necessaria la geolocalizzazione dello user
+        // Altrimenti, se necessaria la geolocalizzazione dello user
         else if (navigator.geolocation) {
           // Imposta la localizzazione dello user recuperando la sua posizione attuale
           navigator.geolocation.getCurrentPosition((position) => {
@@ -244,12 +321,6 @@ export default {
             marker.setLngLat(userLocation);
             this.latitude = userLocation[1];
             this.longitude = userLocation[0];
-            console.log(
-              "Query not found, data now is: ",
-              this.latitude,
-              this.longitude
-            );
-            console.log("Moved the marker to user location");
 
             // Servizi di TomTom (ricerca, distanza, ecc...)
             tt.services
@@ -262,12 +333,17 @@ export default {
               .then((response) => {
                 let address = response.addresses[0].address.freeformAddress;
                 this.address = address;
-                console.log("Address:" + this.address);
+                this.isSettingMap = false; // Set isSettingMap to false here
               })
               .catch((error) => {
                 console.error("Reverse geocode error:", error);
+                this.isSettingMap = false; // Set isSettingMap to false on error
               });
+          }, () => {
+            this.isSettingMap = false; // Set isSettingMap to false if geolocation fails
           });
+        } else {
+          this.isSettingMap = false; // Set isSettingMap to false if no query or geolocation
         }
 
         // Inizializzazione searchbox
@@ -297,9 +373,6 @@ export default {
           this.searchBoxHTML = this.ttSearchBox.getSearchBoxHTML();
           document.getElementById("searchbar").appendChild(this.searchBoxHTML);
           this.searchBoxHTML.id = "advanced-search-input";
-          console.log("Child appended");
-        } else {
-          console.log("Ho trovato un search input");
         }
 
         // Prendi le informazioni selezionate dai suggerimenti e impostale come coordinate salvate, centratura della mappa e del marker
@@ -334,38 +407,36 @@ export default {
                 this.latitude = lngLat.lat;
                 this.longitude = lngLat.lng;
                 this.address = result.address.freeformAddress;
-                // console.log("Searchbox used.");
-                // console.log("latitude:" + this.latitude);
-                // console.log("longitude:" + this.longitude);
               }
             });
         });
       } else {
         console.error("TomTom SDK not loaded properly.");
+        this.isSettingMap = false;
       }
     },
   },
   mounted() {
     this.$nextTick(() => {
       this.initializeMap();
-      //Se hai effettuato una ricerca dalla home, fai la ricerca automatica con quei parametri
+      // Se hai effettuato una ricerca dalla home, fai la ricerca automatica con quei parametri
       if (this.$route.query.queryHomeSearch) {
-        setTimeout(() => {
-          this.submitForm(1);
-        }, 1000);
+        this.latitude = this.$route.query.queryLatitude
+        this.longitude = this.$route.query.queryLongitude
+        this.address = this.$route.query.queryAddress
+        this.submitForm(1);
+        console.log('Query home found')
       } else if (this.$route.query.queryBack) {
         this.beds = this.$route.query.queryBeds;
         this.rooms = this.$route.query.queryRooms;
         this.selectedServices = this.$route.query.queryServices;
         this.distance = this.$route.query.queryDistance;
-        setTimeout(() => {
-          this.submitForm(this.$route.query.queryPage);
-        }, 1000);
+        this.submitForm(this.$route.query.queryPage, this.$route.query.queryPosition);
+        console.log('Query back con: ', this.$route.query.queryPage, this.$route.query.queryPosition)
       }
-      //Se sei tornato dal pulsante back, fai una ricerca automatica con quei parametri
     });
     this.fetchServices();
-    console.log("myQuery: ", this.$route.query);
+    /* console.log("myQuery: ", this.$route.query); */
   },
   created() {
     /* this.fetchResults(); */
@@ -385,7 +456,7 @@ window.addEventListener("scroll", () => {
     <div class="scroll-my"></div>
 
     <!-- THEBEST il bottone del TEST -->
-    <!-- <button class="btn btn-warning m-5" @click="">Test</button> -->
+    <!-- <button class="btn btn-warning m-5" @click="console.log(isSettingMap)">Test</button> -->
 
     <!-- MAP -->
     <section>
@@ -448,7 +519,7 @@ window.addEventListener("scroll", () => {
 
           <div class="row justify-content-center">
             <div class="col-auto text-center">
-              <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning mt-3">
+              <button @click="submitForm(1, 0)" id="form-submit" type="submit" class="btn btn-warning mt-3">
                 Search
               </button>
             </div>
@@ -457,9 +528,9 @@ window.addEventListener("scroll", () => {
       </div>
     </div>
 
-    <button class="btn btn-primary d-none" @click="console.log(apartments)">
+    <!-- <button class="btn btn-primary d-none" @click="console.log(apartments)">
       Test Apartments
-    </button>
+    </button> -->
 
     <section class="container-search" v-if="apartments.length > 0 || pastSearches || isSearching">
       <!-- La ricerca e' finita e abbiamo dei risultati -->
@@ -478,7 +549,8 @@ window.addEventListener("scroll", () => {
               queryServices: selectedServices,
               queryDistance: distance,
               queryPage: currentPage,
-              querySource: 'search'
+              querySource: 'search',
+              queryPosition: i
             }
           }" class="search-apartment-detail-card">
 
@@ -559,7 +631,7 @@ window.addEventListener("scroll", () => {
           </div>
         </div> -->
         <div class="container-paginator">
-          <p v-for="n in lastPage" :key="n" @click="changePage(n)"
+          <p v-for="n in lastPage" :key="n" @click="changePage(n, 0)"
             :class="n === currentPage ? 'bg-orange' : 'bg-lightblue'">
             {{ n }}
           </p>

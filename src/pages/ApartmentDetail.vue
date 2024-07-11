@@ -99,6 +99,7 @@ export default {
   mounted() {
     // Access route query parameters
     console.log('Query Params:', this.$route.query);
+    document.getElementById('back-btn').scrollIntoView({ behavior: 'smooth' })
   }
 };
 </script>
@@ -116,17 +117,18 @@ export default {
       queryServices: this.$route.query.queryServices,
       queryDistance: this.$route.query.queryDistance,
       queryPage: this.$route.query.queryPage,
-      queryBack: true
+      queryBack: true,
+      queryPosition: this.$route.query.queryPosition
     }
   }" class="search-apartment-detail-card m-4">
-    <button class="btn btn-secondary">Back to Search</button>
+    <button id="back-btn" class="btn btn-warning">Back to Search</button>
   </router-link>
 
   <router-link v-if="this.$route.query.querySource === 'home'" :to="{
     path: '/', query: {
     }
   }" class="search-apartment-detail-card m-4">
-    <button class="btn btn-secondary">Back to Home</button>
+    <button id="back-btn" class="btn btn-warning">Back to Home</button>
   </router-link>
 
   <section class="container-sm">
