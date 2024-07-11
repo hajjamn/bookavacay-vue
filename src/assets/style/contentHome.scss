@@ -179,7 +179,6 @@ a {
         line-height: 42px;
         background-image: url(/public/img/Home-cover.png);
         background-size: cover;
-        border-radius: 15px;
         font-size: 35px;
         font-weight: bold;
         letter-spacing: 2px;
@@ -265,7 +264,6 @@ a {
 
     main {
         background-color: #95CFE9;
-        padding-top: 25px;
         max-width: 100%;
     }
 
@@ -273,15 +271,22 @@ a {
         border: 1px solid #95CFE9;
         height: 39px;
     }
+}
 
+@media (min-width: 680px) {
+    main {
+        padding-top: 25px;
+    }
 
-
+    .container-title {
+        border-radius: 15px;
+    }
 }
 
 
 /* --------------------------WaVE------------------------------------- */
 
-.svg-wave {}
+
 
 
 /* --------------------------RESPONSIVE PHONE------------------------------------- */

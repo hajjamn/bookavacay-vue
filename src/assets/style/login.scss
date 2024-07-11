@@ -37,6 +37,10 @@
     text-decoration: underline !important;
 }
 
+.button-login-reg:hover {
+    color: var(--orange);
+}
+
 .login-succes {
     border-radius: 8px;
     border: solid 1px #2889B6;
