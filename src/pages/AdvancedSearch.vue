@@ -477,7 +477,8 @@ window.addEventListener("scroll", () => {
               queryRooms: rooms,
               queryServices: selectedServices,
               queryDistance: distance,
-              queryPage: currentPage
+              queryPage: currentPage,
+              querySource: 'search'
             }
           }" class="search-apartment-detail-card">
 

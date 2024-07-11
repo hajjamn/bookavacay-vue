@@ -106,7 +106,7 @@ export default {
 <template>
 
 
-  <router-link :to="{
+  <router-link v-if="this.$route.query.querySource === 'search'" :to="{
     path: '/search', query: {
       queryLatitude: this.$route.query.queryLatitude,
       queryLongitude: this.$route.query.queryLongitude,
@@ -119,7 +119,14 @@ export default {
       queryBack: true
     }
   }" class="search-apartment-detail-card m-4">
-    <button class="btn btn-secondary">Go back</button>
+    <button class="btn btn-secondary">Back to Search</button>
+  </router-link>
+
+  <router-link v-if="this.$route.query.querySource === 'home'" :to="{
+    path: '/', query: {
+    }
+  }" class="search-apartment-detail-card m-4">
+    <button class="btn btn-secondary">Back to Home</button>
   </router-link>
 
   <section class="container-sm">

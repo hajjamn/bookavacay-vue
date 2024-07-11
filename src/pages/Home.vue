@@ -91,51 +91,36 @@ export default {
       <div class="container-article">
         <h1>Our top choices:</h1>
         <div class="row-article">
-          <article
-            v-for="apartment in apartments"
-            class="col-article"
-            :key="apartment.id"
-          >
-            <router-link :to="'/apartments/' + apartment.id">
+          <article v-for="apartment in apartments" class="col-article" :key="apartment.id">
+
+            <router-link :to="{
+              path: '/apartments/' + apartment.id, query: {
+                querySource: 'home'
+              }
+            }">
               <img :src="getImageUrl(apartment.image)" alt="" />
               <p>{{ apartment.title }}</p>
               <div class="container-article-info">
                 <div class="article-info">
-                  <img
-                    class="icon-info room"
-                    src="/public/img/icon_room_01.png"
-                    alt=""
-                  />
+                  <img class="icon-info room" src="/public/img/icon_room_01.png" alt="" />
                   <span class="span-info">Rooms</span>
                   <span>{{ apartment.rooms }}</span>
                 </div>
                 <div class="divider-home"></div>
                 <div class="article-info">
-                  <img
-                    class="icon-info space"
-                    src="/public/img/icon_space_01.png"
-                    alt=""
-                  />
+                  <img class="icon-info space" src="/public/img/icon_space_01.png" alt="" />
                   <span class="span-info">m ^2</span>
                   <span>{{ apartment.sqr_mt }}</span>
                 </div>
                 <div class="divider-home"></div>
                 <div class="article-info">
-                  <img
-                    class="icon-info bed"
-                    src="/public/img/icon_bed_01.png"
-                    alt=""
-                  />
+                  <img class="icon-info bed" src="/public/img/icon_bed_01.png" alt="" />
                   <span class="span-info">Beds</span>
                   <span>{{ apartment.beds }}</span>
                 </div>
                 <div class="divider-home"></div>
                 <div class="article-info">
-                  <img
-                    class="icon-info bathroom"
-                    src="/public/img/icon_bathroom_01.png"
-                    alt=""
-                  />
+                  <img class="icon-info bathroom" src="/public/img/icon_bathroom_01.png" alt="" />
                   <span class="span-info">Bathroom</span>
                   <span>{{ apartment.bathrooms }}</span>
                 </div>
@@ -148,49 +133,32 @@ export default {
       <div class="container nav-menu">
         <div class="row py-3 justify-content-center align-items-baseline">
           <div class="col-auto">
-            <font-awesome-icon
-              :class="currentPage === 1 ? 'nav-btn-disabled' : ''"
-              class="fs-5 nav-btn"
-              :icon="['fas', 'angles-left']"
-              @click="fetchApartments(1)"
-            />
+            <font-awesome-icon :class="currentPage === 1 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angles-left']" @click="fetchApartments(1)" />
           </div>
           <div class="col-auto" @click="">
-            <font-awesome-icon
-              :class="currentPage - 1 <= 0 ? 'nav-btn-disabled' : ''"
-              class="fs-5 nav-btn"
-              :icon="['fas', 'angle-left']"
-              @click="fetchApartments(currentPage - 1)"
-            />
+            <font-awesome-icon :class="currentPage - 1 <= 0 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angle-left']" @click="fetchApartments(currentPage - 1)" />
           </div>
           <div class="col-auto">
             <span class="fs-4 nav-number">{{ currentPage }}</span>
           </div>
           <div class="col-auto">
-            <font-awesome-icon
-              :class="currentPage + 1 > lastPage ? 'nav-btn-disabled' : ''"
-              class="fs-5 nav-btn"
-              :icon="['fas', 'angle-right']"
-              @click="fetchApartments(currentPage + 1)"
-            />
+            <font-awesome-icon :class="currentPage + 1 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angle-right']" @click="fetchApartments(currentPage + 1)" />
           </div>
           <div class="col-auto">
-            <font-awesome-icon
-              :class="currentPage === lastPage ? 'nav-btn-disabled' : ''"
-              class="fs-5 nav-btn"
-              :icon="['fas', 'angles-right']"
-              @click="fetchApartments(lastPage)"
-            />
+            <font-awesome-icon :class="currentPage === lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angles-right']" @click="fetchApartments(lastPage)" />
           </div>
         </div>
       </div>
     </section>
   </main>
-  
+
 </template>
 
 <style scoped>
-
 .nav-number {
   color: var(--orange);
   cursor: default;
