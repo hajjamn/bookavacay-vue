@@ -34,7 +34,7 @@ export default {
         "bottom-left": [0, -70],
         left: [25, -35],
         right: [-25, -35],
-      }
+      },
     };
   },
   methods: {
@@ -114,30 +114,40 @@ export default {
     },
     addMarkers() {
       for (let i = 0; i < this.apartments.length; i++) {
-        let apartment = this.apartments[i]
+        let apartment = this.apartments[i];
         let popupHtml =
           '<p style="display:inline">' +
-          `<img src="${getImageUrl(this.apartments[i].image)}"style="width:50%;float:right;padding-top:10px"` +
-          `<p>${this.apartments[i].title}</p>`
+          `<img src="${getImageUrl(
+            this.apartments[i].image
+          )}"style="width:50%;float:right;padding-top:10px"` +
+          `<p>${this.apartments[i].title}</p>`;
 
-        let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(popupHtml)
+        let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(
+          popupHtml
+        );
         this.markers[i]
           .setLngLat([apartment.longitude, apartment.latitude])
-          .setPopup(popup).togglePopup()
+          .setPopup(popup)
+          .togglePopup();
       }
     },
     addMarkers() {
       for (let i = 0; i < this.apartments.length; i++) {
-        let apartment = this.apartments[i]
+        let apartment = this.apartments[i];
         let popupHtml =
           '<p style="display:inline">' +
-          `<img src="${getImageUrl(this.apartments[i].image)}"style="width:50%;float:right;padding-top:10px"` +
-          `<p>${this.apartments[i].title}</p>`
+          `<img src="${getImageUrl(
+            this.apartments[i].image
+          )}"style="width:50%;float:right;padding-top:10px"` +
+          `<p>${this.apartments[i].title}</p>`;
 
-        let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(popupHtml)
+        let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(
+          popupHtml
+        );
         this.markers[i]
           .setLngLat([apartment.longitude, apartment.latitude])
-          .setPopup(popup).togglePopup()
+          .setPopup(popup)
+          .togglePopup();
       }
     },
     initializeMap() {
@@ -168,8 +178,7 @@ export default {
           .setLngLat([0, 0])
           .addTo(map);
 
-        console.log('Marker set')
-
+        console.log("Marker set");
 
         console.log("Marker set");
         // Quando il marker viene spostato cambia la LAT e LON che vengono salvate
@@ -202,9 +211,9 @@ export default {
 
         for (let i = 0; i < 6; i++) {
           //Marker
-          let element = document.createElement("div")
-          element.id = `marker${i + 1}`
-          element.classList = 'custom-marker'
+          let element = document.createElement("div");
+          element.id = `marker${i + 1}`;
+          element.classList = "custom-marker";
           //Popup
           this.markers[i] = new tt.Marker({
             element: element,
@@ -212,7 +221,7 @@ export default {
           })
             // setta LAT e LON del marker e aggiungilo alla mappa
             .setLngLat([i, i])
-            .addTo(map)
+            .addTo(map);
         }
 
         //Se e' stata mandata una query con le props allora prendi quelle coordinate e indirizzo
@@ -493,7 +502,6 @@ window.addEventListener("scroll", () => {
                 type="submit"
                 class="btn btn-warning mt-3"
               >
-              <button @click="submitForm(1)" id="form-submit" type="submit" class="search-button">
                 Search
               </button>
             </div>
@@ -557,44 +565,40 @@ window.addEventListener("scroll", () => {
               <div class="search-detail-container">
                 <div class="search-detail-info">
                   <img
-                    class="search-icon-detail"
+                    class="search-icon-detail room"
                     src="/public/img/icon_room_01.png"
                     alt=""
                   />
-                  <img class="search-icon-detail room" src="/public/img/icon_room_01.png" alt="">
                   <span>Rooms</span>
                   <span>{{ apartment.rooms }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
                   <img
-                    class="search-icon-detail"
+                    class="search-icon-detail space"
                     src="/public/img/icon_space_01.png"
                     alt=""
                   />
-                  <img class="search-icon-detail space" src="/public/img/icon_space_01.png" alt="">
                   <span>m ^2</span>
                   <span>{{ apartment.sqr_mt }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
                   <img
-                    class="search-icon-detail"
+                    class="search-icon-detail bed"
                     src="/public/img/icon_bed_01.png"
                     alt=""
                   />
-                  <img class="search-icon-detail bed" src="/public/img/icon_bed_01.png" alt="">
                   <span>Beds</span>
                   <span>{{ apartment.beds }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
                   <img
-                    class="search-icon-detail"
+                    class="search-icon-detail bathroom"
                     src="/public/img/icon_bathroom_01.png"
                     alt=""
                   />
-                  <img class="search-icon-detail bathroom" src="/public/img/icon_bathroom_01.png" alt="">
                   <span>Bathroom</span>
                   <span>{{ apartment.bathrooms }}</span>
                 </div>
@@ -652,14 +656,12 @@ window.addEventListener("scroll", () => {
 
       <!-- La ricerca e' finita ma NON ci sono risultati -->
       <div
-        class="container-article"
+        class="container-no-result"
         v-if="apartments.length === 0 && pastSearches && !isSearching"
       >
         <div
           class="row justify-content-center aling-items-center align-content-center h-100"
         >
-      <div class="container-no-result" v-if="apartments.length === 0 && pastSearches && !isSearching">
-        <div class="row justify-content-center aling-items-center align-content-center h-100">
           <div class="col-auto">
             <h3>No results... try again!</h3>
           </div>
