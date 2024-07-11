@@ -30,9 +30,9 @@ export default {
   },
   methods: {
     changePage(n) {
-      if (n === this.currentPage) return
-      this.currentPage = n
-      this.submitForm(this.currentPage)
+      if (n === this.currentPage) return;
+      this.currentPage = n;
+      this.submitForm(this.currentPage);
     },
     toggleFilters() {
       this.filtersVisible = !this.filtersVisible;
@@ -40,12 +40,16 @@ export default {
     },
     getImageUrl,
     fetchResults() {
-      axios.get('http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268', { params: { q: this.query, page: this.currentPage } })
-        .then(response => {
+      axios
+        .get(
+          "http://127.0.0.1:8000/api/apartments/search?latitude=44.49508802535032&longitude=11.34181285319268",
+          { params: { q: this.query, page: this.currentPage } }
+        )
+        .then((response) => {
           this.results = response.data;
-          console.log(response.data.apartments.data)
-          this.apartments = response.data.apartments.data
-          this.lastPage = response.data.apartments.last_page
+          console.log(response.data.apartments.data);
+          this.apartments = response.data.apartments.data;
+          this.lastPage = response.data.apartments.last_page;
         });
     },
     fetchServices() {
@@ -56,7 +60,7 @@ export default {
         })
         .catch((error) => {
           console.error("Error submitting form:", error);
-        })
+        });
     },
     validateForm() {
       if (this.beds < 0 || this.rooms < 0 || this.distance < 0) {
@@ -70,7 +74,7 @@ export default {
         return;
       }
       this.isSearching = true; // Set isSearching to true before API call
-      console.log(n)
+      console.log(n);
       axios
         .post("http://127.0.0.1:8000/api/apartments/search", {
           latitude: this.latitude,
@@ -80,14 +84,14 @@ export default {
           rooms: this.rooms,
           selectedServices: this.selectedServices,
           distance: this.distance,
-          page: n
+          page: n,
         })
         .then((response) => {
           /* this.apartments = response.data.apartments; */
-          let paginatedResults = response.data.apartments
-          this.apartments = paginatedResults.data
-          this.currentPage = paginatedResults.current_page
-          this.lastPage = paginatedResults.last_page
+          let paginatedResults = response.data.apartments;
+          this.apartments = paginatedResults.data;
+          this.currentPage = paginatedResults.current_page;
+          this.lastPage = paginatedResults.last_page;
           console.log("Form submitted successfully:", paginatedResults);
         })
         .catch((error) => {
@@ -97,13 +101,12 @@ export default {
           this.isSearching = false; // Reset isSearching after API call completes
           this.pastSearches = true;
         });
-      console.log('services: ', this.selectedServices);
+      console.log("services: ", this.selectedServices);
     },
     initializeMap() {
-
       // tt è l'oggetto con tutte le info di tomtom,
-      // tt.map ha le info della mappa 
-      // tt.services ha tutte le informazioni aggiuntive (ricerca, distanza, ecc...) 
+      // tt.map ha le info della mappa
+      // tt.services ha tutte le informazioni aggiuntive (ricerca, distanza, ecc...)
 
       // Se tt, tt.map, tt.services NON sono undefined => crea la mappa
       if (
@@ -118,7 +121,7 @@ export default {
           center: [0, 0],
           zoom: 15,
         });
-        console.log('Map set')
+        console.log("Map set");
 
         // inizializza il marker
         let marker = new tt.Marker({
@@ -128,14 +131,14 @@ export default {
           .setLngLat([0, 0])
           .addTo(map);
 
-        console.log('Marker set')
+        console.log("Marker set");
         // Quando il marker viene spostato cambia la LAT e LON che vengono salvate
         marker.on("dragend", () => {
           let lngLat = marker.getLngLat();
           this.latitude = lngLat.lat;
           this.longitude = lngLat.lng;
 
-          console.log('Listening to marker drag')
+          console.log("Listening to marker drag");
 
           // Servizi di TomTom (ricerca, distanza, ecc...)
           tt.services
@@ -148,7 +151,7 @@ export default {
             .then((response) => {
               let userAddress = response.addresses[0].address.freeformAddress;
               this.address = userAddress;
-              console.log('Address and coordinates set at: ', lngLat)
+              console.log("Address and coordinates set at: ", lngLat);
             })
             .catch((error) => {
               console.error("Reverse geocode error:", error);
@@ -162,14 +165,23 @@ export default {
             this.$route.query.queryLongitude,
             this.$route.query.queryLatitude,
           ];
-          console.log('Query found with this data: ', queryLocation, this.$route.query.queryAddress)
+          console.log(
+            "Query found with this data: ",
+            queryLocation,
+            this.$route.query.queryAddress
+          );
           //centra la mappa e il marker su quelle coordinate
           map.setCenter(queryLocation);
           marker.setLngLat(queryLocation);
           this.latitude = queryLocation[1];
           this.longitude = queryLocation[0];
           this.address = this.$route.query.queryAddress;
-          console.log('Location updated: ', this.latitude, this.longitude, this.address)
+          console.log(
+            "Location updated: ",
+            this.latitude,
+            this.longitude,
+            this.address
+          );
         }
         //Altrimenti, se necessaria la geolocalizzazione dello user
         else if (navigator.geolocation) {
@@ -184,9 +196,12 @@ export default {
             marker.setLngLat(userLocation);
             this.latitude = userLocation[1];
             this.longitude = userLocation[0];
-            console.log('Query not found, data now is: ', this.latitude, this.longitude)
-            console.log('Moved the marker to user location')
-
+            console.log(
+              "Query not found, data now is: ",
+              this.latitude,
+              this.longitude
+            );
+            console.log("Moved the marker to user location");
 
             // Servizi di TomTom (ricerca, distanza, ecc...)
             tt.services
@@ -207,7 +222,7 @@ export default {
           });
         }
 
-        // Inizializzazione searchbox 
+        // Inizializzazione searchbox
         let searchBoxOptions = {
           // Opzioni necessarie per la fuzzy search (Key, lingua, limite(?))
           searchOptions: {
@@ -234,10 +249,9 @@ export default {
           this.searchBoxHTML = this.ttSearchBox.getSearchBoxHTML();
           document.getElementById("searchbar").appendChild(this.searchBoxHTML);
           this.searchBoxHTML.id = "advanced-search-input";
-          console.log('Child appended')
-
+          console.log("Child appended");
         } else {
-          console.log('Ho trovato un search input')
+          console.log("Ho trovato un search input");
         }
 
         // Prendi le informazioni selezionate dai suggerimenti e impostale come coordinate salvate, centratura della mappa e del marker
@@ -251,7 +265,7 @@ export default {
           this.address = result.address.freeformAddress;
         });
 
-        // Quando viene inserito un input nella searchbar 
+        // Quando viene inserito un input nella searchbar
         this.searchBoxHTML.addEventListener("input", (event) => {
           // Imposta query come il valore inserito nell'input
           let query = event.target.value;
@@ -278,7 +292,6 @@ export default {
               }
             });
         });
-
       } else {
         console.error("TomTom SDK not loaded properly.");
       }
@@ -293,10 +306,10 @@ export default {
           this.submitForm(1);
         }, 1000);
       } else if (this.$route.query.queryBack) {
-        this.beds = this.$route.query.queryBeds
-        this.rooms = this.$route.query.queryRooms
-        this.selectedServices = this.$route.query.queryServices
-        this.distance = this.$route.query.queryDistance
+        this.beds = this.$route.query.queryBeds;
+        this.rooms = this.$route.query.queryRooms;
+        this.selectedServices = this.$route.query.queryServices;
+        this.distance = this.$route.query.queryDistance;
         setTimeout(() => {
           this.submitForm(this.$route.query.queryPage);
         }, 1000);
@@ -305,14 +318,19 @@ export default {
     });
     this.fetchServices();
     /* this.fetchResults(); */
-    console.log('myQuery: ', this.$route.query);
+    console.log("myQuery: ", this.$route.query);
   },
   created() {
     this.fetchResults();
   },
-
-
 };
+window.addEventListener("scroll", () => {
+  const scrollBar = document.querySelector(".scroll-my");
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const scrollPercent = scrollTop / docHeight;
+  scrollBar.style.transform = `scaleX(${scrollPercent})`;
+});
 </script>
 
 <template>
@@ -338,8 +356,12 @@ export default {
 
           <!-- filter head -->
           <div class="filter-box">
-            <button class="filter-container" type="button" :class="{ 'border-radius': !filtersVisible }"
-              @click="toggleFilters">
+            <button
+              class="filter-container"
+              type="button"
+              :class="{ 'border-radius': !filtersVisible }"
+              @click="toggleFilters"
+            >
               <img src="/public/img/icon_filter_01.png" alt="" />
               <p>More filters</p>
             </button>
@@ -351,15 +373,36 @@ export default {
               <div class="numeric-filters">
                 <div class="filter-num">
                   <p>Min beds:</p>
-                  <input class="input-num" type="number" v-model="beds" name="beds" placeholder="1" min="1" />
+                  <input
+                    class="input-num"
+                    type="number"
+                    v-model="beds"
+                    name="beds"
+                    placeholder="1"
+                    min="1"
+                  />
                 </div>
                 <div class="filter-num">
                   <p>Min rooms:</p>
-                  <input class="input-num" type="number" v-model="rooms" name="rooms" placeholder="1" min="1" />
+                  <input
+                    class="input-num"
+                    type="number"
+                    v-model="rooms"
+                    name="rooms"
+                    placeholder="1"
+                    min="1"
+                  />
                 </div>
                 <div class="filter-num">
                   <p>Search km radius:</p>
-                  <input class="input-num" type="number" v-model="distance" name="distance" placeholder="20" min="1" />
+                  <input
+                    class="input-num"
+                    type="number"
+                    v-model="distance"
+                    name="distance"
+                    placeholder="20"
+                    min="1"
+                  />
                 </div>
               </div>
               <div class="filters-divider"></div>
@@ -368,8 +411,14 @@ export default {
               <ul class="services-container">
                 <li class="service-box" v-for="service in servicesList">
                   <label class="container-checkbox">
-                    <input class="checkbox" type="checkbox" v-model="selectedServices" name="services[]"
-                      :id="`service-${service.id}`" :value="service.id">
+                    <input
+                      class="checkbox"
+                      type="checkbox"
+                      v-model="selectedServices"
+                      name="services[]"
+                      :id="`service-${service.id}`"
+                      :value="service.id"
+                    />
                     <span class="checkmark"></span>
                   </label>
                   <label :for="service.name">{{ service.name }}</label>
@@ -378,10 +427,14 @@ export default {
             </div>
           </div>
 
-
           <div class="row justify-content-center">
             <div class="col-auto text-center">
-              <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning mt-3">
+              <button
+                @click="submitForm(1)"
+                id="form-submit"
+                type="submit"
+                class="btn btn-warning mt-3"
+              >
                 Search
               </button>
             </div>
@@ -390,35 +443,46 @@ export default {
       </div>
     </div>
 
-
-
     <button class="btn btn-primary d-none" @click="console.log(apartments)">
       Test Apartments
     </button>
 
-    <section class="container-search" v-if="apartments.length > 0 || pastSearches || isSearching">
+    <section
+      class="container-search"
+      v-if="apartments.length > 0 || pastSearches || isSearching"
+    >
       <!-- La ricerca e' finita e abbiamo dei risultati -->
-      <div class="container-search-results" v-if="apartments.length > 0 && !isSearching">
+      <div
+        class="container-search-results"
+        v-if="apartments.length > 0 && !isSearching"
+      >
         <h1>Your results:</h1>
 
         <!-- Singolo apartamento ciclato -->
         <div v-for="apartment in apartments">
-          <router-link :to="{
-            path: '/apartments/' + apartment.id, query: {
-              queryLatitude: latitude,
-              queryLongitude: longitude,
-              queryAddress: address,
-              queryBeds: beds,
-              queryRooms: rooms,
-              queryServices: selectedServices,
-              queryDistance: distance,
-              queryPage: currentPage
-            }
-          }" class="search-apartment-detail-card">
-
+          <router-link
+            :to="{
+              path: '/apartments/' + apartment.id,
+              query: {
+                queryLatitude: latitude,
+                queryLongitude: longitude,
+                queryAddress: address,
+                queryBeds: beds,
+                queryRooms: rooms,
+                queryServices: selectedServices,
+                queryDistance: distance,
+                queryPage: currentPage,
+              },
+            }"
+            class="search-apartment-detail-card"
+          >
             <!-- IMMAGINE SINISTRA -->
             <div>
-              <img class="search-image-container" :src="getImageUrl(apartment.image)" alt="">
+              <img
+                class="search-image-container"
+                :src="getImageUrl(apartment.image)"
+                alt=""
+              />
               <div v-if="apartment.sponsors[0]">
                 <div class="sponsor-badge">
                   <p>&#9733; Sponsored!</p>
@@ -427,33 +491,47 @@ export default {
             </div>
             <!-- DATI DESTRA -->
             <div class="search-data-container">
-
-
               <div>
                 <h3>{{ apartment.title }}</h3>
                 <h6>{{ apartment.address }}</h6>
               </div>
               <div class="search-detail-container">
                 <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                  <img
+                    class="search-icon-detail"
+                    src="/public/img/icon_room_01.png"
+                    alt=""
+                  />
                   <span>Rooms</span>
                   <span>{{ apartment.rooms }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
+                  <img
+                    class="search-icon-detail"
+                    src="/public/img/icon_space_01.png"
+                    alt=""
+                  />
                   <span>m ^2</span>
                   <span>{{ apartment.sqr_mt }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_bed_01.png" alt="">
+                  <img
+                    class="search-icon-detail"
+                    src="/public/img/icon_bed_01.png"
+                    alt=""
+                  />
                   <span>Beds</span>
                   <span>{{ apartment.beds }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+                  <img
+                    class="search-icon-detail"
+                    src="/public/img/icon_bathroom_01.png"
+                    alt=""
+                  />
                   <span>Bathroom</span>
                   <span>{{ apartment.bathrooms }}</span>
                 </div>
@@ -461,7 +539,10 @@ export default {
               <div class="service-apartment-card">
                 <p>Services:</p>
                 <div class="service-badges">
-                  <div class="service-apartment-badge" v-for="service in apartment.services">
+                  <div
+                    class="service-apartment-badge"
+                    v-for="service in apartment.services"
+                  >
                     {{ service.name }}
                   </div>
                 </div>
@@ -495,15 +576,25 @@ export default {
           </div>
         </div> -->
         <div class="container-paginator">
-          <p v-for="n in lastPage" :key="n" @click="changePage(n)"
-            :class="n === currentPage ? 'bg-orange' : 'bg-lightblue'">{{ n }} </p>
+          <p
+            v-for="n in lastPage"
+            :key="n"
+            @click="changePage(n)"
+            :class="n === currentPage ? 'bg-orange' : 'bg-lightblue'"
+          >
+            {{ n }}
+          </p>
         </div>
-
       </div>
 
       <!-- La ricerca e' finita ma NON ci sono risultati -->
-      <div class="container-article" v-if="apartments.length === 0 && pastSearches && !isSearching">
-        <div class="row justify-content-center aling-items-center align-content-center h-100">
+      <div
+        class="container-article"
+        v-if="apartments.length === 0 && pastSearches && !isSearching"
+      >
+        <div
+          class="row justify-content-center aling-items-center align-content-center h-100"
+        >
           <div class="col-auto">
             <h3>No results... try again!</h3>
           </div>
@@ -512,14 +603,15 @@ export default {
 
       <!-- La ricerca e' in corso -->
       <div class="container-article" v-if="isSearching">
-        <div class="row justify-content-center aling-items-center align-content-center h-100">
+        <div
+          class="row justify-content-center aling-items-center align-content-center h-100"
+        >
           <div class="col-auto">
             <div class="loader"></div>
           </div>
         </div>
       </div>
     </section>
-
   </main>
 </template>
 
@@ -592,21 +684,13 @@ export default {
   width: 100%;
   height: 10px;
   background-color: var(--light--orange);
-  border-radius: 10px;
+
   position: fixed;
   z-index: 1000;
-  top: 0;
-  scale: 0.005 1;
-  animation: scroll-watcher linear;
-  animation-timeline: scroll();
+  bottom: 0;
   transform-origin: left;
-}
-
-@keyframes scroll-watcher {
-  to {
-    scale: 1 1;
-  }
-
+  transform: scaleX(0);
+  transition: transform 0.4s ease-out;
 }
 
 .container-paginator {
@@ -623,22 +707,22 @@ export default {
   cursor: pointer;
 }
 
-.container-paginator>p {
+.container-paginator > p {
   position: relative;
 }
 
-.container-paginator>p::before {
-  content: '';
+.container-paginator > p::before {
+  content: "";
   position: absolute;
   top: 67%;
   left: 0;
   width: 0;
   height: 3px;
   background: var(--orange);
-  transition: .3s;
+  transition: 0.3s;
 }
 
-.container-paginator>p:hover::before {
+.container-paginator > p:hover::before {
   width: 50%;
   margin-left: 15px;
 }
