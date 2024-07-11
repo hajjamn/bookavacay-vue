@@ -76,6 +76,23 @@
     align-self: center;
 }
 
+.search-button {
+    border: none;
+    background-color: #F7851D;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.container-no-result {
+    border: solid 1px #2889B6;
+    color: #2889B6;
+    padding: 12px 15px 8px 15px;
+    margin-top: 40px;
+    border-radius: 8px;
+}
+
 
 // FILTRI EXTRA --------------------------------------
 
@@ -233,6 +250,7 @@
     transform: rotate(45deg);
 }
 
+
 // Risultati di ricerca
 
 .container-search {
@@ -342,6 +360,46 @@
     border-radius: 4px;
     margin: 3px;
 }
+
+/* --------------------------HOVER------------------------------------- */
+
+.search-apartment-detail-card:hover .sponsor-badge {
+    background-color: #F7851D;
+}
+
+.search-apartment-detail-card:hover .search-data-container {
+    color: #F7851D;
+}
+
+.search-apartment-detail-card:hover .search-detail-info {
+    color: #F7851D;
+}
+
+.search-apartment-detail-card:hover .search-icon-divider {
+    border: solid 1px #FFB440;
+}
+
+.search-apartment-detail-card:hover .search-icon-detail.room {
+    content: url(/public/img/icon_room_02.png);
+}
+
+.search-apartment-detail-card:hover .search-icon-detail.space {
+    content: url(/public/img/icon_space_02.png);
+}
+
+.search-apartment-detail-card:hover .search-icon-detail.bed {
+    content: url(/public/img/icon_bed_02.png);
+}
+
+.search-apartment-detail-card:hover .search-icon-detail.bathroom {
+    content: url(/public/img/icon_bathroom_02.png);
+}
+
+.search-apartment-detail-card:hover .service-apartment-badge {
+    border: solid 1px #FFB440;
+}
+
+
 
 
 /* Media query SMARTPHONE */

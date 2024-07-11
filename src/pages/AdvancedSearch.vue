@@ -381,7 +381,7 @@ export default {
 
           <div class="row justify-content-center">
             <div class="col-auto text-center">
-              <button @click="submitForm(1)" id="form-submit" type="submit" class="btn btn-warning mt-3">
+              <button @click="submitForm(1)" id="form-submit" type="submit" class="search-button">
                 Search
               </button>
             </div>
@@ -435,25 +435,25 @@ export default {
               </div>
               <div class="search-detail-container">
                 <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_room_01.png" alt="">
+                  <img class="search-icon-detail room" src="/public/img/icon_room_01.png" alt="">
                   <span>Rooms</span>
                   <span>{{ apartment.rooms }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_space_01.png" alt="">
+                  <img class="search-icon-detail space" src="/public/img/icon_space_01.png" alt="">
                   <span>m ^2</span>
                   <span>{{ apartment.sqr_mt }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_bed_01.png" alt="">
+                  <img class="search-icon-detail bed" src="/public/img/icon_bed_01.png" alt="">
                   <span>Beds</span>
                   <span>{{ apartment.beds }}</span>
                 </div>
                 <div class="search-icon-divider"></div>
                 <div class="search-detail-info">
-                  <img class="search-icon-detail" src="/public/img/icon_bathroom_01.png" alt="">
+                  <img class="search-icon-detail bathroom" src="/public/img/icon_bathroom_01.png" alt="">
                   <span>Bathroom</span>
                   <span>{{ apartment.bathrooms }}</span>
                 </div>
@@ -502,7 +502,7 @@ export default {
       </div>
 
       <!-- La ricerca e' finita ma NON ci sono risultati -->
-      <div class="container-article" v-if="apartments.length === 0 && pastSearches && !isSearching">
+      <div class="container-no-result" v-if="apartments.length === 0 && pastSearches && !isSearching">
         <div class="row justify-content-center aling-items-center align-content-center h-100">
           <div class="col-auto">
             <h3>No results... try again!</h3>
