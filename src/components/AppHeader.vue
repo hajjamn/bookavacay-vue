@@ -119,6 +119,13 @@ export default {
         console.error("tt or tt.services undefined");
       }
     },
+    logout() {
+      console.log('object')
+      sessionStorage.removeItem('sessionUserToken')
+      sessionStorage.removeItem('sessionUserEmail')
+      sessionStorage.removeItem('sessionUserName')
+      location.reload()
+    }
   },
   mounted() {
     this.initializeSearchBox();
@@ -130,7 +137,7 @@ export default {
 <template>
   <header :class="headerClass">
     <div class="header-container">
-      <div class="header-row">
+      <div class="container header-row">
         <img class="logo-home" src="/public/img/BookaVacay_01.png" />
         <RouterLink to="/" class="back-home">
           <img class="logo" src="/public/img/BookaVacay_02.png" />
@@ -145,7 +152,7 @@ export default {
           </RouterLink>
         </form>
 
-        <div class="d-flex gap-2">
+        <div class="d-flex">
 
           <a v-if="!isLoggedIn" class="register-btn register-btn-one"
             href="http://127.0.0.1:8000/register"><span>Register</span></a>
@@ -170,7 +177,7 @@ export default {
           </button>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="http://localhost:8000">Dashboard</a></li>
-            <li><a class="dropdown-item" href="#">Logout</a></li>
+            <li><a class="dropdown-item" @click="logout" href="#">Logout</a></li>
           </ul>
         </div>
 
