@@ -102,7 +102,7 @@ export default {
               <div class="container-article-info">
                 <div class="article-info">
                   <img
-                    class="icon-info"
+                    class="icon-info room"
                     src="/public/img/icon_room_01.png"
                     alt=""
                   />
@@ -112,7 +112,7 @@ export default {
                 <div class="divider-home"></div>
                 <div class="article-info">
                   <img
-                    class="icon-info"
+                    class="icon-info space"
                     src="/public/img/icon_space_01.png"
                     alt=""
                   />
@@ -122,7 +122,7 @@ export default {
                 <div class="divider-home"></div>
                 <div class="article-info">
                   <img
-                    class="icon-info"
+                    class="icon-info bed"
                     src="/public/img/icon_bed_01.png"
                     alt=""
                   />
@@ -132,7 +132,7 @@ export default {
                 <div class="divider-home"></div>
                 <div class="article-info">
                   <img
-                    class="icon-info"
+                    class="icon-info bathroom"
                     src="/public/img/icon_bathroom_01.png"
                     alt=""
                   />
