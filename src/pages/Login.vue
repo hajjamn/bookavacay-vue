@@ -69,6 +69,9 @@ export default {
         <div class="login-succes">
           You're logged in
         </div>
+        <!-- <button class="button-login">
+          <a href="http://127.0.0.1:8000/admin.dashboard">Go to your dashboard</a>
+        </button> -->
       </span>
       <div v-else>
         <div class="container-login">

@@ -27,6 +27,10 @@
     padding: 8px 12px;
 }
 
+.button-login a {
+    color: white;
+}
+
 .button-login-reg {
     font-size: 12px;
     color: #2889B6;
@@ -37,7 +41,7 @@
     border-radius: 8px;
     border: solid 1px #2889B6;
     padding: 12px;
-    margin: 50px 0 100px 0 !important;
+    margin: 80px 0 20px 0 !important;
     text-align: center;
     color: #2889B6;
     margin-left: 15px;
@@ -47,4 +51,22 @@
 .success-container {
     display: flex;
     justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 80px;
+}
+
+
+/* Media query SMARTPHONE */
+
+@media screen and (max-width: 480px) {
+
+    .container-login {
+        width: 420px;
+    }
+
+    .input-container-login {
+        width: 250px;
+    }
+
 }
