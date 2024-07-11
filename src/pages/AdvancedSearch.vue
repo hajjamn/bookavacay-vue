@@ -535,28 +535,28 @@ window.addEventListener("scroll", () => {
         </div>
 
         <!-- Paginazione -->
-        <!-- <div class="container nav-menu">
-          <div class="row py-3 justify-content-center align-items-baseline">
-            <div class="col-auto">
-              <font-awesome-icon :class="currentPage === 1 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
-                :icon="['fas', 'angles-left']" @click="submitForm(1)" />
-            </div>
-            <div class="col-auto" @click="">
-              <font-awesome-icon :class="currentPage - 1 <= 0 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
-                :icon="['fas', 'angle-left']" @click="submitForm(currentPage - 1)" />
-            </div>
-            <div class="col-auto">
-              <span class="fs-4 nav-number">{{ currentPage }}</span>
-            </div>
-            <div class="col-auto">
-              <font-awesome-icon :class="currentPage + 1 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
-                :icon="['fas', 'angle-right']" @click="submitForm(currentPage + 1)" />
-            </div>
-            <div class="col-auto">
-              <font-awesome-icon :class="currentPage + 2 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
-                :icon="['fas', 'angles-right']" @click="submitForm(lastPage)" />
-            </div>
+
+        <!-- <div class="container-paginator">
+          <div class="col-auto">
+            <font-awesome-icon :class="currentPage === 1 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angles-left']" @click="submitForm(1)" />
           </div>
+          <div class="col-auto" @click="">
+            <font-awesome-icon :class="currentPage - 1 <= 0 ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angle-left']" @click="submitForm(currentPage - 1)" />
+          </div>
+          <div class="col-auto">
+            <span class="fs-4 nav-number">{{ currentPage }}</span>
+          </div>
+          <div class="col-auto">
+            <font-awesome-icon :class="currentPage + 1 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angle-right']" @click="submitForm(currentPage + 1)" />
+          </div>
+          <div class="col-auto">
+            <font-awesome-icon :class="currentPage + 2 > lastPage ? 'nav-btn-disabled' : ''" class="fs-5 nav-btn"
+              :icon="['fas', 'angles-right']" @click="submitForm(lastPage)" />
+          </div>
+
         </div> -->
         <div class="container-paginator">
           <p v-for="n in lastPage" :key="n" @click="changePage(n)"
