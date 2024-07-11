@@ -87,15 +87,6 @@ a{
     position: relative;
 }
 
-
-
-
-
-
-
-
-
-
 .span-info {
     display: none;
 }
@@ -105,12 +96,34 @@ a{
     height: 17px;
 }
 
+/* --------------------------HOVER------------------------------------- */
 
+.col-article:hover p {
+    background-color: #F7851D;
+}
 
+.col-article:hover span {
+    color: #F7851D;
+}
 
-/* --------------------------WaVE------------------------------------- */
+.col-article:hover .divider-home {
+    border: solid 1px #FFB440;
+}
 
-.svg-wave {
+.col-article:hover .icon-info.room {
+    content: url(/public/img/icon_room_02.png);
+}
+
+.col-article:hover .icon-info.space {
+    content: url(/public/img/icon_space_02.png);
+}
+
+.col-article:hover .icon-info.bed {
+    content: url(/public/img/icon_bed_02.png);
+}
+
+.col-article:hover .icon-info.bathroom {
+    content: url(/public/img/icon_bathroom_02.png);
 }
 
 
