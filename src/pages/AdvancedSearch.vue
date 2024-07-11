@@ -27,6 +27,14 @@ export default {
       filtersVisible: false,
       lastPage: null,
       markers: [],
+      popupOffsets: {
+        top: [0, 0],
+        bottom: [0, -70],
+        "bottom-right": [0, -70],
+        "bottom-left": [0, -70],
+        left: [25, -35],
+        right: [-25, -35],
+      }
     };
   },
   methods: {
@@ -103,7 +111,15 @@ export default {
     addMarkers() {
       for (let i = 0; i < this.apartments.length; i++) {
         let apartment = this.apartments[i]
-        this.markers[i].setLngLat([apartment.longitude, apartment.latitude])
+        let popupHtml =
+          '<p style="display:inline">' +
+          `<img src="${getImageUrl(this.apartments[i].image)}"style="width:50%;float:right;padding-top:10px"` +
+          `<p>${this.apartments[i].title}</p>`
+
+        let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(popupHtml)
+        this.markers[i]
+          .setLngLat([apartment.longitude, apartment.latitude])
+          .setPopup(popup).togglePopup()
       }
     },
     initializeMap() {
@@ -167,9 +183,11 @@ export default {
         //Creiamo i 6 marker jankissimi
 
         for (let i = 0; i < 6; i++) {
+          //Marker
           let element = document.createElement("div")
           element.id = `marker${i + 1}`
           element.classList = 'custom-marker'
+          //Popup
           this.markers[i] = new tt.Marker({
             element: element,
             draggable: false,
