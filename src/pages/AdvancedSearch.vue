@@ -109,17 +109,22 @@ export default {
       console.log('services: ', this.selectedServices);
     },
     addMarkers() {
+      this.markers.forEach((marker, i) => {
+        marker.setLngLat([0, 0]);
+        document.getElementById(`marker${i + 1}`).classList.add('invisible');
+      });
       for (let i = 0; i < this.apartments.length; i++) {
         let apartment = this.apartments[i]
         let popupHtml =
-          '<p style="display:inline">' +
-          `<img src="${getImageUrl(this.apartments[i].image)}"style="width:50%;float:right;padding-top:10px"` +
-          `<p>${this.apartments[i].title}</p>`
-
+          `<a href="#result${i}">` +
+          `<img class="popup-image" src="${getImageUrl(this.apartments[i].image)}" style="width:50%;float:right;"` +
+          `<p class="popup-title">${this.apartments[i].title}</p>` +
+          `</a>`
+        document.getElementById(`marker${i + 1}`).classList.remove('invisible');
         let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(popupHtml)
         this.markers[i]
           .setLngLat([apartment.longitude, apartment.latitude])
-          .setPopup(popup).togglePopup()
+          .setPopup(popup)
       }
     },
     initializeMap() {
@@ -186,7 +191,7 @@ export default {
           //Marker
           let element = document.createElement("div")
           element.id = `marker${i + 1}`
-          element.classList = 'custom-marker'
+          element.classList = 'invisible'
           //Popup
           this.markers[i] = new tt.Marker({
             element: element,
@@ -445,7 +450,7 @@ export default {
         <h1>Your results:</h1>
 
         <!-- Singolo apartamento ciclato -->
-        <div v-for="apartment in apartments">
+        <div v-for="(apartment,i) in apartments" :id="`result${i}`">
           <router-link :to="{
             path: '/apartments/' + apartment.id, query: {
               queryLatitude: latitude,
