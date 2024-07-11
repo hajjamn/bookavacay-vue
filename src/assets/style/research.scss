@@ -494,8 +494,9 @@ input {
 #marker6 {
     background-image: url(/public/img/Logo-pointer-01.png);
     background-size: contain;
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
+    cursor:pointer
 }
 
 #marker1:hover,
@@ -505,4 +506,34 @@ input {
 #marker5:hover,
 #marker6:hover {
     background-image: url(/public/img/Logo-pointer-02.png);
+}
+
+
+#marker1:hover .mapboxgl-popup-content,
+#marker2:hover .mapboxgl-popup-content,
+#marker3:hover .mapboxgl-popup-content,
+#marker4:hover .mapboxgl-popup-content,
+#marker5:hover .mapboxgl-popup-content,
+#marker6:hover .mapboxgl-popup-content {
+    background-image: url(/public/img/Logo-pointer-02.png);
+}
+
+.popup-image {
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.mapboxgl-popup-content {
+    border-radius: 15px;
+    padding: 15px;
+    display: flex;
+}
+
+.mapboxgl-popup-content p {
+    color: #2889B6;
+    font-size: 14px;
+}
+
+.mapboxgl-popup-close-button {
+    display: none;
 }

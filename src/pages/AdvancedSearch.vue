@@ -113,41 +113,22 @@ export default {
       console.log("services: ", this.selectedServices);
     },
     addMarkers() {
+      this.markers.forEach((marker, i) => {
+        marker.setLngLat([0, 0]);
+        document.getElementById(`marker${i + 1}`).classList.add('invisible');
+      });
       for (let i = 0; i < this.apartments.length; i++) {
         let apartment = this.apartments[i];
         let popupHtml =
-          '<p style="display:inline">' +
-          `<img src="${getImageUrl(
-            this.apartments[i].image
-          )}"style="width:50%;float:right;padding-top:10px"` +
-          `<p>${this.apartments[i].title}</p>`;
-
-        let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(
-          popupHtml
-        );
+          `<a href="#result${i}">` +
+          `<img class="popup-image" src="${getImageUrl(this.apartments[i].image)}" style="width:50%;float:right;"` +
+          `<p class="popup-title">${this.apartments[i].title}</p>` +
+          `</a>`
+        document.getElementById(`marker${i + 1}`).classList.remove('invisible');
+        let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(popupHtml)
         this.markers[i]
           .setLngLat([apartment.longitude, apartment.latitude])
           .setPopup(popup)
-          .togglePopup();
-      }
-    },
-    addMarkers() {
-      for (let i = 0; i < this.apartments.length; i++) {
-        let apartment = this.apartments[i];
-        let popupHtml =
-          '<p style="display:inline">' +
-          `<img src="${getImageUrl(
-            this.apartments[i].image
-          )}"style="width:50%;float:right;padding-top:10px"` +
-          `<p>${this.apartments[i].title}</p>`;
-
-        let popup = new tt.Popup({ offset: this.popupOffsets }).setHTML(
-          popupHtml
-        );
-        this.markers[i]
-          .setLngLat([apartment.longitude, apartment.latitude])
-          .setPopup(popup)
-          .togglePopup();
       }
     },
     initializeMap() {
@@ -211,9 +192,9 @@ export default {
 
         for (let i = 0; i < 6; i++) {
           //Marker
-          let element = document.createElement("div");
-          element.id = `marker${i + 1}`;
-          element.classList = "custom-marker";
+          let element = document.createElement("div")
+          element.id = `marker${i + 1}`
+          element.classList = 'invisible'
           //Popup
           this.markers[i] = new tt.Marker({
             element: element,
@@ -526,23 +507,20 @@ window.addEventListener("scroll", () => {
         <h1>Your results:</h1>
 
         <!-- Singolo apartamento ciclato -->
-        <div v-for="apartment in apartments">
-          <router-link
-            :to="{
-              path: '/apartments/' + apartment.id,
-              query: {
-                queryLatitude: latitude,
-                queryLongitude: longitude,
-                queryAddress: address,
-                queryBeds: beds,
-                queryRooms: rooms,
-                queryServices: selectedServices,
-                queryDistance: distance,
-                queryPage: currentPage,
-              },
-            }"
-            class="search-apartment-detail-card"
-          >
+        <div v-for="(apartment,i) in apartments" :id="`result${i}`">
+          <router-link :to="{
+            path: '/apartments/' + apartment.id, query: {
+              queryLatitude: latitude,
+              queryLongitude: longitude,
+              queryAddress: address,
+              queryBeds: beds,
+              queryRooms: rooms,
+              queryServices: selectedServices,
+              queryDistance: distance,
+              queryPage: currentPage
+            }
+          }" class="search-apartment-detail-card">
+
             <!-- IMMAGINE SINISTRA -->
             <div>
               <img
