@@ -145,11 +145,13 @@ export default {
           </RouterLink>
         </form>
 
-        <div v-if="!isLoggedIn" class="register-btn">
-          <a class="register-btn-one mb-2" href="http://127.0.0.1:8000/register"><span>Register</span></a>
-          <br />
+        <div class="d-flex gap-2">
 
-          <RouterLink to="/login"><span class="login-btn-one">Log in</span></RouterLink>
+          <a v-if="!isLoggedIn" class="register-btn register-btn-one"
+            href="http://127.0.0.1:8000/register"><span>Register</span></a>
+
+          <RouterLink v-if="!isLoggedIn" to="/login"><span class="login-btn login-btn-one">Log in</span></RouterLink>
+
         </div>
 
 
@@ -162,15 +164,12 @@ export default {
         </div> -->
 
         <div v-if="isLoggedIn" class="dropdown">
-          <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            {{ userName }}
+          <button class="profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <span>{{ userName }}</span>
+            <font-awesome-icon class="dropdown-arrow" :icon="['fas', 'caret-down']" />
           </button>
           <ul class="dropdown-menu">
-            <li><a href="http://localhost:8000">
-                <span v-if="userName !== null && userName !== ''">
-                  Dashboard
-                </span>
-              </a></li>
+            <li><a class="dropdown-item" href="http://localhost:8000">Dashboard</a></li>
             <li><a class="dropdown-item" href="#">Logout</a></li>
           </ul>
         </div>
@@ -181,14 +180,6 @@ export default {
 </template>
 
 <style>
-.login-btn-one {
-  font-size: 12px;
-}
-
-.login-btn-one:hover {
-  color: orange;
-}
-
 #header-searchbar .tt-search-box-input-container,
 #header-searchbar .-focus,
 #header-searchbar .-focused {
