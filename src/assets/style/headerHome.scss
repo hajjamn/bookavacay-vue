@@ -100,20 +100,43 @@
     margin-left: 15px;
 }
 
-.header-row .register-btn {
+.header-row .register-btn,
+.header-row .login-btn {
     background-color: #2889B6;
     color: white;
     width: 65px;
     height: 35px;
     text-align: center;
-    font-size: 10px;
     border-radius: 40px;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     cursor: pointer;
     line-height: 3px;
     text-decoration: none;
+}
+
+.profile-btn {
+    margin: 0px 10px;
+    padding: 15px 12px;
+    border: none;
+    background-color: #2889B6;
+    color: white;
+    text-align: center;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    cursor: pointer;
+    line-height: 3px;
+    text-decoration: none;
+}
+
+.dropdown-arrow {
+    transform: translateY(2px) !important;
+}
+
+.dropdown-toggle::after {
+    display: none !important;
 }
 
 .header-row .register-btn a {
@@ -121,22 +144,29 @@
     text-decoration: none;
 }
 
-.register-btn a {
+.register-btn-one,
+.login-btn-one {
     text-decoration: none;
     color: white;
+    font-size: 12px;
 }
 
 .register-btn-one {
     font-size: 12px;
 }
 
-.header-row a span:hover {
-    color: #FFB440;
+.register-btn:hover,
+.login-btn:hover,
+.profile-btn:hover {
+    background-color: var(--orange);
 }
 
+.dropdown-menu {
+    z-index: 9999999999;
+}
 
-.login-btn-one{
-    font-size: 10px;
+.dropdown-item {
+    color: var(--blue) !important;
 }
 
 @media (max-width: 480px) {
@@ -183,7 +213,7 @@
         background-color: #F7851D;
         color: white;
         margin-left: 15px;
-    
+
     }
 
     .header-row .register-btn {
