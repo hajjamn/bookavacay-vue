@@ -43,7 +43,11 @@ export default {
     changePage(n, id) {
       if (n === this.currentPage) return;
       this.currentPage = n;
-      this.submitForm(this.currentPage, 0);
+      if (id) {
+        this.submitForm(this.currentPage, id)
+      } else {
+        this.submitForm(this.currentPage, 0);
+      }
 
       if (id) {
         const interval = setInterval(() => {
@@ -631,7 +635,7 @@ window.addEventListener("scroll", () => {
 
         </div> -->
         <div class="container-paginator">
-          <p v-for="n in lastPage" :key="n" @click="changePage(n, 0)"
+          <p v-for="n in lastPage" :key="n" @click="changePage(n)"
             :class="n === currentPage ? 'bg-orange' : 'bg-lightblue'">
             {{ n }}
           </p>
