@@ -137,25 +137,36 @@ export default {
 <template>
   <header :class="headerClass">
     <div class="header-container">
-      <div class="container header-row">
-        <img class="logo-home" src="/public/img/BookaVacay_01.png" />
-        <RouterLink to="/" class="back-home">
-          <img class="logo" src="/public/img/BookaVacay_02.png" />
-        </RouterLink>
+      <div class="container-xl header-row">
 
-        <form action="" class="search-home">
-          <div @keyup.enter="search" placeholder="Search..." id="header-searchbar" :key="myQuery"></div>
-          <RouterLink to="/search">
-            <button @click="search">
-              <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
-            </button>
+        <div class="logo-input d-flex">
+          <img class="logo-home" src="/public/img/BookaVacay_01.png" />
+          <RouterLink to="/" class="back-home">
+            <img class="logo" src="/public/img/BookaVacay_02.png" />
           </RouterLink>
-        </form>
 
-        <div class="d-flex">
+          <form action="" class="search-home">
+            <div @keyup.enter="search" placeholder="Search..." id="header-searchbar" :key="myQuery"></div>
+            <RouterLink to="/search">
+              <button @click="search">
+                <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
+              </button>
+            </RouterLink>
+          </form>
 
-          <a v-if="!isLoggedIn" class="register-btn register-btn-one"
-            href="http://127.0.0.1:8000/register"><span>Register</span></a>
+        </div>
+
+        <input type="checkbox" id="breadcrumb">
+        <label for="breadcrumb" class="menu-icons">
+          <font-awesome-icon id="menu-icon" :icon="['fas', 'bars']" />
+          <font-awesome-icon id="close-menu" :icon="['fas', 'xmark']" />
+        </label>
+
+        <div class="navbar">
+
+
+          <a v-if="!isLoggedIn" href="http://127.0.0.1:8000/register"><span
+              class="register-btn register-btn-one">Register</span></a>
 
           <RouterLink v-if="!isLoggedIn" to="/login"><span class="login-btn login-btn-one">Log in</span></RouterLink>
 
