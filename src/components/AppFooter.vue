@@ -29,8 +29,8 @@ export default {
 </script>
 
 <template>
+  <section class="svg-wave"></section>
   <footer>
-    <section class="svg-wave"></section>
     <div class="container-footer">
       <div class="row-footer">
         <!-- Logo boolean -->
