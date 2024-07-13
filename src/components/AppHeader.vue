@@ -170,6 +170,14 @@ export default {
 
           <RouterLink v-if="!isLoggedIn" to="/login"><span class="login-btn login-btn-one">Log in</span></RouterLink>
 
+          <div v-if="isLoggedIn" class="dropdown-sm">
+            <span class="username">{{ userName }}</span>
+            <ul class="dropdown-menu-sm">
+              <li><a class="dropdown-item" href="http://localhost:8000">Dashboard</a></li>
+              <li><a class="dropdown-item" @click="logout" href="#">Logout</a></li>
+            </ul>
+          </div>
+
         </div>
 
 

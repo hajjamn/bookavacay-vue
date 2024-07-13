@@ -159,6 +159,21 @@
     text-decoration: none;
 }
 
+.dropdown-sm {
+    display: none;
+    text-align: center;
+}
+
+.username {
+    color: var(--blue);
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.dropdown-menu-sm {
+    padding: 0;
+}
+
 .dropdown-arrow {
     transform: translateY(2px) !important;
 }
@@ -234,6 +249,14 @@
         border-bottom-right-radius: 15px;
     }
 
+    .dropdown {
+        display: none;
+    }
+
+    .dropdown-sm {
+        display: block;
+    }
+
     #breadcrumb:checked~.navbar {
         height: 200px;
         display: block !important;
@@ -303,6 +326,7 @@
         align-items: center;
         justify-content: space-between;
         color: white;
+        padding: 0px;
     }
 
     .secondary-header .header-row {

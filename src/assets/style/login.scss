@@ -1,5 +1,5 @@
 .container-login {
-    width: 500px;
+    max-width: 500px;
     height: 280px;
     margin: 70px auto;
     padding: 20px 0;
@@ -68,10 +68,6 @@
 /* Media query SMARTPHONE */
 
 @media screen and (max-width: 480px) {
-
-    .container-login {
-        width: 420px;
-    }
 
     .input-container-login {
         width: 250px;
