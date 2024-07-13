@@ -132,9 +132,13 @@ export default {
     <button id="back-btn" class="btn btn-warning">Back to Home</button>
   </router-link>
 
+  <div class="detail-section" :class="apartment.title === undefined ? '' : 'invisible'">
+    <section class="container-sm">
+      <h2>No apartment found</h2>
+    </section>
+  </div>
 
-
-  <div class="detail-section" v-if="apartment.title !== undefined">
+  <div class="detail-section-not-found" :class="apartment.title === undefined ? 'invisible' : ''">
     <section class="container-sm">
       <!-- CONTAINER CARD APARTMENT -->
       <div class="apartment-detail-card">
@@ -222,11 +226,7 @@ export default {
     </section>
   </div>
 
-  <div class="detail-section" v-else>
-    <section class="container-sm">
-      <h2>No apartment found</h2>
-    </section>
-  </div>
+
 </template>
 
 <style scoped>
@@ -238,5 +238,33 @@ export default {
   border: 1px solid white;
   border-radius: 10px;
   font-size: 15px;
+}
+
+.detail-section {
+  animation: opacityEaseInTransition 2.5s ease-in;
+}
+
+@keyframes opacityEaseInTransition {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.detail-section-not-found {
+  animation: colorEaseInTransition 1.0s ease-in
+}
+
+@keyframes colorEaseInTransition {
+  0% {
+    color: var(--blue);
+  }
+
+  100% {
+    color: black
+  }
 }
 </style>
