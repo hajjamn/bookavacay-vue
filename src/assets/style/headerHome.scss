@@ -21,6 +21,10 @@
 }
 
 .header-container {
+    position: relative;
+    width: 100%;
+    top: 0;
+    left: 0;
     height: 100px;
     display: flex;
 }
@@ -43,9 +47,15 @@
     background-color: white;
 }
 
+.logo-input {
+    flex-grow: 1;
+    justify-content: center;
+}
+
 .home-header .logo-home {
     width: 122px;
     height: 60px;
+    margin-right: 150px;
 }
 
 .secondary-header .logo-home {
@@ -113,12 +123,11 @@
     width: 65px;
     height: 35px;
     text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     cursor: pointer;
     line-height: 3px;
     text-decoration: none;
+    line-height: 35px;
 }
 
 .header-row .register-btn {
@@ -148,6 +157,21 @@
     cursor: pointer;
     line-height: 3px;
     text-decoration: none;
+}
+
+.dropdown-sm {
+    display: none;
+    text-align: center;
+}
+
+.username {
+    color: var(--blue);
+    font-size: 25px;
+    font-weight: 500;
+}
+
+.dropdown-menu-sm {
+    padding: 0;
 }
 
 .dropdown-arrow {
@@ -184,6 +208,111 @@
     color: var(--blue) !important;
 }
 
+.menu-icons {
+    color: var(--blue);
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+}
+
+#breadcrumb {
+    display: none;
+}
+
+@media (max-width: 992px) {
+
+    .header-row {
+        display: block !important;
+        margin: 0 auto;
+    }
+
+    .logo-input {
+        height: 100px;
+        align-items: center;
+        gap: 20px;
+        flex-grow: 0;
+    }
+
+    .navbar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 0px;
+        flex-direction: column;
+        justify-content: center !important;
+        background-color: white;
+        padding: 40px !important;
+        transition: .3s ease;
+        display: none !important;
+        z-index: 99999;
+        border-bottom-left-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+    .dropdown {
+        display: none;
+    }
+
+    .dropdown-sm {
+        display: block;
+    }
+
+    #breadcrumb:checked~.navbar {
+        height: 200px;
+        display: block !important;
+    }
+
+    .menu-icons {
+        display: block;
+        position: absolute;
+        right: 20px;
+        top: 50px;
+        z-index: 100;
+        transform: translateY(-50%);
+    }
+
+    #close-menu {
+        display: none;
+    }
+
+    #breadcrumb:checked~.menu-icons #menu-icon {
+        display: none;
+    }
+
+    #breadcrumb:checked~.menu-icons #close-menu {
+        display: block;
+    }
+
+    .logo-home {
+        display: none;
+    }
+
+    .back-home {
+        display: block !important;
+        visibility: visible !important;
+    }
+
+    .logo {
+        display: block;
+        height: 40px;
+    }
+
+    .login-btn,
+    .register-btn {
+        background-color: transparent !important;
+        color: var(--blue) !important;
+        font-size: 20px;
+        font-weight: 500;
+        width: auto !important;
+    }
+
+    .login-btn:hover,
+    .register-btn:hover {
+        color: var(--orange) !important;
+    }
+}
+
 @media (max-width: 768px) {
     .tt-search-box-input-container {
         width: 200px !important;
@@ -197,15 +326,14 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 8px 8px;
         color: white;
+        padding: 0px;
     }
 
     .secondary-header .header-row {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 8px 8px;
         color: white;
     }
 
@@ -240,9 +368,6 @@
     .header-row .register-btn {
         background-color: #2889B6;
         color: white;
-        text-align: center;
-        display: flex;
-        justify-content: center;
         cursor: pointer;
     }
 }

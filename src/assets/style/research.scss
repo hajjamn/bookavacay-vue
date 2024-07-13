@@ -450,12 +450,13 @@ input {
         display: flex;
         flex-direction: column;
         justify-content: space-around;
+        padding: 15px;
     }
 
     .search-detail-container {
         position: absolute;
         top: 210px;
-        gap: 20px
+        gap: 10px
     }
 
     .search-detail-info {
