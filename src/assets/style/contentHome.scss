@@ -1,7 +1,7 @@
 /* --------------------------MAIN------------------------------------- */
 
 
-a{
+a {
     text-decoration: none !important;
 }
 
@@ -27,7 +27,7 @@ a{
     color: #F7851D;
 }
 
-.to-book{
+.to-book {
     color: white;
 }
 
@@ -68,7 +68,7 @@ a{
     object-fit: cover;
 }
 
-.icon-info{
+.icon-info {
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
 }
@@ -135,8 +135,8 @@ a{
     .row-article {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 9px 23px;
         padding: 0px 35px;
+        gap: 24px 0px;
         margin-top: -5px;
         height: auto;
     }
@@ -179,12 +179,11 @@ a{
         line-height: 42px;
         background-image: url(/public/img/Home-cover.png);
         background-size: cover;
-        border-radius: 15px;
         font-size: 35px;
         font-weight: bold;
         letter-spacing: 2px;
     }
-    
+
     .container-title div {
         padding: 15px;
     }
@@ -211,13 +210,13 @@ a{
         line-height: 14px;
         align-items: center;
     }
-    
+
     .container-article-info:nth-child(1) {
         border-right: 1px solid #95CFE9;
-    
-    
+
+
     }
-    
+
     .article-info {
         display: flex;
         flex-direction: column;
@@ -228,9 +227,9 @@ a{
         padding: 3px 15px;
         width: 60px;
 
-    
+
     }
-    
+
     .article-info img {
         width: 17px;
         height: 17px;
@@ -238,22 +237,22 @@ a{
 
     .container-article-info:nth-child(1) {
         border-right: 1px solid #95CFE9;
-    
-    
+
+
     }
 
-    .primo{
+    .primo {
         border-right: 1px solid #95CFE9;
         // position: relative;
     }
-    
-    .secondo{
+
+    .secondo {
         border-right: 1px solid #95CFE9;
         // position: relative;
 
     }
-    
-    .terzo{
+
+    .terzo {
         border-right: 1px solid #95CFE9;
         // position: relative;
 
@@ -264,8 +263,7 @@ a{
     }
 
     main {
-        background-color:#95CFE9 ;
-        padding-top: 25px;
+        background-color: #95CFE9;
         max-width: 100%;
     }
 
@@ -273,16 +271,22 @@ a{
         border: 1px solid #95CFE9;
         height: 39px;
     }
+}
 
+@media (min-width: 680px) {
+    main {
+        padding-top: 25px;
+    }
 
-
+    .container-title {
+        border-radius: 15px;
+    }
 }
 
 
 /* --------------------------WaVE------------------------------------- */
 
-.svg-wave {
-}
+
 
 
 /* --------------------------RESPONSIVE PHONE------------------------------------- */
@@ -302,32 +306,34 @@ a{
         aspect-ratio: 1/1;
         width: 45px;
         border-radius: 50%;
-    
+
     }
 
-    .primo{
+    .primo {
         position: absolute;
         bottom: 45px;
         left: 40px;
     }
-    
-    .secondo{
+
+    .secondo {
         position: absolute;
         bottom: 45px;
         left: 102px;
-    
+
     }
-    .terzo{
+
+    .terzo {
         position: absolute;
         bottom: 45px;
         left: 162px;
-    
+
     }
-    .quarto{
+
+    .quarto {
         position: absolute;
         bottom: 45px;
         left: 222px;
-    
+
     }
 
     .col-article p {
@@ -344,7 +350,7 @@ a{
     }
 
     main {
-        background-color:#95CFE9 ;
+        background-color: #95CFE9;
         max-width: 100%;
     }
 

@@ -67,10 +67,7 @@ export default {
             <a href="https://www.linkedin.com/in/enrico-clementi/">
               <h4>
                 Enrico
-                <font-awesome-icon
-                  class="linkedin-link"
-                  :icon="['fab', 'linkedin-in']"
-                />
+                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
               </h4>
               <p>Graphic Designer & FrontEnd Developer</p>
             </a>
@@ -82,10 +79,7 @@ export default {
             <a href="https://www.linkedin.com/in/ianis-cozlov/">
               <h4>
                 Ianis
-                <font-awesome-icon
-                  class="linkedin-link"
-                  :icon="['fab', 'linkedin-in']"
-                />
+                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
               </h4>
               <p>BackEnd Developer</p>
             </a>
@@ -97,10 +91,7 @@ export default {
             <a href="https://www.linkedin.com/in/mattia-bologna-aa9963314/">
               <h4>
                 Mattia
-                <font-awesome-icon
-                  class="linkedin-link"
-                  :icon="['fab', 'linkedin-in']"
-                />
+                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
               </h4>
               <p>BackEnd Developer</p>
             </a>
@@ -112,10 +103,7 @@ export default {
             <a href="https://www.linkedin.com/in/hajjamn/">
               <h4>
                 Nicola
-                <font-awesome-icon
-                  class="linkedin-link"
-                  :icon="['fab', 'linkedin-in']"
-                />
+                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
               </h4>
               <p>BackEnd Developer</p>
             </a>
@@ -127,10 +115,7 @@ export default {
             <a href="https://www.linkedin.com/in/riccardo-marino-149115315/">
               <h4>
                 Riccardo
-                <font-awesome-icon
-                  class="linkedin-link"
-                  :icon="['fab', 'linkedin-in']"
-                />
+                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
               </h4>
               <p>FrontEnd Developer</p>
             </a>
@@ -153,27 +138,38 @@ export default {
 }
 
 #myBtn {
-  display: none; /* Hidden by default */
-  position: fixed; /* Fixed/sticky position */
-  bottom: 20px; /* Place the button at the bottom of the page */
-  right: 30px; /* Place the button 30px from the right */
-  z-index: 99; /* Make sure it does not overlap */
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Fixed/sticky position */
+  bottom: 20px;
+  /* Place the button at the bottom of the page */
+  right: 30px;
+  /* Place the button 30px from the right */
+  z-index: 99;
+  /* Make sure it does not overlap */
   border: none;
   box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  border-radius: 100%; /* Remove borders */
-  outline: none; /* Remove outline */
-  background-color: var(--orange); /* Set a background color */
-  color: white; /* Text color */
-  cursor: pointer; /* Add a mouse pointer on hover */
-  padding: 15px; /* Some padding */
-  font-size: 18px; /* Increase font size */
+  border-radius: 100%;
+  /* Remove borders */
+  outline: none;
+  /* Remove outline */
+  background-color: var(--orange);
+  /* Set a background color */
+  color: white;
+  /* Text color */
+  cursor: pointer;
+  /* Add a mouse pointer on hover */
+  padding: 15px;
+  /* Some padding */
+  font-size: 18px;
+  /* Increase font size */
 }
 
 #myBtn:hover {
-  background-color: var(
-    --light--orange
-  ); /* Add a dark-grey background on hover */
+  background-color: var(--light--orange);
+  /* Add a dark-grey background on hover */
 }
 
 #myBtn:active {

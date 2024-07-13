@@ -95,10 +95,10 @@ export default {
       </div>
     </section>
     <section id="articles">
-      <div class="container-article">
+      <div class="container container-article">
         <h1>Our top choices:</h1>
-        <div class="row-article">
-          <article v-for="apartment in apartments" class="col-article" :key="apartment.id">
+        <div class="row row-article">
+          <article v-for="apartment in apartments" class="col-lg-4 col-article" :key="apartment.id">
 
             <router-link :to="{
               path: '/apartments/' + apartment.id, query: {

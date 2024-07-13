@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 244px;
+    // padding: 8px 244px;
     color: white;
 }
 
@@ -12,12 +12,17 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 8px 244px;
+    // padding: 8px 244px;
     color: white;
 }
 
 .home-header .header-container {
     background-color: white;
+}
+
+.header-container {
+    height: 100px;
+    display: flex;
 }
 
 .home-header .search-home {
@@ -65,6 +70,7 @@
 
 .home-header .header-row form input {
     width: 400px;
+    min-width: 150px;
     height: 45px;
     border: 3px solid #F7851D;
     border-radius: 999px;
@@ -107,11 +113,24 @@
     width: 65px;
     height: 35px;
     text-align: center;
-    border-radius: 40px;
     display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
     line-height: 3px;
     text-decoration: none;
+}
+
+.header-row .register-btn {
+    border-top-left-radius: 999px;
+    border-bottom-left-radius: 999px;
+    margin-right: 2px;
+    margin-left: 10px;
+}
+
+.header-row .login-btn {
+    border-top-right-radius: 999px;
+    border-bottom-right-radius: 999px;
 }
 
 .profile-btn {
@@ -161,12 +180,14 @@
     background-color: var(--orange);
 }
 
-.dropdown-menu {
-    z-index: 9999999999;
-}
-
 .dropdown-item {
     color: var(--blue) !important;
+}
+
+@media (max-width: 768px) {
+    .tt-search-box-input-container {
+        width: 200px !important;
+    }
 }
 
 @media (max-width: 480px) {
@@ -219,13 +240,8 @@
     .header-row .register-btn {
         background-color: #2889B6;
         color: white;
-        width: 65px;
-        height: 38px;
         text-align: center;
-        font-size: 10px;
-        border-radius: 40px;
         display: flex;
-        flex-direction: column;
         justify-content: center;
         cursor: pointer;
     }
