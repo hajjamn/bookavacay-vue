@@ -125,17 +125,20 @@ export default {
     <button id="back-btn" class="btn btn-warning">Back to Search</button>
   </router-link>
 
-  <router-link v-if="this.$route.query.querySource === 'home'" :to="{
-    path: '/', query: {
-    }
-  }" class="search-apartment-detail-card m-4">
-    <button id="back-btn" class="btn btn-warning">Back to Home</button>
-  </router-link>
+  <div class="back-button-div container-sm">
+    <router-link v-if="this.$route.query.querySource === 'home'" :to="{
+      path: '/', query: {
+      }
+    }" class="search-apartment-detail-card m-4">
+      <button id="back-btn" class="btn btn-advanced">Back to Home</button>
+    </router-link>
+  </div>
+
 
   <div class="container-no-result" :class="apartment.title === undefined ? '' : 'invisible'">
     <div class="row justify-content-center aling-items-center align-content-center h-100">
-      <div class="col-auto">
-        <h3>No results... try again!</h3>
+      <div class="col-auto ">
+        <h3 style="max-width: 400px;">No results... try again!</h3>
       </div>
     </div>
   </div>
@@ -270,5 +273,16 @@ export default {
     color: var(--blue);
     border-color: var(--blue);
   }
+}
+
+
+.back-button-div {
+  display: flex;
+  justify-content: start;
+}
+
+.btn-advanced {
+  background-color: var(--blue);
+  color: white;
 }
 </style>
