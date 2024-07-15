@@ -47,7 +47,7 @@ export default {
             queryLatitude: this.myQuery.latitude,
             queryLongitude: this.myQuery.longitude,
             queryAddress: this.myQuery.address,
-            queryHomeSearch: true
+            queryHomeSearch: true,
           },
         });
       }
@@ -120,86 +120,105 @@ export default {
       }
     },
     logout() {
-      console.log('object')
-      sessionStorage.removeItem('sessionUserToken')
-      sessionStorage.removeItem('sessionUserEmail')
-      sessionStorage.removeItem('sessionUserName')
-      location.reload()
-    }
+      console.log("object");
+      sessionStorage.removeItem("sessionUserToken");
+      sessionStorage.removeItem("sessionUserEmail");
+      sessionStorage.removeItem("sessionUserName");
+      location.reload();
+    },
   },
   mounted() {
     this.initializeSearchBox();
-    console.log(sessionStorage.getItem("sessionUserName"))
+    console.log(sessionStorage.getItem("sessionUserName"));
   },
 };
 </script>
 
 <template>
-  <header :class="headerClass">
-    <div class="header-container">
-      <div class="container-xl header-row">
-
-        <div class="logo-input d-flex">
+  <header :class="headerClass" class="header-container">
+    <div class="container header-row">
+      <div class="logo-input d-flex justify-content-between align-items-center">
+        <!-- logo -->
+        <div>
           <img class="logo-home" src="/public/img/BookaVacay_01.png" />
           <RouterLink to="/" class="back-home">
             <img class="logo" src="/public/img/BookaVacay_02.png" />
           </RouterLink>
-
+        </div>
+        <!-- searchbar -->
+        <div>
           <form action="" class="search-home">
-            <div @keyup.enter="search" placeholder="Search..." id="header-searchbar" :key="myQuery"></div>
+            <div
+              @keyup.enter="search"
+              placeholder="Search..."
+              id="header-searchbar"
+              :key="myQuery"
+            ></div>
             <RouterLink to="/search">
               <button @click="search">
                 <font-awesome-icon :icon="['fas', 'magnifying-glass']" />
               </button>
             </RouterLink>
           </form>
-
         </div>
 
-        <input type="checkbox" id="breadcrumb">
-        <label for="breadcrumb" class="menu-icons">
-          <font-awesome-icon id="menu-icon" :icon="['fas', 'bars']" />
-          <font-awesome-icon id="close-menu" :icon="['fas', 'xmark']" />
-        </label>
+        <!-- hamburger menu -->
+        <div class="hamburger-container">
+          <input type="checkbox" id="breadcrumb" />
+          <label for="breadcrumb" class="menu-icons">
+            <font-awesome-icon id="menu-icon" :icon="['fas', 'bars']" />
+            <font-awesome-icon id="close-menu" :icon="['fas', 'xmark']" />
+          </label>
+          <!-- log in/register -->
+          <div class="nav">
+            <a v-if="!isLoggedIn" href="http://127.0.0.1:8000/register"
+              ><span class="register-btn register-btn-one">Register</span></a
+            >
 
-        <div class="navbar">
+            <RouterLink v-if="!isLoggedIn" to="/login"
+              ><span class="login-btn login-btn-one">Log in</span></RouterLink
+            >
 
-
-          <a v-if="!isLoggedIn" href="http://127.0.0.1:8000/register"><span
-              class="register-btn register-btn-one">Register</span></a>
-
-          <RouterLink v-if="!isLoggedIn" to="/login"><span class="login-btn login-btn-one">Log in</span></RouterLink>
-
-          <div v-if="isLoggedIn" class="dropdown-sm">
-            <span class="username">{{ userName }}</span>
-            <ul class="dropdown-menu-sm">
-              <li><a class="dropdown-item" href="http://localhost:8000">Dashboard</a></li>
-              <li><a class="dropdown-item" @click="logout" href="#">Logout</a></li>
+            <div v-if="isLoggedIn" class="dropdown-sm">
+              <span class="username">{{ userName }}</span>
+              <ul class="dropdown-menu-sm">
+                <li>
+                  <a class="dropdown-item" href="http://localhost:8000"
+                    >Dashboard</a
+                  >
+                </li>
+                <li>
+                  <a class="dropdown-item" @click="logout" href="#">Logout</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <!-- //logged in -->
+          <div v-if="isLoggedIn" class="dropdown">
+            <button
+              class="profile-btn dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <span>{{ userName }}</span>
+              <font-awesome-icon
+                class="dropdown-arrow"
+                :icon="['fas', 'caret-down']"
+              />
+            </button>
+            <ul class="dropdown-menu">
+              <li>
+                <a class="dropdown-item" href="http://localhost:8000"
+                  >Dashboard</a
+                >
+              </li>
+              <li>
+                <a class="dropdown-item" @click="logout" href="#">Logout</a>
+              </li>
             </ul>
           </div>
-
         </div>
-
-
-        <!-- <div v-if="isLoggedIn" class="register-btn fs-6">
-          <a href="http://localhost:8000">
-            <span v-if="userName !== null && userName !== ''">
-              {{ userName }}
-            </span>
-          </a>
-        </div> -->
-
-        <div v-if="isLoggedIn" class="dropdown">
-          <button class="profile-btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <span>{{ userName }}</span>
-            <font-awesome-icon class="dropdown-arrow" :icon="['fas', 'caret-down']" />
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="http://localhost:8000">Dashboard</a></li>
-            <li><a class="dropdown-item" @click="logout" href="#">Logout</a></li>
-          </ul>
-        </div>
-
       </div>
     </div>
   </header>
