@@ -654,7 +654,7 @@ window.addEventListener("scroll", () => {
       <!-- La ricerca e' in corso -->
       <div class="container-article" v-if="isSearching">
         <div class="row justify-content-center aling-items-center align-content-center h-100">
-          <div class="col-auto">
+          <div class="col-auto center-loader">
             <div class="loader"></div>
           </div>
         </div>
@@ -781,5 +781,12 @@ window.addEventListener("scroll", () => {
 
 .bg-lightblue {
   color: var(--blue);
+}
+
+.center-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
 }
 </style>
