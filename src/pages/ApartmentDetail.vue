@@ -135,7 +135,7 @@ export default {
   </div>
 
 
-  <div class="container-no-result" :class="apartment.title === undefined ? '' : 'invisible'">
+  <div class="container-no-result" :class="apartment.title === undefined ? '' : 'd-none'">
     <div class="row justify-content-center aling-items-center align-content-center h-100">
       <div class="col-auto ">
         <h3 style="max-width: 400px;">No results... try again!</h3>
