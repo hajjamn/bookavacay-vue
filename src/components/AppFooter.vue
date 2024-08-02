@@ -67,7 +67,10 @@ export default {
             <a href="https://www.linkedin.com/in/enrico-clementi/">
               <h4>
                 Enrico
-                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
+                <font-awesome-icon
+                  class="linkedin-link"
+                  :icon="['fab', 'linkedin-in']"
+                />
               </h4>
               <p>Graphic Designer & FrontEnd Developer</p>
             </a>
@@ -79,9 +82,12 @@ export default {
             <a href="https://www.linkedin.com/in/ianis-cozlov/">
               <h4>
                 Ianis
-                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
+                <font-awesome-icon
+                  class="linkedin-link"
+                  :icon="['fab', 'linkedin-in']"
+                />
               </h4>
-              <p>BackEnd Developer</p>
+              <p>FullStack Developer</p>
             </a>
           </li>
 
@@ -91,7 +97,10 @@ export default {
             <a href="https://www.linkedin.com/in/mattia-bologna-aa9963314/">
               <h4>
                 Mattia
-                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
+                <font-awesome-icon
+                  class="linkedin-link"
+                  :icon="['fab', 'linkedin-in']"
+                />
               </h4>
               <p>BackEnd Developer</p>
             </a>
@@ -103,7 +112,10 @@ export default {
             <a href="https://www.linkedin.com/in/hajjamn/">
               <h4>
                 Nicola
-                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
+                <font-awesome-icon
+                  class="linkedin-link"
+                  :icon="['fab', 'linkedin-in']"
+                />
               </h4>
               <p>BackEnd Developer</p>
             </a>
@@ -115,7 +127,10 @@ export default {
             <a href="https://www.linkedin.com/in/riccardo-marino-149115315/">
               <h4>
                 Riccardo
-                <font-awesome-icon class="linkedin-link" :icon="['fab', 'linkedin-in']" />
+                <font-awesome-icon
+                  class="linkedin-link"
+                  :icon="['fab', 'linkedin-in']"
+                />
               </h4>
               <p>FrontEnd Developer</p>
             </a>
